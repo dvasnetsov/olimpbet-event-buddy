@@ -62,101 +62,8 @@ const Events = () => {
           },
         ],
       },
-      {
-        id: "gold",
-        name: "Gold",
-        minBet: 5000,
-        maxBet: 15000,
-        prizes: [
-          {
-            id: 4,
-            name: "Толстовка Premium",
-            image:
-              "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200&q=80",
-            sizes: [
-              { size: "M", stock: 2 },
-              { size: "L", stock: 4 },
-              { size: "XL", stock: 2 },
-            ],
-          },
-          {
-            id: 5,
-            name: "Рюкзак спортивный",
-            image:
-              "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&q=80",
-            sizes: [{ size: "One Size", stock: 12 }],
-          },
-          {
-            id: 6,
-            name: "Беспроводные наушники",
-            image:
-              "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80",
-            sizes: [{ size: "One Size", stock: 5 }],
-          },
-        ],
-      },
-      {
-        id: "platinum",
-        name: "Platinum",
-        minBet: 15000,
-        maxBet: 50000,
-        prizes: [
-          {
-            id: 7,
-            name: "Куртка зимняя",
-            image:
-              "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200&q=80",
-            sizes: [
-              { size: "M", stock: 1 },
-              { size: "L", stock: 1 },
-              { size: "XL", stock: 1 },
-            ],
-          },
-          {
-            id: 8,
-            name: "Умные часы",
-            image:
-              "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80",
-            sizes: [{ size: "One Size", stock: 4 }],
-          },
-          {
-            id: 9,
-            name: "Сертификат 5000₽",
-            image:
-              "https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=200&q=80",
-            sizes: [{ size: "One Size", stock: 6 }],
-          },
-        ],
-      },
     ],
   };
-
-  const futureEvents = [
-    {
-      id: 2,
-      name: "Хоккейный турнир",
-      city: "Санкт-Петербург",
-      venue: "Ледовый дворец",
-      startDate: "15 декабря 2025",
-      startTime: "12:00",
-      endDate: "20 декабря 2025",
-      endTime: "20:00",
-      banner:
-        "https://images.unsplash.com/photo-1515703407324-5f753afd8be8?w=800&q=80",
-    },
-    {
-      id: 3,
-      name: "Баскетбольная лига",
-      city: "Казань",
-      venue: "Спорт-арена",
-      startDate: "1 января 2026",
-      startTime: "14:00",
-      endDate: "10 января 2026",
-      endTime: "21:00",
-      banner:
-        "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80",
-    },
-  ];
 
   const getTotalStock = (prize: any) =>
     prize.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
@@ -167,10 +74,10 @@ const Events = () => {
     return sizeData ? sizeData.stock : 0;
   };
 
-  // === ЭКРАН КАТЕГОРИИ ПРИЗОВ (Silver / Gold / Platinum) ===
+  // === ЭКРАН КАТЕГОРИИ ПРИЗОВ ===
   if (selectedCategory) {
     const category = currentEvent.categories.find(
-      (c) => c.id === selectedCategory,
+      (c) => c.id === selectedCategory
     );
     if (!category) return null;
 
@@ -223,7 +130,7 @@ const Events = () => {
           ))}
         </div>
 
-        {/* НИЖНИЙ ДИАЛОГ (bottom sheet) С РАЗМЕРАМИ */}
+        {/* === НИЖНИЙ ДИАЛОГ (bottom sheet) === */}
         <Dialog
           open={!!selectedPrize}
           onOpenChange={(open) => {
@@ -234,15 +141,9 @@ const Events = () => {
           }}
         >
           <DialogContent
-            className="
-              fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md
-              rounded-t-3xl border-t bg-background px-6 pb-6 pt-4
-              sm:static sm:translate-x-0 sm:rounded-2xl
-            "
+            className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md rounded-t-3xl border-t bg-background px-6 pb-6 pt-4 sm:static sm:translate-x-0 sm:rounded-2xl"
           >
-            {/* маленькая плашка-хэндл сверху */}
             <div className="h-1 w-10 bg-muted-foreground/40 rounded-full mx-auto mb-3" />
-
             <h3 className="text-lg font-semibold mb-1">
               {selectedPrize?.name}
             </h3>
@@ -258,12 +159,11 @@ const Events = () => {
                     key={sizeData.size}
                     type="button"
                     onClick={() => setSelectedSize(sizeData.size)}
-                    className={[
-                      "h-16 rounded-xl border text-center flex flex-col items-center justify-center text-sm transition",
+                    className={`h-16 rounded-xl border text-center flex flex-col items-center justify-center text-sm transition ${
                       isActive
                         ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                        : "bg-muted/40 border-border hover:bg-muted",
-                    ].join(" ")}
+                        : "bg-muted/40 border-border hover:bg-muted"
+                    }`}
                   >
                     <span className="font-semibold text-base leading-none">
                       {sizeData.size}
@@ -292,7 +192,7 @@ const Events = () => {
           </DialogContent>
         </Dialog>
 
-        {/* Фуллскрин картинка */}
+        {/* === Фуллскрин изображение === */}
         <Dialog
           open={!!fullscreenImage}
           onOpenChange={() => setFullscreenImage(null)}
@@ -315,23 +215,18 @@ const Events = () => {
     );
   }
 
-  // === ГЛАВНЫЙ ЭКРАН (Текущее / Будущие) ===
+  // === ГЛАВНЫЙ ЭКРАН ===
   return (
     <div className="bg-white pb-24">
       <Tabs defaultValue="current" className="w-full">
-        {/* верхняя залипающая плашка на сплошном белом фоне */}
-        <div className="sticky top-0 z-20 bg-white pt-3 pb-3">
+        {/* залипающий верхний блок */}
+        <div className="sticky top-0 z-30 bg-white pt-3 pb-3 shadow-sm">
+          <div className="absolute top-0 left-0 w-full h-4 bg-white" />
           <TabsList className="w-full grid grid-cols-2 h-14 rounded-2xl bg-muted">
-            <TabsTrigger
-              value="current"
-              className="data-[state=active]:text-primary"
-            >
+            <TabsTrigger value="current" className="data-[state=active]:text-primary">
               Текущее
             </TabsTrigger>
-            <TabsTrigger
-              value="future"
-              className="data-[state=active]:text-primary"
-            >
+            <TabsTrigger value="future" className="data-[state=active]:text-primary">
               Будущие
             </TabsTrigger>
           </TabsList>
@@ -380,7 +275,7 @@ const Events = () => {
             </div>
           </Card>
 
-          {/* категории призов */}
+          {/* категории */}
           <h2 className="text-xl font-bold mb-4">Категории призов</h2>
           <div className="space-y-3">
             {currentEvent.categories.map((category) => (
@@ -413,45 +308,23 @@ const Events = () => {
             ))}
           </div>
         </TabsContent>
-
-        <TabsContent value="future" className="mt-0 p-4">
-          <h2 className="text-xl font-bold mb-4">Предстоящие мероприятия</h2>
-          <div className="space-y-4">
-            {futureEvents.map((event) => (
-              <Card
-                key={event.id}
-                className="overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-              >
-                <div
-                  className="h-32 bg-cover bg-center relative"
-                  style={{
-                    backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url(${event.banner})`,
-                  }}
-                >
-                  <div className="absolute bottom-2 left-3 text-white">
-                    <h3 className="font-bold text-lg">{event.name}</h3>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>
-                      {event.city}, {event.venue}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Clock className="w-4 h-4" />
-                    <span>
-                      {event.startDate} {event.startTime} — {event.endDate}{" "}
-                      {event.endTime}
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
       </Tabs>
+
+      {/* нижнее навигационное меню */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg flex justify-around py-2 z-50">
+        <button className="text-gray-600 hover:text-primary text-sm flex flex-col items-center">
+          <span>🏠</span>
+          Главная
+        </button>
+        <button className="text-gray-600 hover:text-primary text-sm flex flex-col items-center">
+          <span>🎁</span>
+          Призы
+        </button>
+        <button className="text-gray-600 hover:text-primary text-sm flex flex-col items-center">
+          <span>👤</span>
+          Профиль
+        </button>
+      </nav>
     </div>
   );
 };
