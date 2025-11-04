@@ -1,9 +1,12 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Package, User, MapPin, Award } from "lucide-react";
+import { Calendar, Package, MapPin, Award, ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 
 const Menu = () => {
+  const [expandedActivity, setExpandedActivity] = useState<number | null>(null);
+
   const activities = [
     {
       id: 1,
@@ -12,6 +15,24 @@ const Menu = () => {
       city: "Москва",
       requests: 45,
       active: true,
+      requestsList: [
+        {
+          id: 1,
+          date: "10 ноября, 14:30",
+          username: "user123",
+          merch: "Футболка M",
+          amount: 3500,
+          status: "received",
+        },
+        {
+          id: 2,
+          date: "10 ноября, 12:15",
+          username: "player456",
+          merch: "Кепка One Size",
+          amount: 2500,
+          status: "reserved",
+        },
+      ],
     },
     {
       id: 2,
@@ -20,6 +41,24 @@ const Menu = () => {
       city: "Санкт-Петербург",
       requests: 32,
       active: false,
+      requestsList: [
+        {
+          id: 3,
+          date: "20 октября, 18:45",
+          username: "bettor789",
+          merch: "Толстовка L",
+          amount: 8500,
+          status: "received",
+        },
+        {
+          id: 4,
+          date: "19 октября, 16:20",
+          username: "gamer101",
+          merch: "Рюкзак",
+          amount: 12000,
+          status: "cancelled",
+        },
+      ],
     },
     {
       id: 3,
@@ -28,41 +67,16 @@ const Menu = () => {
       city: "Казань",
       requests: 28,
       active: false,
-    },
-  ];
-
-  const requests = [
-    {
-      id: 1,
-      date: "10 ноября, 14:30",
-      username: "user123",
-      merch: "Футболка M",
-      amount: 3500,
-      status: "received",
-    },
-    {
-      id: 2,
-      date: "10 ноября, 12:15",
-      username: "player456",
-      merch: "Кепка One Size",
-      amount: 2500,
-      status: "reserved",
-    },
-    {
-      id: 3,
-      date: "09 ноября, 18:45",
-      username: "bettor789",
-      merch: "Толстовка L",
-      amount: 8500,
-      status: "received",
-    },
-    {
-      id: 4,
-      date: "09 ноября, 16:20",
-      username: "gamer101",
-      merch: "Рюкзак",
-      amount: 12000,
-      status: "cancelled",
+      requestsList: [
+        {
+          id: 5,
+          date: "12 сентября, 15:00",
+          username: "player999",
+          merch: "Футболка L",
+          amount: 4500,
+          status: "received",
+        },
+      ],
     },
   ];
 
@@ -92,12 +106,9 @@ const Menu = () => {
     <div className="min-h-screen">
       <Tabs defaultValue="activity" className="w-full">
         <div className="sticky top-0 bg-background z-10 border-b border-border">
-          <TabsList className="w-full grid grid-cols-3 h-14 rounded-none">
+          <TabsList className="w-full grid grid-cols-2 h-14 rounded-none">
             <TabsTrigger value="activity" className="data-[state=active]:text-primary">
               Активность
-            </TabsTrigger>
-            <TabsTrigger value="requests" className="data-[state=active]:text-primary">
-              Заявки
             </TabsTrigger>
             <TabsTrigger value="profile" className="data-[state=active]:text-primary">
               Профиль
@@ -111,57 +122,67 @@ const Menu = () => {
             {activities.map((activity) => (
               <Card
                 key={activity.id}
-                className={`p-4 shadow-sm ${activity.active ? "border-2 border-primary" : ""}`}
+                className={`shadow-sm ${activity.active ? "border-2 border-primary" : ""}`}
               >
-                <div className="flex justify-between items-start mb-3">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1">{activity.name}</h3>
-                    {activity.active && (
-                      <Badge className="mb-2">Активное</Badge>
+                <div 
+                  className="p-4 cursor-pointer"
+                  onClick={() => setExpandedActivity(expandedActivity === activity.id ? null : activity.id)}
+                >
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg mb-1">{activity.name}</h3>
+                      {activity.active && (
+                        <Badge className="mb-2">Активное</Badge>
+                      )}
+                    </div>
+                    {expandedActivity === activity.id ? (
+                      <ChevronUp className="w-5 h-5 text-muted-foreground" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
                     )}
                   </div>
+                  
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Calendar className="w-4 h-4" />
+                      <span>{activity.dates}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <MapPin className="w-4 h-4" />
+                      <span>{activity.city}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Package className="w-4 h-4" />
+                      <span>{activity.requests} заявок</span>
+                    </div>
+                  </div>
                 </div>
-                
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Calendar className="w-4 h-4" />
-                    <span>{activity.dates}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <MapPin className="w-4 h-4" />
-                    <span>{activity.city}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Package className="w-4 h-4" />
-                    <span>{activity.requests} заявок</span>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
 
-        <TabsContent value="requests" className="mt-0 p-4">
-          <h2 className="text-xl font-bold mb-4">История заявок</h2>
-          <div className="space-y-3">
-            {requests.map((request) => (
-              <Card key={request.id} className="p-4 shadow-sm">
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">{request.date}</p>
-                    <p className="font-semibold">@{request.username}</p>
+                {expandedActivity === activity.id && (
+                  <div className="border-t border-border p-4 space-y-3 bg-muted/30">
+                    <h4 className="font-semibold text-sm">Заявки на мероприятии:</h4>
+                    {activity.requestsList.map((request) => (
+                      <Card key={request.id} className="p-3 bg-background">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">{request.date}</p>
+                            <p className="font-semibold text-sm">@{request.username}</p>
+                          </div>
+                          {getStatusBadge(request.status)}
+                        </div>
+                        
+                        <div className="space-y-1 text-xs">
+                          <p className="text-muted-foreground">
+                            Мерч: <span className="text-foreground font-medium">{request.merch}</span>
+                          </p>
+                          <p className="text-muted-foreground">
+                            Ставка: <span className="text-foreground font-medium">{request.amount.toLocaleString()} ₽</span>
+                          </p>
+                        </div>
+                      </Card>
+                    ))}
                   </div>
-                  {getStatusBadge(request.status)}
-                </div>
-                
-                <div className="space-y-1 text-sm">
-                  <p className="text-muted-foreground">
-                    Мерч: <span className="text-foreground font-medium">{request.merch}</span>
-                  </p>
-                  <p className="text-muted-foreground">
-                    Ставка: <span className="text-foreground font-medium">{request.amount.toLocaleString()} ₽</span>
-                  </p>
-                </div>
+                )}
               </Card>
             ))}
           </div>
