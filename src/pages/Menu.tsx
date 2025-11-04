@@ -11,7 +11,7 @@ const Menu = () => {
     {
       id: 1,
       name: "Чемпионат России по футболу",
-      dates: "01-10 ноября 2025",
+      dates: "01 ноября 10:00 - 10 ноября 22:00, 2025",
       city: "Москва",
       requests: 45,
       active: true,
@@ -19,7 +19,7 @@ const Menu = () => {
         {
           id: 1,
           date: "10 ноября, 14:30",
-          username: "user123",
+          playerId: "123456",
           merch: "Футболка M",
           amount: 3500,
           status: "received",
@@ -27,7 +27,7 @@ const Menu = () => {
         {
           id: 2,
           date: "10 ноября, 12:15",
-          username: "player456",
+          playerId: "789012",
           merch: "Кепка One Size",
           amount: 2500,
           status: "reserved",
@@ -37,7 +37,7 @@ const Menu = () => {
     {
       id: 2,
       name: "Хоккейный турнир",
-      dates: "15-20 октября 2025",
+      dates: "15 октября 12:00 - 20 октября 20:00, 2025",
       city: "Санкт-Петербург",
       requests: 32,
       active: false,
@@ -45,7 +45,7 @@ const Menu = () => {
         {
           id: 3,
           date: "20 октября, 18:45",
-          username: "bettor789",
+          playerId: "345678",
           merch: "Толстовка L",
           amount: 8500,
           status: "received",
@@ -53,7 +53,7 @@ const Menu = () => {
         {
           id: 4,
           date: "19 октября, 16:20",
-          username: "gamer101",
+          playerId: "901234",
           merch: "Рюкзак",
           amount: 12000,
           status: "cancelled",
@@ -63,7 +63,7 @@ const Menu = () => {
     {
       id: 3,
       name: "Баскетбольная лига",
-      dates: "05-12 сентября 2025",
+      dates: "5 сентября 14:00 - 12 сентября 21:00, 2025",
       city: "Казань",
       requests: 28,
       active: false,
@@ -71,7 +71,7 @@ const Menu = () => {
         {
           id: 5,
           date: "12 сентября, 15:00",
-          username: "player999",
+          playerId: "567890",
           merch: "Футболка L",
           amount: 4500,
           status: "received",
@@ -166,7 +166,7 @@ const Menu = () => {
                         <div className="flex justify-between items-start mb-2">
                           <div>
                             <p className="text-xs text-muted-foreground mb-1">{request.date}</p>
-                            <p className="font-semibold text-sm">@{request.username}</p>
+                            <p className="font-semibold text-sm">ID {request.playerId}</p>
                           </div>
                           {getStatusBadge(request.status)}
                         </div>
@@ -226,7 +226,7 @@ const Menu = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{profile.stats.requests}</p>
-                  <p className="text-sm text-muted-foreground">Заявок обработано</p>
+                  <p className="text-sm text-muted-foreground">Выдано мерча</p>
                 </div>
               </div>
             </Card>

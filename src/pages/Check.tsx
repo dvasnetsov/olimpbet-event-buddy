@@ -6,13 +6,13 @@ import { QrCode, User, DollarSign, Tag, Check as CheckIcon } from "lucide-react"
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 type BetResult = {
-  username: string;
+  playerId: string;
   amount: number;
   category: string;
 };
 
 const Check = () => {
-  const [username, setUsername] = useState("");
+  const [playerId, setPlayerId] = useState("");
   const [betResult, setBetResult] = useState<BetResult | null>(null);
   const [selectedMerch, setSelectedMerch] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -23,30 +23,39 @@ const Check = () => {
       id: 1,
       name: "Футболка OlimpBet",
       image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80",
-      stock: 15,
-      sizes: ["S", "M", "L", "XL"],
+      sizes: [
+        { size: "S", stock: 3 },
+        { size: "M", stock: 5 },
+        { size: "L", stock: 4 },
+        { size: "XL", stock: 3 }
+      ],
     },
     {
       id: 2,
       name: "Кепка OlimpBet",
       image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&q=80",
-      stock: 20,
-      sizes: ["One Size"],
+      sizes: [{ size: "One Size", stock: 20 }],
     },
     {
       id: 3,
       name: "Термос брендированный",
       image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&q=80",
-      stock: 10,
-      sizes: ["500ml", "750ml"],
+      sizes: [
+        { size: "500ml", stock: 6 },
+        { size: "750ml", stock: 4 }
+      ],
     },
   ];
 
+  const getTotalStock = (merch: any) => {
+    return merch.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
+  };
+
   const handleCheck = () => {
     // Simulate bet check
-    if (username) {
+    if (playerId) {
       setBetResult({
-        username: username,
+        playerId: playerId,
         amount: 3500,
         category: "Silver",
       });
@@ -58,7 +67,7 @@ const Check = () => {
     setTimeout(() => {
       setShowSuccess(false);
       setBetResult(null);
-      setUsername("");
+      setPlayerId("");
       setSelectedMerch(null);
       setSelectedSize("");
     }, 2500);
@@ -75,7 +84,7 @@ const Check = () => {
           <p className="text-muted-foreground mb-6">
             {selectedMerch?.name} ({selectedSize})
             <br />
-            для @{betResult?.username}
+            для ID {betResult?.playerId}
           </p>
           <Button className="w-full" size="lg">
             Готово
@@ -104,8 +113,8 @@ const Check = () => {
                 <User className="w-5 h-5 text-muted-foreground" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Логин</p>
-                <p className="font-semibold">@{betResult.username}</p>
+                <p className="text-sm text-muted-foreground">ID игрока</p>
+                <p className="font-semibold">{betResult.playerId}</p>
               </div>
             </div>
 
@@ -148,7 +157,7 @@ const Check = () => {
                 <div className="flex-1">
                   <h4 className="font-semibold mb-1">{merch.name}</h4>
                   <p className="text-sm text-muted-foreground">
-                    В наличии: {merch.stock} шт
+                    В наличии: {getTotalStock(merch)} шт
                   </p>
                 </div>
                 <span className="text-primary">→</span>
@@ -158,18 +167,20 @@ const Check = () => {
         </div>
 
         {/* Size Selection Dialog */}
-        <Dialog open={!!selectedMerch} onOpenChange={() => setSelectedMerch(null)}>
+        <Dialog open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
           <DialogContent>
-            <h3 className="text-xl font-bold mb-4">Выберите размер</h3>
+            <h3 className="text-xl font-bold mb-4">{selectedMerch?.name}</h3>
+            <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
             <div className="grid grid-cols-2 gap-3 mb-6">
-              {selectedMerch?.sizes.map((size: string) => (
+              {selectedMerch?.sizes.map((sizeData: any) => (
                 <Button
-                  key={size}
-                  variant={selectedSize === size ? "default" : "outline"}
-                  onClick={() => setSelectedSize(size)}
-                  className="h-12"
+                  key={sizeData.size}
+                  variant={selectedSize === sizeData.size ? "default" : "outline"}
+                  onClick={() => setSelectedSize(sizeData.size)}
+                  className="h-16 flex flex-col items-center justify-center"
                 >
-                  {size}
+                  <span className="font-semibold">{sizeData.size}</span>
+                  <span className="text-xs mt-1">{sizeData.stock} шт</span>
                 </Button>
               ))}
             </div>
@@ -192,15 +203,19 @@ const Check = () => {
       <div className="max-w-sm mx-auto w-full">
         <h1 className="text-3xl font-bold mb-2">Проверка ставки</h1>
         <p className="text-muted-foreground mb-8">
-          Введите логин игрока или отсканируйте QR-код
+          Введите ID игрока или отсканируйте QR-код
         </p>
 
         <Card className="p-6 mb-4 shadow-md">
-          <label className="block text-sm font-medium mb-2">Логин игрока</label>
+          <label className="block text-sm font-medium mb-2">ID игрока (6 цифр)</label>
           <Input
-            placeholder="Введите логин"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Например: 123456"
+            value={playerId}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+              setPlayerId(value);
+            }}
+            maxLength={6}
             className="mb-4"
           />
 
@@ -213,7 +228,7 @@ const Check = () => {
             className="w-full"
             size="lg"
             onClick={handleCheck}
-            disabled={!username}
+            disabled={playerId.length !== 6}
           >
             Проверить
           </Button>
