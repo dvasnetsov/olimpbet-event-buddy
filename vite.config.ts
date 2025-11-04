@@ -4,7 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/olimpbet-event-buddy/',
+  base: '/olimpbet-event-buddy/', // важно для GitHub Pages
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -12,18 +12,10 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: false,
   },
   server: {
     port: 5173,
     open: true,
-  },
-  // 👇 Добавь вот это
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
-  },
-  // 👇 Это важно для GitHub Pages
-  esbuild: {
-    jsxInject: `import React from 'react'`,
   },
 })
