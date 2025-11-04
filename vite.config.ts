@@ -2,14 +2,13 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-// ✅ Правильная конфигурация для GitHub Pages и React 18+
 export default defineConfig({
   plugins: [
     react({
-      jsxRuntime: "automatic", // <-- важно: автоматически импортирует React
+      jsxRuntime: "automatic",
     }),
   ],
-  base: "/olimpbet-event-buddy/", // важно для GitHub Pages
+  base: "/olimpbet-event-buddy/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -22,5 +21,8 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+  },
+  esbuild: {
+    jsxInject: `import React from 'react'`, // <-- добавь эту строку
   },
 });
