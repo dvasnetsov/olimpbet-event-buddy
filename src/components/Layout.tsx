@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import BottomNav from "./BottomNav"; // твой компонент нижнего меню
+import BottomNav from "@/components/BottomNav"; // твой компонент нижнего меню
 
 const Layout: React.FC = () => {
   return (
