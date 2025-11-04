@@ -275,9 +275,9 @@ const Events = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div>
       <Tabs defaultValue="current" className="w-full">
-        {/* Залипающая шапка с табами, перекрывающая всё сверху */}
+        {/* Залипающая шапка с табами, перекрывающая всё сверху белым фоном */}
         <div className="sticky top-0 z-20 bg-white pt-4 pb-3 -mt-4">
           <TabsList className="w-full grid grid-cols-2 h-14 rounded-2xl bg-muted">
             <TabsTrigger
