@@ -1,51 +1,46 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom"; // 👈 обязательно добавить!
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-const Layout: React.FC<{
-  children?: React.ReactNode;
-  onTelegramClick?: () => void;
-}> = ({ children, onTelegramClick }) => {
+const Layout: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 relative overflow-hidden">
-      {/* фоновая подсветка */}
-      <div className="pointer-events-none absolute -left-40 -top-40 h-80 w-80 bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.45),transparent_60%)] blur-3xl" />
-      <div className="pointer-events-none absolute -right-40 -bottom-40 h-96 w-96 bg-[radial-gradient(circle_at_center,rgba(52,211,153,0.35),transparent_65%)] blur-3xl" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.9),transparent_65%)] opacity-70" />
+    <div className="min-h-screen flex items-center justify-center bg-[#05080F] relative overflow-hidden">
+      {/* дымчатый фон */}
+      <div className="pointer-events-none absolute -left-40 -top-40 h-96 w-96 bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.35),transparent_60%)] blur-3xl" />
+      <div className="pointer-events-none absolute -right-40 -bottom-40 h-[28rem] w-[28rem] bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.25),transparent_70%)] blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(10,15,30,0.8),transparent_60%)] opacity-70" />
 
-      <div className="relative flex items-center gap-6">
-        {/* корпус телефона */}
+      {/* телефон */}
+      <div className="relative flex items-center gap-8">
         <div
-          className="relative w-[360px] h-[700px] rounded-[46px] p-[3px]
-                     bg-gradient-to-b from-zinc-100/40 via-zinc-500/40 to-zinc-900/40
+          className="relative w-[360px] h-[720px] rounded-[48px] p-[3px]
+                     bg-gradient-to-b from-zinc-300/30 via-zinc-500/40 to-zinc-900/50
                      shadow-[0_0_60px_rgba(0,0,0,0.9)]"
         >
-          {/* рамка и экран */}
+          {/* внутренняя часть */}
           <div
-            className="relative w-full h-full bg-zinc-950 rounded-[40px]
-                       border border-zinc-600/80 shadow-[0_0_40px_rgba(15,23,42,0.9)]
+            className="relative w-full h-full bg-zinc-950 rounded-[42px]
+                       border border-zinc-700/70 shadow-[0_0_35px_rgba(15,23,42,0.9)]
                        overflow-hidden"
           >
+            {/* вырез */}
             <div className="absolute top-0 inset-x-0 h-10 flex justify-center pointer-events-none">
-              <div className="mt-2 h-6 w-40 bg-black/80 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.8)]" />
+              <div className="mt-2 h-6 w-40 bg-black/90 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.8)]" />
             </div>
 
-            {/* экран приложения */}
+            {/* экран */}
             <div className="h-full pt-10 pb-6 px-4 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {/* 👇 вот сюда вставляем Outlet */}
-              {children || <Outlet />}
+              <Outlet />
             </div>
           </div>
         </div>
 
-        {/* Telegram side button */}
+        {/* Telegram кнопка */}
         <button
           type="button"
-          onClick={onTelegramClick}
-          className="h-16 w-16 rounded-full
-                     bg-sky-500 border border-sky-300 shadow-[0_8px_20px_rgba(56,189,248,0.7)]
-                     flex items-center justify-center
-                     hover:-translate-y-1 active:scale-95
-                     transition-transform"
+          className="h-16 w-16 rounded-full bg-sky-500 border border-sky-300
+                     shadow-[0_8px_20px_rgba(56,189,248,0.7)]
+                     flex items-center justify-center hover:-translate-y-1
+                     active:scale-95 transition-transform"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
