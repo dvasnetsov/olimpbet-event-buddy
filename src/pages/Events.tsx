@@ -168,6 +168,7 @@ const Events = () => {
     return sizeData ? sizeData.stock : 0;
   };
 
+  // Экран категории призов (Silver / Gold / Platinum)
   if (selectedCategory) {
     const category = currentEvent.categories.find(
       (c) => c.id === selectedCategory,
@@ -175,7 +176,7 @@ const Events = () => {
     if (!category) return null;
 
     return (
-      <div className="p-4">
+      <div className="p-4 pb-24">
         <button
           onClick={() => setSelectedCategory(null)}
           className="mb-4 text-primary font-medium flex items-center gap-2"
@@ -315,11 +316,12 @@ const Events = () => {
     );
   }
 
+  // Главный экран "Текущее / Будущие"
   return (
-    <div>
+    <div className="pb-24">
       <Tabs defaultValue="current" className="w-full">
-        {/* Залипающая шапка с табами, перекрывающая верх белым фоном */}
-        <div className="sticky top-0 z-20 bg-white pt-4 pb-3 -mt-4">
+        {/* Залипающая шапка с табами, сплошной белый фон сверху */}
+        <div className="sticky top-0 z-20 bg-white pt-3 pb-3">
           <TabsList className="w-full grid grid-cols-2 h-14 rounded-2xl bg-muted">
             <TabsTrigger
               value="current"
