@@ -5,10 +5,10 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react({
-      jsxRuntime: "classic", // включаем старый JSX runtime, чтобы React был виден
+      jsxRuntime: "classic", // гарантирует наличие React в рантайме
     }),
   ],
-  base: "/olimpbet-event-buddy/", // важно для GitHub Pages
+  base: "/olimpbet-event-buddy/", // обязательно для GitHub Pages
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -23,6 +23,6 @@ export default defineConfig({
     open: true,
   },
   esbuild: {
-    jsxInject: `import React from 'react'`, // заставляет React автоматически подхватываться
+    jsxInject: `import React from 'react'`, // автоматический импорт React
   },
 });
