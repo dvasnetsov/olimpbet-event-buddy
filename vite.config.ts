@@ -5,7 +5,7 @@ import path from "path";
 export default defineConfig({
   plugins: [
     react({
-      jsxRuntime: "automatic",
+      jsxRuntime: "classic", // принудительно включаем старый JSX runtime
     }),
   ],
   base: "/olimpbet-event-buddy/",
@@ -23,6 +23,6 @@ export default defineConfig({
     open: true,
   },
   esbuild: {
-    jsxInject: `import React from 'react'`, // <-- добавь эту строку
+    jsxInject: `import React from 'react'`, // это заставляет React подхватываться во всех компонентах
   },
 });
