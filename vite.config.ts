@@ -2,8 +2,13 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
+// Конфигурация Vite для GitHub Pages
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: 'classic', // 👈 заставляем явно импортировать React
+    }),
+  ],
   base: '/olimpbet-event-buddy/',
   resolve: {
     alias: {
@@ -17,9 +22,5 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
-  },
-  // 👇 добавляем автоматический импорт React
-  esbuild: {
-    jsxInject: `import React from 'react'`,
   },
 })
