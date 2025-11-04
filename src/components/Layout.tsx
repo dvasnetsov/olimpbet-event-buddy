@@ -1,44 +1,43 @@
 import React, { useState } from "react";
+import { Outlet } from "react-router-dom"; // 👈 обязательно добавить!
 
-// === ГЛАВНЫЙ Layout, обертка под всё приложение ===
 const Layout: React.FC<{
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onTelegramClick?: () => void;
 }> = ({ children, onTelegramClick }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 relative overflow-hidden">
-      {/* мягкий фон с подсветками */}
+      {/* фоновая подсветка */}
       <div className="pointer-events-none absolute -left-40 -top-40 h-80 w-80 bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.45),transparent_60%)] blur-3xl" />
       <div className="pointer-events-none absolute -right-40 -bottom-40 h-96 w-96 bg-[radial-gradient(circle_at_center,rgba(52,211,153,0.35),transparent_65%)] blur-3xl" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(15,23,42,0.9),transparent_65%)] opacity-70" />
 
-      {/* корпус телефона */}
       <div className="relative flex items-center gap-6">
-        {/* контур телефона */}
+        {/* корпус телефона */}
         <div
           className="relative w-[360px] h-[700px] rounded-[46px] p-[3px]
                      bg-gradient-to-b from-zinc-100/40 via-zinc-500/40 to-zinc-900/40
                      shadow-[0_0_60px_rgba(0,0,0,0.9)]"
         >
-          {/* внутренняя рамка */}
+          {/* рамка и экран */}
           <div
             className="relative w-full h-full bg-zinc-950 rounded-[40px]
                        border border-zinc-600/80 shadow-[0_0_40px_rgba(15,23,42,0.9)]
                        overflow-hidden"
           >
-            {/* вырез под динамик */}
             <div className="absolute top-0 inset-x-0 h-10 flex justify-center pointer-events-none">
               <div className="mt-2 h-6 w-40 bg-black/80 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.8)]" />
             </div>
 
-            {/* экран */}
+            {/* экран приложения */}
             <div className="h-full pt-10 pb-6 px-4 overflow-y-auto bg-white [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {children}
+              {/* 👇 вот сюда вставляем Outlet */}
+              {children || <Outlet />}
             </div>
           </div>
         </div>
 
-        {/* Telegram-кнопка */}
+        {/* Telegram side button */}
         <button
           type="button"
           onClick={onTelegramClick}
@@ -48,7 +47,6 @@ const Layout: React.FC<{
                      hover:-translate-y-1 active:scale-95
                      transition-transform"
         >
-          {/* иконка Telegram */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -63,53 +61,4 @@ const Layout: React.FC<{
   );
 };
 
-// === Вспомогательные экраны для превью ===
-const IntroScreen: React.FC = () => (
-  <div className="h-full flex flex-col items-center justify-center gap-4 text-center text-zinc-50">
-    <h1 className="text-xl font-semibold">Прототип приложения</h1>
-    <p className="text-sm text-zinc-400 max-w-[260px]">
-      Нажми на круглую Telegram-кнопку сбоку, чтобы перейти на главный экран.
-    </p>
-  </div>
-);
-
-const LoadingScreenPreview: React.FC = () => (
-  <div className="h-full flex flex-col items-center justify-center gap-4 text-zinc-900">
-    <div className="h-10 w-10 rounded-full border-2 border-zinc-700 border-t-emerald-400 animate-spin" />
-    <p className="text-sm text-zinc-500">Загружаем приложение...</p>
-  </div>
-);
-
-const DemoScreen: React.FC = () => (
-  <div className="flex flex-col gap-4 text-zinc-900">
-    <h1 className="text-xl font-semibold">Главный раздел</h1>
-    <p className="text-sm text-zinc-500">
-      Здесь будет основной контент (Events, Menu, Check и т.п.)
-    </p>
-    <button className="mt-2 rounded-xl px-4 py-2 bg-emerald-500 text-sm font-medium hover:bg-emerald-400 transition">
-      Пример кнопки
-    </button>
-  </div>
-);
-
-// === Превью телефона ===
-const PreviewPhoneLayout: React.FC = () => {
-  const [mode, setMode] = useState<"intro" | "loading" | "main">("intro");
-
-  const handleTelegramClick = () => {
-    if (mode === "loading") return;
-    setMode("loading");
-    setTimeout(() => setMode("main"), 1500);
-  };
-
-  let content: React.ReactNode;
-  if (mode === "intro") content = <IntroScreen />;
-  else if (mode === "loading") content = <LoadingScreenPreview />;
-  else content = <DemoScreen />;
-
-  return <Layout onTelegramClick={handleTelegramClick}>{content}</Layout>;
-};
-
-// === Экспорты ===
 export default Layout;
-export { PreviewPhoneLayout };
