@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { QrCode, User, DollarSign, Tag, Check as CheckIcon, Download } from "lucide-react";
+import { QrCode, User, DollarSign, Tag, Check as CheckIcon } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 type BetResult = {
@@ -97,18 +97,18 @@ const Check = () => {
       <Tabs defaultValue="check" className="w-full">
         {/* верхняя залипающая плашка */}
         <div className="sticky top-0 z-20 bg-white pt-3 pb-3">
-          <TabsList className="w-full grid grid-cols-2 h-14 rounded-2xl bg-muted">
+          <TabsList className="w-full grid grid-cols-2 h-12 rounded-2xl bg-muted">
             <TabsTrigger
               value="check"
-              className="data-[state=active]:text-primary"
+              className="data-[state=active]:text-primary text-sm font-medium"
             >
-              Проверка ставки
+              Ставка
             </TabsTrigger>
             <TabsTrigger
               value="join"
-              className="data-[state=active]:text-primary"
+              className="data-[state=active]:text-primary text-sm font-medium"
             >
-              Присоединяйся к Olimpbet
+              Приложение
             </TabsTrigger>
           </TabsList>
         </div>
@@ -194,7 +194,6 @@ const Check = () => {
                 ))}
               </div>
 
-              {/* Диалог выбора размера */}
               <Dialog open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
                 <DialogContent>
                   <h3 className="text-xl font-bold mb-4">{selectedMerch?.name}</h3>
@@ -228,25 +227,20 @@ const Check = () => {
 
         {/* --- QR-код для скачивания --- */}
         <TabsContent value="join" className="mt-0 p-4">
-          <div className="flex flex-col items-center justify-center text-center pt-6">
-            <h2 className="text-2xl font-bold mb-3">Скачай приложение Olimpbet</h2>
-            <p className="text-muted-foreground max-w-xs mb-6">
-              Получай бонусы, делай ставки и следи за событиями в любимом спорте.  
-              Всё в одном месте — прямо в приложении!
+          <div className="flex flex-col items-center justify-center text-center pt-8">
+            <h2 className="text-2xl font-bold mb-3">Скачай приложение</h2>
+            <p className="text-muted-foreground max-w-xs mb-8">
+              Делай ставки, следи за событиями и получай бонусы в одном месте!
             </p>
 
             <Card className="p-6 flex flex-col items-center shadow-sm">
-              <div className="w-40 h-40 bg-white flex items-center justify-center rounded-xl border mb-4">
+              <div className="w-52 h-52 bg-white flex items-center justify-center rounded-xl border shadow-md">
                 <img
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://olimp.bet"
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://olimp.bet"
                   alt="QR-код"
-                  className="w-36 h-36 object-contain"
+                  className="w-48 h-48 object-contain"
                 />
               </div>
-              <Button size="lg" className="w-full">
-                <Download className="w-5 h-5 mr-2" />
-                Скачать приложение
-              </Button>
             </Card>
           </div>
         </TabsContent>
