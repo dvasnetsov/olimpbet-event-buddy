@@ -210,9 +210,12 @@ const Events = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setSelectedPrize(prize)}
+                    onClick={() => {
+                      setSelectedPrize(prize);
+                      setSelectedSize("");
+                    }}
                   >
-                    Выбрать размер
+                    Доступные размеры
                   </Button>
                 </div>
               </div>
@@ -220,34 +223,72 @@ const Events = () => {
           ))}
         </div>
 
-        {/* Size Selection Dialog */}
+        {/* Bottom sheet: выбор размера */}
         <Dialog
           open={!!selectedPrize}
-          onOpenChange={() => {
-            setSelectedPrize(null);
-            setSelectedSize("");
+          onOpenChange={(open) => {
+            if (!open) {
+              setSelectedPrize(null);
+              setSelectedSize("");
+            }
           }}
         >
-          <DialogContent>
-            <h3 className="text-xl font-bold mb-4">{selectedPrize?.name}</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Выберите размер для просмотра остатков
+          <DialogContent
+            className="
+              w-full max-w-md
+              fixed bottom-0 left-1/2 -translate-x-1/2
+              rounded-t-3xl border-t bg-background px-6 pb-6 pt-4
+              sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 sm:rounded-2xl
+            "
+          >
+            <div className="h-1 w-10 bg-muted-foreground/40 rounded-full mx-auto mb-3" />
+
+            <h3 className="text-lg font-semibold mb-1">
+              {selectedPrize?.name}
+            </h3>
+            <p className="text-xs text-muted-foreground mb-4">
+              Размеры и наличие
             </p>
-            <div className="grid grid-cols-2 gap-3">
-              {selectedPrize?.sizes.map((sizeData: any) => (
-                <Button
-                  key={sizeData.size}
-                  variant={
-                    selectedSize === sizeData.size ? "default" : "outline"
-                  }
-                  onClick={() => setSelectedSize(sizeData.size)}
-                  className="h-16 flex flex-col items-center justify-center"
-                >
-                  <span className="font-semibold">{sizeData.size}</span>
-                  <span className="text-xs mt-1">{sizeData.stock} шт</span>
-                </Button>
-              ))}
+
+            <div className="grid grid-cols-3 gap-3">
+              {selectedPrize?.sizes.map((sizeData: any) => {
+                const isActive = selectedSize === sizeData.size;
+                return (
+                  <button
+                    key={sizeData.size}
+                    type="button"
+                    onClick={() => setSelectedSize(sizeData.size)}
+                    className={[
+                      "h-16 rounded-xl border text-center flex flex-col items-center justify-center text-sm transition",
+                      isActive
+                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                        : "bg-muted/40 border-border hover:bg-muted",
+                    ].join(" ")}
+                  >
+                    <span className="font-semibold text-base leading-none">
+                      {sizeData.size}
+                    </span>
+                    <span className="text-[11px] mt-1">
+                      {sizeData.stock} шт
+                    </span>
+                  </button>
+                );
+              })}
             </div>
+
+            {selectedSize && (
+              <p className="mt-4 text-xs text-muted-foreground">
+                Выбран размер{" "}
+                <span className="font-medium text-foreground">
+                  {selectedSize}
+                </span>
+                , доступно{" "}
+                <span className="font-medium text-foreground">
+                  {getSizeStock(selectedSize)} шт
+                </span>
+                .
+              </p>
+            )}
           </DialogContent>
         </Dialog>
 
@@ -277,7 +318,7 @@ const Events = () => {
   return (
     <div>
       <Tabs defaultValue="current" className="w-full">
-        {/* Залипающая шапка с табами, перекрывающая всё сверху белым фоном */}
+        {/* Залипающая шапка с табами, перекрывающая верх белым фоном */}
         <div className="sticky top-0 z-20 bg-white pt-4 pb-3 -mt-4">
           <TabsList className="w-full grid grid-cols-2 h-14 rounded-2xl bg-muted">
             <TabsTrigger
