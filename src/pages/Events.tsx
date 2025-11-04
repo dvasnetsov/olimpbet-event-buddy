@@ -22,8 +22,7 @@ const Events = () => {
     endDate: "10 ноября 2025",
     endTime: "22:00",
     progress: 65,
-    banner:
-      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80",
+    banner: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80",
     categories: [
       {
         id: "silver",
@@ -31,42 +30,125 @@ const Events = () => {
         minBet: 1000,
         maxBet: 5000,
         prizes: [
-          {
-            id: 1,
-            name: "Футболка OlimpBet",
-            image:
-              "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&q=80",
+          { 
+            id: 1, 
+            name: "Футболка OlimpBet", 
+            image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&q=80",
             sizes: [
               { size: "S", stock: 3 },
               { size: "M", stock: 5 },
               { size: "L", stock: 4 },
-              { size: "XL", stock: 3 },
-            ],
+              { size: "XL", stock: 3 }
+            ]
           },
-          {
-            id: 2,
-            name: "Кепка OlimpBet",
-            image:
-              "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=200&q=80",
-            sizes: [{ size: "One Size", stock: 20 }],
+          { 
+            id: 2, 
+            name: "Кепка OlimpBet", 
+            image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=200&q=80",
+            sizes: [{ size: "One Size", stock: 20 }]
           },
-          {
-            id: 3,
-            name: "Термос",
-            image:
-              "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=200&q=80",
+          { 
+            id: 3, 
+            name: "Термос", 
+            image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=200&q=80",
             sizes: [
               { size: "500ml", stock: 6 },
-              { size: "750ml", stock: 4 },
-            ],
+              { size: "750ml", stock: 4 }
+            ]
+          },
+        ],
+      },
+      {
+        id: "gold",
+        name: "Gold",
+        minBet: 5000,
+        maxBet: 15000,
+        prizes: [
+          { 
+            id: 4, 
+            name: "Толстовка Premium", 
+            image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=200&q=80",
+            sizes: [
+              { size: "M", stock: 2 },
+              { size: "L", stock: 4 },
+              { size: "XL", stock: 2 }
+            ]
+          },
+          { 
+            id: 5, 
+            name: "Рюкзак спортивный", 
+            image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&q=80",
+            sizes: [{ size: "One Size", stock: 12 }]
+          },
+          { 
+            id: 6, 
+            name: "Беспроводные наушники", 
+            image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&q=80",
+            sizes: [{ size: "One Size", stock: 5 }]
+          },
+        ],
+      },
+      {
+        id: "platinum",
+        name: "Platinum",
+        minBet: 15000,
+        maxBet: 50000,
+        prizes: [
+          { 
+            id: 7, 
+            name: "Куртка зимняя", 
+            image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=200&q=80",
+            sizes: [
+              { size: "M", stock: 1 },
+              { size: "L", stock: 1 },
+              { size: "XL", stock: 1 }
+            ]
+          },
+          { 
+            id: 8, 
+            name: "Умные часы", 
+            image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&q=80",
+            sizes: [{ size: "One Size", stock: 4 }]
+          },
+          { 
+            id: 9, 
+            name: "Сертификат 5000₽", 
+            image: "https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=200&q=80",
+            sizes: [{ size: "One Size", stock: 6 }]
           },
         ],
       },
     ],
   };
 
-  const getTotalStock = (prize: any) =>
-    prize.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
+  const futureEvents = [
+    {
+      id: 2,
+      name: "Хоккейный турнир",
+      city: "Санкт-Петербург",
+      venue: "Ледовый дворец",
+      startDate: "15 декабря 2025",
+      startTime: "12:00",
+      endDate: "20 декабря 2025",
+      endTime: "20:00",
+      banner: "https://images.unsplash.com/photo-1515703407324-5f753afd8be8?w=800&q=80",
+    },
+    {
+      id: 3,
+      name: "Баскетбольная лига",
+      city: "Казань",
+      venue: "Спорт-арена",
+      startDate: "1 января 2026",
+      startTime: "14:00",
+      endDate: "10 января 2026",
+      endTime: "21:00",
+      banner: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80",
+    },
+  ];
+
+  const getTotalStock = (prize: any) => {
+    return prize.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
+  };
 
   const getSizeStock = (size: string) => {
     if (!selectedPrize) return 0;
@@ -74,26 +156,22 @@ const Events = () => {
     return sizeData ? sizeData.stock : 0;
   };
 
-  // === ЭКРАН КАТЕГОРИИ ПРИЗОВ ===
   if (selectedCategory) {
-    const category = currentEvent.categories.find(
-      (c) => c.id === selectedCategory
-    );
+    const category = currentEvent.categories.find((c) => c.id === selectedCategory);
     if (!category) return null;
 
     return (
-      <div className="p-4 pb-24">
+      <div className="p-4">
         <button
           onClick={() => setSelectedCategory(null)}
           className="mb-4 text-primary font-medium flex items-center gap-2"
         >
           ← Назад
         </button>
-
+        
         <h2 className="text-2xl font-bold mb-2">{category.name}</h2>
         <p className="text-muted-foreground mb-6">
-          Диапазон ставок: {category.minBet.toLocaleString()} –{" "}
-          {category.maxBet.toLocaleString()} ₽
+          Диапазон ставок: {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
         </p>
 
         <div className="space-y-4">
@@ -109,20 +187,14 @@ const Events = () => {
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg mb-1">{prize.name}</h3>
                   <p className="text-sm text-muted-foreground mb-2">
-                    Всего в наличии:{" "}
-                    <span className="font-medium text-foreground">
-                      {getTotalStock(prize)} шт
-                    </span>
+                    Всего в наличии: <span className="font-medium text-foreground">{getTotalStock(prize)} шт</span>
                   </p>
-                  <Button
-                    variant="outline"
+                  <Button 
+                    variant="outline" 
                     size="sm"
-                    onClick={() => {
-                      setSelectedPrize(prize);
-                      setSelectedSize("");
-                    }}
+                    onClick={() => setSelectedPrize(prize)}
                   >
-                    Доступные размеры
+                    Выбрать размер
                   </Button>
                 </div>
               </div>
@@ -130,73 +202,29 @@ const Events = () => {
           ))}
         </div>
 
-        {/* === НИЖНИЙ ДИАЛОГ (bottom sheet) === */}
-        <Dialog
-          open={!!selectedPrize}
-          onOpenChange={(open) => {
-            if (!open) {
-              setSelectedPrize(null);
-              setSelectedSize("");
-            }
-          }}
-        >
-          <DialogContent
-            className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md rounded-t-3xl border-t bg-background px-6 pb-6 pt-4 sm:static sm:translate-x-0 sm:rounded-2xl"
-          >
-            <div className="h-1 w-10 bg-muted-foreground/40 rounded-full mx-auto mb-3" />
-            <h3 className="text-lg font-semibold mb-1">
-              {selectedPrize?.name}
-            </h3>
-            <p className="text-xs text-muted-foreground mb-4">
-              Размеры и наличие
-            </p>
-
-            <div className="grid grid-cols-3 gap-3">
-              {selectedPrize?.sizes.map((sizeData: any) => {
-                const isActive = selectedSize === sizeData.size;
-                return (
-                  <button
-                    key={sizeData.size}
-                    type="button"
-                    onClick={() => setSelectedSize(sizeData.size)}
-                    className={`h-16 rounded-xl border text-center flex flex-col items-center justify-center text-sm transition ${
-                      isActive
-                        ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                        : "bg-muted/40 border-border hover:bg-muted"
-                    }`}
-                  >
-                    <span className="font-semibold text-base leading-none">
-                      {sizeData.size}
-                    </span>
-                    <span className="text-[11px] mt-1">
-                      {sizeData.stock} шт
-                    </span>
-                  </button>
-                );
-              })}
+        {/* Size Selection Dialog */}
+        <Dialog open={!!selectedPrize} onOpenChange={() => { setSelectedPrize(null); setSelectedSize(""); }}>
+          <DialogContent>
+            <h3 className="text-xl font-bold mb-4">{selectedPrize?.name}</h3>
+            <p className="text-sm text-muted-foreground mb-4">Выберите размер для просмотра остатков</p>
+            <div className="grid grid-cols-2 gap-3">
+              {selectedPrize?.sizes.map((sizeData: any) => (
+                <Button
+                  key={sizeData.size}
+                  variant={selectedSize === sizeData.size ? "default" : "outline"}
+                  onClick={() => setSelectedSize(sizeData.size)}
+                  className="h-16 flex flex-col items-center justify-center"
+                >
+                  <span className="font-semibold">{sizeData.size}</span>
+                  <span className="text-xs mt-1">{sizeData.stock} шт</span>
+                </Button>
+              ))}
             </div>
-
-            {selectedSize && (
-              <p className="mt-4 text-xs text-muted-foreground">
-                Выбран размер{" "}
-                <span className="font-medium text-foreground">
-                  {selectedSize}
-                </span>
-                , доступно{" "}
-                <span className="font-medium text-foreground">
-                  {getSizeStock(selectedSize)} шт
-                </span>
-                .
-              </p>
-            )}
           </DialogContent>
         </Dialog>
 
-        {/* === Фуллскрин изображение === */}
-        <Dialog
-          open={!!fullscreenImage}
-          onOpenChange={() => setFullscreenImage(null)}
-        >
+        {/* Fullscreen Image Modal */}
+        <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
           <DialogContent className="max-w-4xl p-0 bg-black/95">
             <button
               onClick={() => setFullscreenImage(null)}
@@ -215,14 +243,11 @@ const Events = () => {
     );
   }
 
-  // === ГЛАВНЫЙ ЭКРАН ===
   return (
-    <div className="bg-white pb-24">
+    <div className="min-h-screen">
       <Tabs defaultValue="current" className="w-full">
-        {/* залипающий верхний блок */}
-        <div className="sticky top-0 z-30 bg-white pt-3 pb-3 shadow-sm">
-          <div className="absolute top-0 left-0 w-full h-4 bg-white" />
-          <TabsList className="w-full grid grid-cols-2 h-14 rounded-2xl bg-muted">
+        <div className="sticky top-0 bg-background z-10 border-b border-border">
+          <TabsList className="w-full grid grid-cols-2 h-14 rounded-none">
             <TabsTrigger value="current" className="data-[state=active]:text-primary">
               Текущее
             </TabsTrigger>
@@ -233,7 +258,7 @@ const Events = () => {
         </div>
 
         <TabsContent value="current" className="mt-0 p-4">
-          {/* баннер мероприятия */}
+          {/* Event Banner */}
           <div
             className="relative h-48 rounded-xl overflow-hidden mb-4 shadow-md"
             style={{
@@ -246,23 +271,19 @@ const Events = () => {
               <h1 className="text-2xl font-bold mb-2">{currentEvent.name}</h1>
               <div className="flex items-center gap-2 text-sm">
                 <MapPin className="w-4 h-4" />
-                <span>
-                  {currentEvent.city}, {currentEvent.venue}
-                </span>
+                <span>{currentEvent.city}, {currentEvent.venue}</span>
               </div>
             </div>
           </div>
 
-          {/* прогресс */}
+          {/* Progress */}
           <Card className="p-4 mb-4 shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium flex items-center gap-2">
                 <Clock className="w-4 h-4 text-primary" />
                 Прогресс мероприятия
               </span>
-              <span className="text-sm font-bold text-primary">
-                {currentEvent.progress}%
-              </span>
+              <span className="text-sm font-bold text-primary">{currentEvent.progress}%</span>
             </div>
             <Progress value={currentEvent.progress} className="h-2 mb-3" />
             <div className="flex justify-between text-xs text-muted-foreground">
@@ -275,7 +296,7 @@ const Events = () => {
             </div>
           </Card>
 
-          {/* категории */}
+          {/* Categories */}
           <h2 className="text-xl font-bold mb-4">Категории призов</h2>
           <div className="space-y-3">
             {currentEvent.categories.map((category) => (
@@ -288,8 +309,7 @@ const Events = () => {
                   <div>
                     <h3 className="text-lg font-bold">{category.name}</h3>
                     <p className="text-sm text-muted-foreground">
-                      {category.minBet.toLocaleString()} –{" "}
-                      {category.maxBet.toLocaleString()} ₽
+                      {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
                     </p>
                   </div>
                   <span className="text-primary font-medium">→</span>
@@ -308,23 +328,37 @@ const Events = () => {
             ))}
           </div>
         </TabsContent>
-      </Tabs>
 
-      {/* нижнее навигационное меню */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg flex justify-around py-2 z-50">
-        <button className="text-gray-600 hover:text-primary text-sm flex flex-col items-center">
-          <span>🏠</span>
-          Главная
-        </button>
-        <button className="text-gray-600 hover:text-primary text-sm flex flex-col items-center">
-          <span>🎁</span>
-          Призы
-        </button>
-        <button className="text-gray-600 hover:text-primary text-sm flex flex-col items-center">
-          <span>👤</span>
-          Профиль
-        </button>
-      </nav>
+        <TabsContent value="future" className="mt-0 p-4">
+          <h2 className="text-xl font-bold mb-4">Предстоящие мероприятия</h2>
+          <div className="space-y-4">
+            {futureEvents.map((event) => (
+              <Card key={event.id} className="overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                <div
+                  className="h-32 bg-cover bg-center relative"
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url(${event.banner})`,
+                  }}
+                >
+                  <div className="absolute bottom-2 left-3 text-white">
+                    <h3 className="font-bold text-lg">{event.name}</h3>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                    <MapPin className="w-4 h-4" />
+                    <span>{event.city}, {event.venue}</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Clock className="w-4 h-4" />
+                    <span>{event.startDate} {event.startTime} - {event.endDate} {event.endTime}</span>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
