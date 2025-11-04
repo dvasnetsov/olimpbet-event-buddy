@@ -2,10 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
-// Конфигурация Vite для корректной сборки и деплоя на GitHub Pages
 export default defineConfig({
   plugins: [react()],
-  base: '/olimpbet-event-buddy/', // важно для GitHub Pages
+  base: '/olimpbet-event-buddy/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -18,5 +17,13 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+  },
+  // 👇 Добавь вот это
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+  },
+  // 👇 Это важно для GitHub Pages
+  esbuild: {
+    jsxInject: `import React from 'react'`,
   },
 })
