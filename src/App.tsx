@@ -18,7 +18,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         {/* basename совпадает с именем репозитория */}
-        <BrowserRouter basename="/promo">
+        <BrowserRouter basename="/olimpbet-event-buddy">
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Events />} />
