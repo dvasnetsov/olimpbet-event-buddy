@@ -158,9 +158,8 @@ const Events = () => {
     },
   ];
 
-  const getTotalStock = (prize: any) => {
-    return prize.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
-  };
+  const getTotalStock = (prize: any) =>
+    prize.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
 
   const getSizeStock = (size: string) => {
     if (!selectedPrize) return 0;
@@ -168,7 +167,7 @@ const Events = () => {
     return sizeData ? sizeData.stock : 0;
   };
 
-  // Экран категории призов (Silver / Gold / Platinum)
+  // === ЭКРАН КАТЕГОРИИ ПРИЗОВ (Silver / Gold / Platinum) ===
   if (selectedCategory) {
     const category = currentEvent.categories.find(
       (c) => c.id === selectedCategory,
@@ -224,7 +223,7 @@ const Events = () => {
           ))}
         </div>
 
-        {/* Bottom sheet: выбор размера */}
+        {/* НИЖНИЙ ДИАЛОГ (bottom sheet) С РАЗМЕРАМИ */}
         <Dialog
           open={!!selectedPrize}
           onOpenChange={(open) => {
@@ -236,12 +235,12 @@ const Events = () => {
         >
           <DialogContent
             className="
-              w-full max-w-md
-              fixed bottom-0 left-1/2 -translate-x-1/2
+              fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md
               rounded-t-3xl border-t bg-background px-6 pb-6 pt-4
-              sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2 sm:rounded-2xl
+              sm:static sm:translate-x-0 sm:rounded-2xl
             "
           >
+            {/* маленькая плашка-хэндл сверху */}
             <div className="h-1 w-10 bg-muted-foreground/40 rounded-full mx-auto mb-3" />
 
             <h3 className="text-lg font-semibold mb-1">
@@ -293,7 +292,7 @@ const Events = () => {
           </DialogContent>
         </Dialog>
 
-        {/* Fullscreen Image Modal */}
+        {/* Фуллскрин картинка */}
         <Dialog
           open={!!fullscreenImage}
           onOpenChange={() => setFullscreenImage(null)}
@@ -316,11 +315,11 @@ const Events = () => {
     );
   }
 
-  // Главный экран "Текущее / Будущие"
+  // === ГЛАВНЫЙ ЭКРАН (Текущее / Будущие) ===
   return (
-    <div className="pb-24">
+    <div className="bg-white pb-24">
       <Tabs defaultValue="current" className="w-full">
-        {/* Залипающая шапка с табами, сплошной белый фон сверху */}
+        {/* верхняя залипающая плашка на сплошном белом фоне */}
         <div className="sticky top-0 z-20 bg-white pt-3 pb-3">
           <TabsList className="w-full grid grid-cols-2 h-14 rounded-2xl bg-muted">
             <TabsTrigger
@@ -339,7 +338,7 @@ const Events = () => {
         </div>
 
         <TabsContent value="current" className="mt-0 p-4">
-          {/* Event Banner */}
+          {/* баннер мероприятия */}
           <div
             className="relative h-48 rounded-xl overflow-hidden mb-4 shadow-md"
             style={{
@@ -359,7 +358,7 @@ const Events = () => {
             </div>
           </div>
 
-          {/* Progress */}
+          {/* прогресс */}
           <Card className="p-4 mb-4 shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium flex items-center gap-2">
@@ -381,7 +380,7 @@ const Events = () => {
             </div>
           </Card>
 
-          {/* Categories */}
+          {/* категории призов */}
           <h2 className="text-xl font-bold mb-4">Категории призов</h2>
           <div className="space-y-3">
             {currentEvent.categories.map((category) => (
@@ -443,7 +442,7 @@ const Events = () => {
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="w-4 h-4" />
                     <span>
-                      {event.startDate} {event.startTime} - {event.endDate}{" "}
+                      {event.startDate} {event.startTime} — {event.endDate}{" "}
                       {event.endTime}
                     </span>
                   </div>
