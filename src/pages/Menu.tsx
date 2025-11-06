@@ -105,18 +105,18 @@ const Menu = () => {
   return (
     <div className="min-h-screen">
       <Tabs defaultValue="activity" className="w-full">
-        <div className="sticky top-0 bg-background z-10 border-b border-border">
-          <TabsList className="w-full grid grid-cols-2 h-14 rounded-none">
-            <TabsTrigger value="activity" className="data-[state=active]:text-primary">
+        <div className="sticky top-0 bg-background z-10 shadow-sm px-4 pt-3 pb-0">
+          <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-muted mb-3">
+            <TabsTrigger value="activity" className="data-[state=active]:text-primary font-medium rounded-lg">
               Активность
             </TabsTrigger>
-            <TabsTrigger value="profile" className="data-[state=active]:text-primary">
+            <TabsTrigger value="profile" className="data-[state=active]:text-primary font-medium rounded-lg">
               Профиль
             </TabsTrigger>
           </TabsList>
         </div>
 
-        <TabsContent value="activity" className="mt-0 p-4">
+        <TabsContent value="activity" className="mt-0 px-4 pt-2">
           <h2 className="text-xl font-bold mb-4">История мероприятий</h2>
           <div className="space-y-3">
             {activities.map((activity) => (
@@ -188,7 +188,7 @@ const Menu = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="profile" className="mt-0 p-4">
+        <TabsContent value="profile" className="mt-0 px-4 pt-2">
           <Card className="p-6 mb-6 shadow-md">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">

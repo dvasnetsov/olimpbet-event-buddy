@@ -29,9 +29,9 @@ const Layout = () => {
           </div>
 
           {/* 📄 Экран */}
-          <div className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 pb-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 pb-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative">
             {/* Отступ сверху, чтобы контент не залезал под вырез */}
-            <div className="max-w-md mx-auto px-4 pb-4 pt-3">
+            <div className="max-w-md mx-auto pb-4">
               <Outlet />
             </div>
           </div>

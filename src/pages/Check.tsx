@@ -4,13 +4,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { QrCode, User, DollarSign, Tag, Check as CheckIcon, X } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  ContainedDialog as Dialog,
+  ContainedDialogContent as DialogContent,
+} from "@/components/ContainedDialog";
+import {
+  ContainedDrawer as Drawer,
+  ContainedDrawerContent as DrawerContent,
+  ContainedDrawerHeader as DrawerHeader,
+  ContainedDrawerTitle as DrawerTitle,
+} from "@/components/ContainedDrawer";
 
 type BetResult = {
   playerId: string;
@@ -112,17 +115,17 @@ const Check = () => {
     <div className="bg-background min-h-screen pb-20">
       <Tabs defaultValue="check" className="w-full">
         {/* верхняя залипающая плашка */}
-        <div className="sticky top-0 z-20 bg-background pt-3 pb-3 border-b border-border shadow-sm">
-          <TabsList className="w-full grid grid-cols-2 h-12 rounded-2xl bg-muted">
+        <div className="sticky top-0 z-20 bg-background px-4 pt-3 pb-0 shadow-sm">
+          <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-muted mb-3">
             <TabsTrigger
               value="check"
-              className="data-[state=active]:text-primary text-sm font-medium"
+              className="data-[state=active]:text-primary text-sm font-medium rounded-lg"
             >
               Ставка
             </TabsTrigger>
             <TabsTrigger
               value="join"
-              className="data-[state=active]:text-primary text-sm font-medium"
+              className="data-[state=active]:text-primary text-sm font-medium rounded-lg"
             >
               Приложение
             </TabsTrigger>
@@ -130,7 +133,7 @@ const Check = () => {
         </div>
 
         {/* --- Проверка ставки --- */}
-        <TabsContent value="check" className="mt-0 p-4 pt-4">
+        <TabsContent value="check" className="mt-0 px-4 pt-2">
           {!betResult ? (
             <div className="max-w-sm mx-auto w-full">
               <h1 className="text-2xl font-bold mb-3">Проверка ставки</h1>
@@ -278,7 +281,7 @@ const Check = () => {
         </TabsContent>
 
         {/* --- QR-код для скачивания --- */}
-        <TabsContent value="join" className="mt-0 p-4 pt-8">
+        <TabsContent value="join" className="mt-0 px-4 pt-6">
           <div className="flex flex-col items-center justify-center text-center">
             <h2 className="text-2xl font-bold mb-4">Скачай приложение</h2>
             <p className="text-muted-foreground max-w-xs mb-10 text-sm leading-relaxed">

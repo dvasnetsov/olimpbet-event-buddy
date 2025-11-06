@@ -3,14 +3,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { MapPin, Clock, X } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  ContainedDialog as Dialog,
+  ContainedDialogContent as DialogContent,
+} from "@/components/ContainedDialog";
+import {
+  ContainedDrawer as Drawer,
+  ContainedDrawerContent as DrawerContent,
+  ContainedDrawerHeader as DrawerHeader,
+  ContainedDrawerTitle as DrawerTitle,
+} from "@/components/ContainedDrawer";
 
 const Events = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -167,31 +170,31 @@ const Events = () => {
     if (!category) return null;
 
     return (
-      <div className="p-4 bg-background min-h-screen">
+      <div className="px-4 pt-4 bg-background min-h-screen">
         <button
           onClick={() => setSelectedCategory(null)}
-          className="mb-6 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+          className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
         >
           ← Назад
         </button>
         
-        <h2 className="text-2xl font-bold mb-3">{category.name}</h2>
+        <h2 className="text-2xl font-bold mb-2">{category.name}</h2>
         <p className="text-muted-foreground mb-6 text-sm">
           Диапазон ставок: <span className="font-semibold text-foreground">{category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽</span>
         </p>
 
-        <div className="space-y-4 pb-4">
+        <div className="space-y-3 pb-4">
           {category.prizes.map((prize) => (
             <Card key={prize.id} className="p-4 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex gap-4">
+              <div className="flex gap-4 items-center">
                 <img
                   src={prize.image}
                   alt={prize.name}
-                  className="w-24 h-24 object-cover rounded-xl cursor-pointer hover:scale-105 transition-transform"
+                  className="w-20 h-20 object-cover rounded-xl cursor-pointer hover:scale-105 transition-transform flex-shrink-0"
                   onClick={() => setFullscreenImage(prize.image)}
                 />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-lg mb-2">{prize.name}</h3>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-base mb-1.5">{prize.name}</h3>
                   <p className="text-sm text-muted-foreground mb-3">
                     В наличии: <span className="font-semibold text-foreground">{getTotalStock(prize)} шт</span>
                   </p>
@@ -259,18 +262,18 @@ const Events = () => {
   return (
     <div className="min-h-screen bg-background">
       <Tabs defaultValue="current" className="w-full">
-        <div className="sticky top-0 bg-background z-20 border-b border-border shadow-sm">
-          <TabsList className="w-full grid grid-cols-2 h-12 rounded-none bg-background">
-            <TabsTrigger value="current" className="data-[state=active]:text-primary font-medium text-sm">
+        <div className="sticky top-0 bg-background z-20 shadow-sm px-4 pt-3 pb-0">
+          <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-muted mb-3">
+            <TabsTrigger value="current" className="data-[state=active]:text-primary font-medium text-sm rounded-lg">
               Текущее
             </TabsTrigger>
-            <TabsTrigger value="future" className="data-[state=active]:text-primary font-medium text-sm">
+            <TabsTrigger value="future" className="data-[state=active]:text-primary font-medium text-sm rounded-lg">
               Будущие
             </TabsTrigger>
           </TabsList>
         </div>
 
-        <TabsContent value="current" className="mt-0 p-4 pt-4">
+        <TabsContent value="current" className="mt-0 px-4 pt-2">
           {/* Event Banner */}
           <div
             className="relative h-52 rounded-2xl overflow-hidden mb-6 shadow-lg"
@@ -342,7 +345,7 @@ const Events = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="future" className="mt-0 p-4 pt-4">
+        <TabsContent value="future" className="mt-0 px-4 pt-2">
           <h2 className="text-xl font-bold mb-5">Предстоящие мероприятия</h2>
           <div className="space-y-4 pb-4">
             {futureEvents.map((event) => (
