@@ -1,8 +1,19 @@
 import { Calendar, QrCode, Menu } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import LoadingScreen from "@/components/LoadingScreen"; // 👈 добавь импорт
+
+import React from "react";
 
 const Layout = () => {
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // имитация загрузки
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#090D14]">
       {/* 🌫️ Атмосферный дымчатый фон */}
@@ -23,20 +34,22 @@ const Layout = () => {
                      border border-zinc-600/50 shadow-[inset_0_0_25px_rgba(255,255,255,0.03)]
                      overflow-hidden flex flex-col"
         >
-          {/* 🔘 Notch (вырез под динамик) */}
+          {/* 🔘 Notch */}
           <div className="absolute top-0 inset-x-0 flex justify-center z-30 pointer-events-none">
             <div className="mt-[6px] h-[18px] w-[110px] bg-black rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.8)]" />
           </div>
 
           {/* 📄 Экран */}
           <div className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 pb-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative">
-            {/* Отступ сверху, чтобы контент не залезал под вырез */}
-            <div className="max-w-md mx-auto pb-4">
+            {/* 🔹 Добавили лоадер внутрь экрана */}
+            {loading && <LoadingScreen />}
+
+            <div className="max-w-md mx-auto pb-4 relative z-10">
               <Outlet />
             </div>
           </div>
 
-          {/* ⚙️ Нижняя панель навигации */}
+          {/* ⚙️ Нижняя панель */}
           <nav className="absolute bottom-0 left-0 right-0 bg-background border-t border-border max-w-md mx-auto rounded-b-[44px] shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
             <div className="flex justify-around items-center h-16 px-4">
               <NavLink
