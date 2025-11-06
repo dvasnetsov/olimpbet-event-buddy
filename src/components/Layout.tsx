@@ -40,22 +40,21 @@ const Layout = () => {
           </div>
 
           {/* 📄 Экран */}
-          <div className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 pb-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative">
+          <div className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative">
             {/* 🔹 Добавили лоадер внутрь экрана */}
             {loading && (
-  <div className="absolute inset-0 z-40">
-    <LoadingScreen />
-  </div>
-)}
+              <div className="absolute inset-0 z-[60]">
+                <LoadingScreen />
+              </div>
+            )}
 
-
-            <div className="max-w-md mx-auto pb-4 relative z-10">
+            <div className="max-w-md mx-auto pb-24 relative z-10">
               <Outlet />
             </div>
           </div>
 
           {/* ⚙️ Нижняя панель */}
-          <nav className="absolute bottom-0 left-0 right-0 bg-background border-t border-border max-w-md mx-auto rounded-b-[44px] shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
+          <nav className="absolute bottom-0 left-0 right-0 bg-background border-t border-border max-w-md mx-auto rounded-b-[44px] shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-50">
             <div className="flex justify-around items-center h-16 px-4">
               <NavLink
                 to="/"

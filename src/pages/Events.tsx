@@ -170,7 +170,7 @@ const Events = () => {
     if (!category) return null;
 
     return (
-      <div className="px-4 pt-4 bg-background min-h-screen">
+      <div className="px-4 pt-4 bg-background pb-4">
         <button
           onClick={() => setSelectedCategory(null)}
           className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
@@ -260,20 +260,22 @@ const Events = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background pb-4">
       <Tabs defaultValue="current" className="w-full">
-        <div className="sticky top-0 bg-background z-20 shadow-sm px-4 pt-3 pb-0">
-          <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-muted mb-3">
-            <TabsTrigger value="current" className="data-[state=active]:text-primary font-medium text-sm rounded-lg">
-              Текущее
-            </TabsTrigger>
-            <TabsTrigger value="future" className="data-[state=active]:text-primary font-medium text-sm rounded-lg">
-              Будущие
-            </TabsTrigger>
-          </TabsList>
+        <div className="sticky top-0 bg-background z-20 shadow-sm border-b border-border">
+          <div className="px-4 pt-4 pb-3">
+            <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
+              <TabsTrigger value="current" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold text-sm rounded-lg transition-all">
+                Текущее
+              </TabsTrigger>
+              <TabsTrigger value="future" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold text-sm rounded-lg transition-all">
+                Будущие
+              </TabsTrigger>
+            </TabsList>
+          </div>
         </div>
 
-        <TabsContent value="current" className="mt-0 px-4 pt-2">
+        <TabsContent value="current" className="mt-0 px-4 pt-4">
           {/* Event Banner */}
           <div
             className="relative h-52 rounded-2xl overflow-hidden mb-6 shadow-lg"
@@ -345,7 +347,7 @@ const Events = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="future" className="mt-0 px-4 pt-2">
+        <TabsContent value="future" className="mt-0 px-4 pt-4">
           <h2 className="text-xl font-bold mb-5">Предстоящие мероприятия</h2>
           <div className="space-y-4 pb-4">
             {futureEvents.map((event) => (

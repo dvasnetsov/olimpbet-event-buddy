@@ -103,20 +103,22 @@ const Menu = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="bg-background pb-4">
       <Tabs defaultValue="activity" className="w-full">
-        <div className="sticky top-0 bg-background z-10 shadow-sm px-4 pt-3 pb-0">
-          <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-muted mb-3">
-            <TabsTrigger value="activity" className="data-[state=active]:text-primary font-medium rounded-lg">
-              Активность
-            </TabsTrigger>
-            <TabsTrigger value="profile" className="data-[state=active]:text-primary font-medium rounded-lg">
-              Профиль
-            </TabsTrigger>
-          </TabsList>
+        <div className="sticky top-0 bg-background z-20 shadow-sm border-b border-border">
+          <div className="px-4 pt-4 pb-3">
+            <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
+              <TabsTrigger value="activity" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
+                Активность
+              </TabsTrigger>
+              <TabsTrigger value="profile" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
+                Профиль
+              </TabsTrigger>
+            </TabsList>
+          </div>
         </div>
 
-        <TabsContent value="activity" className="mt-0 px-4 pt-2">
+        <TabsContent value="activity" className="mt-0 px-4 pt-4">
           <h2 className="text-xl font-bold mb-4">История мероприятий</h2>
           <div className="space-y-3">
             {activities.map((activity) => (
@@ -188,7 +190,7 @@ const Menu = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="profile" className="mt-0 px-4 pt-2">
+        <TabsContent value="profile" className="mt-0 px-4 pt-4">
           <Card className="p-6 mb-6 shadow-md">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">

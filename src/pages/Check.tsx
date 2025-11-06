@@ -92,7 +92,7 @@ const Check = () => {
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-background">
+      <div className="flex items-center justify-center p-6 bg-background py-20">
         <Card className="p-10 text-center max-w-sm shadow-xl">
           <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckIcon className="w-12 h-12 text-primary" />
@@ -112,28 +112,30 @@ const Check = () => {
   }
 
   return (
-    <div className="bg-background min-h-screen pb-20">
+    <div className="bg-background pb-4">
       <Tabs defaultValue="check" className="w-full">
         {/* верхняя залипающая плашка */}
-        <div className="sticky top-0 z-20 bg-background px-4 pt-3 pb-0 shadow-sm">
-          <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-muted mb-3">
-            <TabsTrigger
-              value="check"
-              className="data-[state=active]:text-primary text-sm font-medium rounded-lg"
-            >
-              Ставка
-            </TabsTrigger>
-            <TabsTrigger
-              value="join"
-              className="data-[state=active]:text-primary text-sm font-medium rounded-lg"
-            >
-              Приложение
-            </TabsTrigger>
-          </TabsList>
+        <div className="sticky top-0 z-20 bg-background shadow-sm border-b border-border">
+          <div className="px-4 pt-4 pb-3">
+            <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
+              <TabsTrigger
+                value="check"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold text-sm rounded-lg transition-all"
+              >
+                Ставка
+              </TabsTrigger>
+              <TabsTrigger
+                value="join"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold text-sm rounded-lg transition-all"
+              >
+                Приложение
+              </TabsTrigger>
+            </TabsList>
+          </div>
         </div>
 
         {/* --- Проверка ставки --- */}
-        <TabsContent value="check" className="mt-0 px-4 pt-2">
+        <TabsContent value="check" className="mt-0 px-4 pt-4">
           {!betResult ? (
             <div className="max-w-sm mx-auto w-full">
               <h1 className="text-2xl font-bold mb-3">Проверка ставки</h1>
@@ -281,8 +283,8 @@ const Check = () => {
         </TabsContent>
 
         {/* --- QR-код для скачивания --- */}
-        <TabsContent value="join" className="mt-0 px-4 pt-6">
-          <div className="flex flex-col items-center justify-center text-center">
+        <TabsContent value="join" className="mt-0 px-4 pt-8">
+          <div className="flex flex-col items-center justify-center text-center py-8">
             <h2 className="text-2xl font-bold mb-4">Скачай приложение</h2>
             <p className="text-muted-foreground max-w-xs mb-10 text-sm leading-relaxed">
               Делай ставки, следи за событиями и получай бонусы в одном месте!
