@@ -42,7 +42,12 @@ const Layout = () => {
           {/* 📄 Экран */}
           <div className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 pb-20 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative">
             {/* 🔹 Добавили лоадер внутрь экрана */}
-            {loading && <LoadingScreen />}
+            {loading && (
+  <div className="absolute inset-0 z-40">
+    <LoadingScreen />
+  </div>
+)}
+
 
             <div className="max-w-md mx-auto pb-4 relative z-10">
               <Outlet />
