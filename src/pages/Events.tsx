@@ -5,6 +5,12 @@ import { MapPin, Clock, X } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 const Events = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -161,38 +167,39 @@ const Events = () => {
     if (!category) return null;
 
     return (
-      <div className="p-4">
+      <div className="p-4 bg-background min-h-screen">
         <button
           onClick={() => setSelectedCategory(null)}
-          className="mb-4 text-primary font-medium flex items-center gap-2"
+          className="mb-6 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
         >
           ← Назад
         </button>
         
-        <h2 className="text-2xl font-bold mb-2">{category.name}</h2>
-        <p className="text-muted-foreground mb-6">
-          Диапазон ставок: {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
+        <h2 className="text-2xl font-bold mb-3">{category.name}</h2>
+        <p className="text-muted-foreground mb-6 text-sm">
+          Диапазон ставок: <span className="font-semibold text-foreground">{category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽</span>
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-4 pb-4">
           {category.prizes.map((prize) => (
-            <Card key={prize.id} className="p-4 shadow-sm">
+            <Card key={prize.id} className="p-4 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex gap-4">
                 <img
                   src={prize.image}
                   alt={prize.name}
-                  className="w-24 h-24 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+                  className="w-24 h-24 object-cover rounded-xl cursor-pointer hover:scale-105 transition-transform"
                   onClick={() => setFullscreenImage(prize.image)}
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg mb-1">{prize.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Всего в наличии: <span className="font-medium text-foreground">{getTotalStock(prize)} шт</span>
+                  <h3 className="font-semibold text-lg mb-2">{prize.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    В наличии: <span className="font-semibold text-foreground">{getTotalStock(prize)} шт</span>
                   </p>
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => setSelectedPrize(prize)}
+                    className="rounded-lg"
                   >
                     Выбрать размер
                   </Button>
@@ -202,41 +209,47 @@ const Events = () => {
           ))}
         </div>
 
-        {/* Size Selection Dialog */}
-        <Dialog open={!!selectedPrize} onOpenChange={() => { setSelectedPrize(null); setSelectedSize(""); }}>
-          <DialogContent>
-            <h3 className="text-xl font-bold mb-4">{selectedPrize?.name}</h3>
-            <p className="text-sm text-muted-foreground mb-4">Выберите размер для просмотра остатков</p>
-            <div className="grid grid-cols-2 gap-3">
-              {selectedPrize?.sizes.map((sizeData: any) => (
-                <Button
-                  key={sizeData.size}
-                  variant={selectedSize === sizeData.size ? "default" : "outline"}
-                  onClick={() => setSelectedSize(sizeData.size)}
-                  className="h-16 flex flex-col items-center justify-center"
-                >
-                  <span className="font-semibold">{sizeData.size}</span>
-                  <span className="text-xs mt-1">{sizeData.stock} шт</span>
-                </Button>
-              ))}
+        {/* Size Selection Drawer */}
+        <Drawer open={!!selectedPrize} onOpenChange={() => { setSelectedPrize(null); setSelectedSize(""); }}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle className="text-xl font-bold">{selectedPrize?.name}</DrawerTitle>
+            </DrawerHeader>
+            <div className="px-4 pb-8">
+              <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
+              <div className="grid grid-cols-2 gap-3">
+                {selectedPrize?.sizes.map((sizeData: any) => (
+                  <Button
+                    key={sizeData.size}
+                    variant={selectedSize === sizeData.size ? "default" : "outline"}
+                    onClick={() => setSelectedSize(sizeData.size)}
+                    className="h-20 flex flex-col items-center justify-center rounded-xl"
+                  >
+                    <span className="font-bold text-lg">{sizeData.size}</span>
+                    <span className="text-xs mt-1 opacity-80">{sizeData.stock} шт</span>
+                  </Button>
+                ))}
+              </div>
             </div>
-          </DialogContent>
-        </Dialog>
+          </DrawerContent>
+        </Drawer>
 
         {/* Fullscreen Image Modal */}
         <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
-          <DialogContent className="max-w-4xl p-0 bg-black/95">
+          <DialogContent className="max-w-full max-h-full w-full h-full p-0 bg-black border-0 rounded-none">
             <button
               onClick={() => setFullscreenImage(null)}
-              className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors"
+              className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
             >
-              <X className="w-6 h-6 text-white" />
+              <X className="w-7 h-7 text-white" />
             </button>
-            <img
-              src={fullscreenImage || ""}
-              alt="Fullscreen view"
-              className="w-full h-auto max-h-[90vh] object-contain"
-            />
+            <div className="w-full h-full flex items-center justify-center p-4">
+              <img
+                src={fullscreenImage || ""}
+                alt="Fullscreen view"
+                className="max-w-full max-h-full object-contain"
+              />
+            </div>
           </DialogContent>
         </Dialog>
       </div>
@@ -244,32 +257,32 @@ const Events = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <Tabs defaultValue="current" className="w-full">
-        <div className="sticky top-0 bg-background z-10 border-b border-border">
-          <TabsList className="w-full grid grid-cols-2 h-14 rounded-none">
-            <TabsTrigger value="current" className="data-[state=active]:text-primary">
+        <div className="sticky top-0 bg-background z-20 border-b border-border shadow-sm">
+          <TabsList className="w-full grid grid-cols-2 h-12 rounded-none bg-background">
+            <TabsTrigger value="current" className="data-[state=active]:text-primary font-medium text-sm">
               Текущее
             </TabsTrigger>
-            <TabsTrigger value="future" className="data-[state=active]:text-primary">
+            <TabsTrigger value="future" className="data-[state=active]:text-primary font-medium text-sm">
               Будущие
             </TabsTrigger>
           </TabsList>
         </div>
 
-        <TabsContent value="current" className="mt-0 p-4">
+        <TabsContent value="current" className="mt-0 p-4 pt-4">
           {/* Event Banner */}
           <div
-            className="relative h-48 rounded-xl overflow-hidden mb-4 shadow-md"
+            className="relative h-52 rounded-2xl overflow-hidden mb-6 shadow-lg"
             style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url(${currentEvent.banner})`,
+              backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url(${currentEvent.banner})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <div className="absolute bottom-4 left-4 right-4 text-white">
-              <h1 className="text-2xl font-bold mb-2">{currentEvent.name}</h1>
-              <div className="flex items-center gap-2 text-sm">
+            <div className="absolute bottom-5 left-5 right-5 text-white">
+              <h1 className="text-2xl font-bold mb-2 leading-tight">{currentEvent.name}</h1>
+              <div className="flex items-center gap-2 text-sm opacity-95">
                 <MapPin className="w-4 h-4" />
                 <span>{currentEvent.city}, {currentEvent.venue}</span>
               </div>
@@ -277,50 +290,50 @@ const Events = () => {
           </div>
 
           {/* Progress */}
-          <Card className="p-4 mb-4 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium flex items-center gap-2">
+          <Card className="p-5 mb-6 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold flex items-center gap-2">
                 <Clock className="w-4 h-4 text-primary" />
                 Прогресс мероприятия
               </span>
               <span className="text-sm font-bold text-primary">{currentEvent.progress}%</span>
             </div>
-            <Progress value={currentEvent.progress} className="h-2 mb-3" />
+            <Progress value={currentEvent.progress} className="h-2.5 mb-4" />
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>
-                Начало: {currentEvent.startDate}, {currentEvent.startTime}
+                {currentEvent.startDate}, {currentEvent.startTime}
               </span>
               <span>
-                Конец: {currentEvent.endDate}, {currentEvent.endTime}
+                {currentEvent.endDate}, {currentEvent.endTime}
               </span>
             </div>
           </Card>
 
           {/* Categories */}
           <h2 className="text-xl font-bold mb-4">Категории призов</h2>
-          <div className="space-y-3">
+          <div className="space-y-3 pb-4">
             {currentEvent.categories.map((category) => (
               <Card
                 key={category.id}
-                className="p-4 cursor-pointer hover:shadow-md transition-shadow shadow-sm"
+                className="p-5 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
                 onClick={() => setSelectedCategory(category.id)}
               >
-                <div className="flex justify-between items-start mb-3">
+                <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-bold">{category.name}</h3>
+                    <h3 className="text-lg font-bold mb-1">{category.name}</h3>
                     <p className="text-sm text-muted-foreground">
                       {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
                     </p>
                   </div>
-                  <span className="text-primary font-medium">→</span>
+                  <span className="text-primary font-medium text-xl">→</span>
                 </div>
-                <div className="flex gap-2 overflow-x-auto">
+                <div className="flex gap-2.5 overflow-x-auto pb-1">
                   {category.prizes.map((prize) => (
                     <img
                       key={prize.id}
                       src={prize.image}
                       alt={prize.name}
-                      className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
+                      className="w-16 h-16 object-cover rounded-xl flex-shrink-0 ring-1 ring-border"
                     />
                   ))}
                 </div>
@@ -329,23 +342,23 @@ const Events = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="future" className="mt-0 p-4">
-          <h2 className="text-xl font-bold mb-4">Предстоящие мероприятия</h2>
-          <div className="space-y-4">
+        <TabsContent value="future" className="mt-0 p-4 pt-4">
+          <h2 className="text-xl font-bold mb-5">Предстоящие мероприятия</h2>
+          <div className="space-y-4 pb-4">
             {futureEvents.map((event) => (
-              <Card key={event.id} className="overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <Card key={event.id} className="overflow-hidden shadow-sm hover:shadow-lg transition-all hover:scale-[1.01] cursor-pointer">
                 <div
-                  className="h-32 bg-cover bg-center relative"
+                  className="h-36 bg-cover bg-center relative"
                   style={{
-                    backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url(${event.banner})`,
+                    backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${event.banner})`,
                   }}
                 >
-                  <div className="absolute bottom-2 left-3 text-white">
-                    <h3 className="font-bold text-lg">{event.name}</h3>
+                  <div className="absolute bottom-3 left-4 text-white">
+                    <h3 className="font-bold text-lg leading-tight">{event.name}</h3>
                   </div>
                 </div>
-                <div className="p-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                <div className="p-4 space-y-2.5">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <MapPin className="w-4 h-4" />
                     <span>{event.city}, {event.venue}</span>
                   </div>

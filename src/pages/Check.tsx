@@ -3,8 +3,14 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { QrCode, User, DollarSign, Tag, Check as CheckIcon } from "lucide-react";
+import { QrCode, User, DollarSign, Tag, Check as CheckIcon, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 
 type BetResult = {
   playerId: string;
@@ -18,6 +24,7 @@ const Check = () => {
   const [selectedMerch, setSelectedMerch] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
 
   const availableMerch = [
     {
@@ -61,6 +68,14 @@ const Check = () => {
   };
 
   const handleReserve = () => {
+    if (!selectedMerch || !selectedSize) return;
+    
+    // Уменьшаем остаток выбранного размера
+    const sizeIndex = selectedMerch.sizes.findIndex((s: any) => s.size === selectedSize);
+    if (sizeIndex !== -1 && selectedMerch.sizes[sizeIndex].stock > 0) {
+      selectedMerch.sizes[sizeIndex].stock -= 1;
+    }
+    
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);
@@ -68,23 +83,24 @@ const Check = () => {
       setPlayerId("");
       setSelectedMerch(null);
       setSelectedSize("");
+      setFullscreenImage(null);
     }, 2500);
   };
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <Card className="p-8 text-center max-w-sm shadow-lg">
-          <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckIcon className="w-10 h-10 text-primary" />
+      <div className="min-h-screen flex items-center justify-center p-6 bg-background">
+        <Card className="p-10 text-center max-w-sm shadow-xl">
+          <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <CheckIcon className="w-12 h-12 text-primary" />
           </div>
-          <h2 className="text-2xl font-bold mb-2">Мерч зарезервирован</h2>
-          <p className="text-muted-foreground mb-6">
+          <h2 className="text-2xl font-bold mb-3">Мерч зарезервирован</h2>
+          <p className="text-muted-foreground mb-8 text-sm leading-relaxed">
             {selectedMerch?.name} ({selectedSize})
             <br />
             для ID {betResult?.playerId}
           </p>
-          <Button className="w-full" size="lg">
+          <Button className="w-full rounded-xl" size="lg" onClick={() => setShowSuccess(false)}>
             Готово
           </Button>
         </Card>
@@ -93,10 +109,10 @@ const Check = () => {
   }
 
   return (
-    <div className="bg-white min-h-screen pb-20">
+    <div className="bg-background min-h-screen pb-20">
       <Tabs defaultValue="check" className="w-full">
         {/* верхняя залипающая плашка */}
-        <div className="sticky top-0 z-20 bg-white pt-3 pb-3">
+        <div className="sticky top-0 z-20 bg-background pt-3 pb-3 border-b border-border shadow-sm">
           <TabsList className="w-full grid grid-cols-2 h-12 rounded-2xl bg-muted">
             <TabsTrigger
               value="check"
@@ -114,16 +130,16 @@ const Check = () => {
         </div>
 
         {/* --- Проверка ставки --- */}
-        <TabsContent value="check" className="mt-0 p-4">
+        <TabsContent value="check" className="mt-0 p-4 pt-4">
           {!betResult ? (
             <div className="max-w-sm mx-auto w-full">
-              <h1 className="text-2xl font-bold mb-2">Проверка ставки</h1>
-              <p className="text-muted-foreground mb-6">
+              <h1 className="text-2xl font-bold mb-3">Проверка ставки</h1>
+              <p className="text-muted-foreground mb-6 text-sm">
                 Введите ID игрока или отсканируйте QR-код
               </p>
 
-              <Card className="p-6 mb-4 shadow-sm">
-                <label className="block text-sm font-medium mb-2">ID игрока (6 цифр)</label>
+              <Card className="p-6 mb-4 shadow-md">
+                <label className="block text-sm font-semibold mb-3">ID игрока (6 цифр)</label>
                 <Input
                   placeholder="Например: 123456"
                   value={playerId}
@@ -132,16 +148,16 @@ const Check = () => {
                     setPlayerId(value);
                   }}
                   maxLength={6}
-                  className="mb-4"
+                  className="mb-4 h-12 text-base rounded-xl"
                 />
 
-                <Button variant="outline" className="w-full mb-4" size="lg">
+                <Button variant="outline" className="w-full mb-4 rounded-xl" size="lg">
                   <QrCode className="w-5 h-5 mr-2" />
                   Сканировать QR-код
                 </Button>
 
                 <Button
-                  className="w-full"
+                  className="w-full rounded-xl"
                   size="lg"
                   onClick={handleCheck}
                   disabled={playerId.length !== 6}
@@ -151,90 +167,126 @@ const Check = () => {
               </Card>
             </div>
           ) : (
-            <div className="p-4">
+            <div className="pb-4">
               <button
                 onClick={() => setBetResult(null)}
-                className="mb-4 text-primary font-medium"
+                className="mb-6 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
               >
                 ← Назад
               </button>
 
               <Card className="p-6 mb-6 shadow-md">
-                <h2 className="text-xl font-bold mb-4">Данные игрока</h2>
-                <div className="space-y-3">
+                <h2 className="text-xl font-bold mb-5">Данные игрока</h2>
+                <div className="space-y-4">
                   <InfoRow icon={User} label="ID игрока" value={betResult.playerId} />
                   <InfoRow icon={DollarSign} label="Сумма ставки" value={`${betResult.amount.toLocaleString()} ₽`} />
                   <InfoRow icon={Tag} label="Категория" value={betResult.category} />
                 </div>
               </Card>
 
-              <h3 className="text-lg font-bold mb-3">Доступный мерч</h3>
+              <h3 className="text-lg font-bold mb-4">Доступный мерч</h3>
               <div className="space-y-3">
                 {availableMerch.map((merch) => (
                   <Card
                     key={merch.id}
-                    className="p-4 cursor-pointer hover:shadow-md transition-shadow shadow-sm"
-                    onClick={() => setSelectedMerch(merch)}
+                    className="p-4 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.01] shadow-sm"
+                    onClick={() => setFullscreenImage(merch.image)}
                   >
                     <div className="flex gap-4">
                       <img
                         src={merch.image}
                         alt={merch.name}
-                        className="w-20 h-20 object-cover rounded-lg"
+                        className="w-20 h-20 object-cover rounded-xl cursor-pointer hover:scale-105 transition-transform"
                       />
                       <div className="flex-1">
-                        <h4 className="font-semibold mb-1">{merch.name}</h4>
+                        <h4 className="font-semibold mb-2 text-base">{merch.name}</h4>
                         <p className="text-sm text-muted-foreground">
-                          В наличии: {getTotalStock(merch)} шт
+                          В наличии: <span className="font-semibold text-foreground">{getTotalStock(merch)} шт</span>
                         </p>
                       </div>
-                      <span className="text-primary">→</span>
+                      <span className="text-primary text-xl">→</span>
                     </div>
                   </Card>
                 ))}
               </div>
 
-              <Dialog open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DialogContent>
-                  <h3 className="text-xl font-bold mb-4">{selectedMerch?.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    {selectedMerch?.sizes.map((sizeData: any) => (
-                      <Button
-                        key={sizeData.size}
-                        variant={selectedSize === sizeData.size ? "default" : "outline"}
-                        onClick={() => setSelectedSize(sizeData.size)}
-                        className="h-16 flex flex-col items-center justify-center"
-                      >
-                        <span className="font-semibold">{sizeData.size}</span>
-                        <span className="text-xs mt-1">{sizeData.stock} шт</span>
-                      </Button>
-                    ))}
-                  </div>
-                  <Button
-                    className="w-full"
-                    size="lg"
-                    disabled={!selectedSize}
-                    onClick={handleReserve}
+              {/* Fullscreen Image Modal */}
+              <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
+                <DialogContent className="max-w-full max-h-full w-full h-full p-0 bg-black border-0 rounded-none">
+                  <button
+                    onClick={() => {
+                      const merch = availableMerch.find(m => m.image === fullscreenImage);
+                      setFullscreenImage(null);
+                      if (merch) {
+                        setSelectedMerch(merch);
+                      }
+                    }}
+                    className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
                   >
-                    Зарезервировать
-                  </Button>
+                    <X className="w-7 h-7 text-white" />
+                  </button>
+                  <div className="w-full h-full flex items-center justify-center p-4" onClick={() => {
+                    const merch = availableMerch.find(m => m.image === fullscreenImage);
+                    setFullscreenImage(null);
+                    if (merch) {
+                      setSelectedMerch(merch);
+                    }
+                  }}>
+                    <img
+                      src={fullscreenImage || ""}
+                      alt="Fullscreen view"
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
                 </DialogContent>
               </Dialog>
+
+              {/* Size Selection Drawer */}
+              <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
+                  </DrawerHeader>
+                  <div className="px-4 pb-8">
+                    <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
+                    <div className="grid grid-cols-2 gap-3 mb-6">
+                      {selectedMerch?.sizes.map((sizeData: any) => (
+                        <Button
+                          key={sizeData.size}
+                          variant={selectedSize === sizeData.size ? "default" : "outline"}
+                          onClick={() => setSelectedSize(sizeData.size)}
+                          className="h-20 flex flex-col items-center justify-center rounded-xl"
+                        >
+                          <span className="font-bold text-lg">{sizeData.size}</span>
+                          <span className="text-xs mt-1 opacity-80">{sizeData.stock} шт</span>
+                        </Button>
+                      ))}
+                    </div>
+                    <Button
+                      className="w-full rounded-xl"
+                      size="lg"
+                      disabled={!selectedSize}
+                      onClick={handleReserve}
+                    >
+                      Зарезервировать
+                    </Button>
+                  </div>
+                </DrawerContent>
+              </Drawer>
             </div>
           )}
         </TabsContent>
 
         {/* --- QR-код для скачивания --- */}
-        <TabsContent value="join" className="mt-0 p-4">
-          <div className="flex flex-col items-center justify-center text-center pt-8">
-            <h2 className="text-2xl font-bold mb-3">Скачай приложение</h2>
-            <p className="text-muted-foreground max-w-xs mb-8">
+        <TabsContent value="join" className="mt-0 p-4 pt-8">
+          <div className="flex flex-col items-center justify-center text-center">
+            <h2 className="text-2xl font-bold mb-4">Скачай приложение</h2>
+            <p className="text-muted-foreground max-w-xs mb-10 text-sm leading-relaxed">
               Делай ставки, следи за событиями и получай бонусы в одном месте!
             </p>
 
-            <Card className="p-6 flex flex-col items-center shadow-sm">
-              <div className="w-52 h-52 bg-white flex items-center justify-center rounded-xl border shadow-md">
+            <Card className="p-8 flex flex-col items-center shadow-lg">
+              <div className="w-56 h-56 bg-white flex items-center justify-center rounded-2xl border-2 border-border shadow-md">
                 <img
                   src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://olimp.bet"
                   alt="QR-код"
@@ -250,13 +302,13 @@ const Check = () => {
 };
 
 const InfoRow = ({ icon: Icon, label, value }: any) => (
-  <div className="flex items-center gap-3">
-    <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
-      <Icon className="w-5 h-5 text-muted-foreground" />
+  <div className="flex items-center gap-4">
+    <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center">
+      <Icon className="w-5 h-5 text-primary" />
     </div>
     <div>
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="font-semibold">{value}</p>
+      <p className="text-xs text-muted-foreground mb-0.5">{label}</p>
+      <p className="font-semibold text-base">{value}</p>
     </div>
   </div>
 );

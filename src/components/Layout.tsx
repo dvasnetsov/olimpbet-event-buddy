@@ -1,4 +1,4 @@
-import { Calendar, Search, Menu } from "lucide-react";
+import { Calendar, QrCode, Menu } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -36,79 +36,64 @@ const Layout = () => {
             </div>
           </div>
 
-          {/* ⚙️ Нижняя панель навигации (выравнена по краю) */}
+          {/* ⚙️ Нижняя панель навигации */}
           <nav className="absolute bottom-0 left-0 right-0 bg-background border-t border-border max-w-md mx-auto rounded-b-[44px] shadow-[0_-2px_10px_rgba(0,0,0,0.1)]">
-            <div className="flex justify-around items-center h-16">
+            <div className="flex justify-around items-center h-16 px-4">
               <NavLink
                 to="/"
                 className={({ isActive }) =>
                   cn(
-                    "flex flex-col items-center justify-center gap-1 px-6 py-2 transition-colors",
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    "flex items-center justify-center transition-all duration-200",
+                    isActive ? "text-primary scale-110" : "text-muted-foreground"
                   )
                 }
               >
-                {({ isActive }) => (
-                  <>
-                    <div
-                      className={cn(
-                        "p-2 rounded-full transition-colors",
-                        isActive && "bg-primary/10"
-                      )}
-                    >
-                      <Calendar className="w-5 h-5" />
-                    </div>
-                    <span className="text-xs font-medium">Мероприятия</span>
-                  </>
-                )}
+                <div
+                  className={cn(
+                    "p-3 rounded-full transition-colors",
+                    "hover:bg-primary/5"
+                  )}
+                >
+                  <Calendar className="w-6 h-6" />
+                </div>
               </NavLink>
 
               <NavLink
                 to="/check"
                 className={({ isActive }) =>
                   cn(
-                    "flex flex-col items-center justify-center gap-1 px-6 py-2 transition-colors",
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    "flex items-center justify-center transition-all duration-200",
+                    isActive ? "text-primary scale-110" : "text-muted-foreground"
                   )
                 }
               >
-                {({ isActive }) => (
-                  <>
-                    <div
-                      className={cn(
-                        "p-2 rounded-full transition-colors",
-                        isActive && "bg-primary/10"
-                      )}
-                    >
-                      <Search className="w-5 h-5" />
-                    </div>
-                    <span className="text-xs font-medium">Проверка</span>
-                  </>
-                )}
+                <div
+                  className={cn(
+                    "p-3 rounded-full transition-colors",
+                    "hover:bg-primary/5"
+                  )}
+                >
+                  <QrCode className="w-6 h-6" />
+                </div>
               </NavLink>
 
               <NavLink
                 to="/menu"
                 className={({ isActive }) =>
                   cn(
-                    "flex flex-col items-center justify-center gap-1 px-6 py-2 transition-colors",
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    "flex items-center justify-center transition-all duration-200",
+                    isActive ? "text-primary scale-110" : "text-muted-foreground"
                   )
                 }
               >
-                {({ isActive }) => (
-                  <>
-                    <div
-                      className={cn(
-                        "p-2 rounded-full transition-colors",
-                        isActive && "bg-primary/10"
-                      )}
-                    >
-                      <Menu className="w-5 h-5" />
-                    </div>
-                    <span className="text-xs font-medium">Меню</span>
-                  </>
-                )}
+                <div
+                  className={cn(
+                    "p-3 rounded-full transition-colors",
+                    "hover:bg-primary/5"
+                  )}
+                >
+                  <Menu className="w-6 h-6" />
+                </div>
               </NavLink>
             </div>
           </nav>
