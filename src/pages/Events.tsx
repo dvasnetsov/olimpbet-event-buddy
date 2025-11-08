@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { MapPin, Clock, X, Trophy, Package } from "lucide-react";
@@ -20,6 +20,10 @@ const Events = () => {
   const [selectedPrize, setSelectedPrize] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const currentEvent = {
     id: 1,
@@ -264,7 +268,7 @@ const Events = () => {
   return (
     <div className="bg-background pb-4">
       <Tabs defaultValue="current" className="w-full">
-        <div className="sticky top-0 bg-background z-20 shadow-sm border-b border-border">
+        <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
           <div className="px-4 pt-4 pb-3">
             <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
               <TabsTrigger value="current" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold text-sm rounded-lg transition-all">

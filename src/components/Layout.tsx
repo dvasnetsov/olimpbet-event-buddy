@@ -24,25 +24,27 @@ const Layout = () => {
       </div>
 
       {/* 🎮 Кнопки доступа */}
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-6 z-10">
+      <div className="absolute right-12 top-1/2 -translate-y-1/2 flex flex-col gap-8 z-10">
         {/* Промоутер */}
-        <button className="group relative w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 shadow-[0_8px_32px_rgba(59,130,246,0.4),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] hover:shadow-[0_12px_48px_rgba(59,130,246,0.6),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-110 active:scale-95">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/40 to-transparent opacity-60" />
+        <button className="group relative w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 shadow-[0_10px_40px_rgba(59,130,246,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(59,130,246,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse" style={{ animationDuration: '3s' }}>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/50 to-transparent opacity-70" />
+          <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-blue-400/50 to-transparent" />
           <div className="relative flex items-center justify-center h-full">
-            <Users className="w-9 h-9 text-white drop-shadow-lg" />
+            <Users className="w-11 h-11 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" />
           </div>
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute left-28 top-1/2 -translate-y-1/2 whitespace-nowrap text-sm font-bold text-white/90 bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg border border-white/20">
             Промоутер
           </div>
         </button>
 
         {/* Супервайзер */}
-        <button className="group relative w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 shadow-[0_8px_32px_rgba(168,85,247,0.4),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] hover:shadow-[0_12px_48px_rgba(168,85,247,0.6),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-110 active:scale-95">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/40 to-transparent opacity-60" />
+        <button className="group relative w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 shadow-[0_10px_40px_rgba(168,85,247,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(168,85,247,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/50 to-transparent opacity-70" />
+          <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-purple-400/50 to-transparent" />
           <div className="relative flex items-center justify-center h-full">
-            <User className="w-9 h-9 text-white drop-shadow-lg" />
+            <User className="w-11 h-11 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" />
           </div>
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute left-28 top-1/2 -translate-y-1/2 whitespace-nowrap text-sm font-bold text-white/90 bg-purple-500/20 backdrop-blur-sm px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg border border-white/20">
             Супервайзер
           </div>
         </button>

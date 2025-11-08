@@ -17,6 +17,7 @@ interface Application {
   merchSize: string;
   betAmount: number;
   status: ApplicationStatus;
+  isNewbie: boolean;
 }
 
 const EventApplications = () => {
@@ -35,6 +36,7 @@ const EventApplications = () => {
 
   // Загрузка начальных заявок
   useEffect(() => {
+    window.scrollTo(0, 0);
     loadApplications();
   }, []);
 
@@ -53,6 +55,7 @@ const EventApplications = () => {
           merchSize: "M",
           betAmount: 3500,
           status: "issued",
+          isNewbie: true,
         },
         {
           id: "789012",
@@ -63,6 +66,7 @@ const EventApplications = () => {
           merchSize: "One Size",
           betAmount: 2500,
           status: "reserved",
+          isNewbie: false,
         },
         {
           id: "345678",
@@ -73,6 +77,7 @@ const EventApplications = () => {
           merchSize: "500ml",
           betAmount: 4200,
           status: "reserved",
+          isNewbie: true,
         },
         {
           id: "901234",
@@ -83,6 +88,7 @@ const EventApplications = () => {
           merchSize: "L",
           betAmount: 3800,
           status: "issued",
+          isNewbie: false,
         },
         {
           id: "567890",
@@ -93,6 +99,7 @@ const EventApplications = () => {
           merchSize: "One Size",
           betAmount: 8500,
           status: "reserved",
+          isNewbie: false,
         },
       ];
 
@@ -170,9 +177,14 @@ const EventApplications = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-base mb-0.5">{app.merchName}</p>
-                <p className="text-sm text-muted-foreground">
-                  Ставка: <span className="font-semibold text-foreground">{app.betAmount.toLocaleString()} ₽</span>
-                </p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="text-sm text-muted-foreground">
+                    Ставка: <span className="font-semibold text-foreground">{app.betAmount.toLocaleString()} ₽</span>
+                  </p>
+                  {app.isNewbie && (
+                    <Badge variant="outline" className="text-xs">Новичок</Badge>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ type BetResult = {
   amount: number;
   category: string;
   merchReceived: number;
+  isNewbie: boolean;
 };
 
 const Check = () => {
@@ -59,6 +60,10 @@ const Check = () => {
     },
   ];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const getTotalStock = (merch: any) => merch.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
 
   const handleCheck = () => {
@@ -68,6 +73,7 @@ const Check = () => {
         amount: 3500,
         category: "Silver",
         merchReceived: 2,
+        isNewbie: Math.random() > 0.5,
       });
     }
   };
@@ -117,7 +123,7 @@ const Check = () => {
     <div className="bg-background pb-4">
       <Tabs defaultValue="check" className="w-full">
         {/* верхняя залипающая плашка */}
-        <div className="sticky top-0 z-20 bg-background shadow-sm border-b border-border">
+        <div className="sticky top-0 z-20 bg-white shadow-sm border-b border-border">
           <div className="px-4 pt-4 pb-3">
             <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
               <TabsTrigger
@@ -187,12 +193,16 @@ const Check = () => {
                 <div className="space-y-4">
                   <InfoRow icon={User} label="ID игрока" value={betResult.playerId} />
                   <InfoRow icon={DollarSign} label="Сумма ставки" value={`${betResult.amount.toLocaleString()} ₽`} />
-                  <InfoRow icon={Tag} label="Категория" value={betResult.category} />
+                  <InfoRow 
+                    icon={User} 
+                    label="Статус" 
+                    value={betResult.isNewbie ? "Новичок" : "Постоянный игрок"} 
+                  />
                   <InfoRow icon={Package} label="Получено мерча" value={`${betResult.merchReceived} шт`} />
                 </div>
               </Card>
 
-              <h3 className="text-lg font-bold mb-4">Доступный мерч</h3>
+              <h3 className="text-lg font-bold mb-4">Доступный мерч: {betResult.category}</h3>
               <div className="space-y-3">
                 {availableMerch.map((merch) => (
                   <Card
@@ -243,7 +253,7 @@ const Check = () => {
 
               {/* Size Selection Drawer */}
               <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DrawerContent className="max-h-[60vh]">
+                <DrawerContent className="max-h-[calc(100vh-64px)]">
                   <DrawerHeader>
                     <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
                   </DrawerHeader>
