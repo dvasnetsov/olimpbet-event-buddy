@@ -53,9 +53,15 @@ const Layout = () => {
               </div>
             )}
 
-            <div className="max-w-md mx-auto pb-24 relative z-10">
-              <Outlet />
-            </div>
+           <div
+  className={cn(
+    "max-w-md mx-auto relative z-10",
+    window.location.pathname === "/check" ? "pb-0" : "pb-24"
+  )}
+>
+  <Outlet />
+</div>
+
           </div>
 
           {/* ⚙️ Нижняя панель */}
