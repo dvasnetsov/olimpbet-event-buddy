@@ -1,7 +1,7 @@
 const LoadingScreen = () => {
   return (
     <div
-      className="absolute inset-0 h-full w-full flex items-center justify-center overflow-hidden rounded-[44px]"
+      className="h-full w-full flex items-center justify-center overflow-hidden"
       style={{
         background: "linear-gradient(135deg, hsl(0, 72%, 51%) 0%, hsl(0, 5%, 10%) 50%, hsl(0, 0%, 5%) 100%)"
       }}

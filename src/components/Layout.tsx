@@ -15,11 +15,13 @@ const Layout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#090D14]">
-      {/* 🌫️ Атмосферный дымчатый фон */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.12),transparent_70%),radial-gradient(circle_at_80%_80%,rgba(16,185,129,0.15),transparent_75%),linear-gradient(to_bottom,rgba(10,15,25,1),rgba(4,6,10,1))]" />
-      <div className="pointer-events-none absolute -left-40 top-0 h-[28rem] w-[28rem] bg-[radial-gradient(circle_at_center,rgba(96,165,250,0.25),transparent_60%)] blur-[140px]" />
-      <div className="pointer-events-none absolute bottom-0 right-0 h-[30rem] w-[30rem] bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.2),transparent_70%)] blur-[160px]" />
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -left-40 top-20 w-96 h-96 bg-red-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+        <div className="absolute -right-40 bottom-20 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
+      </div>
 
       {/* 📱 Корпус телефона */}
       <div
