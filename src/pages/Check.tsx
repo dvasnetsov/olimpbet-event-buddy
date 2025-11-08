@@ -100,7 +100,7 @@ const Check = () => {
 
   if (showSuccess) {
     return (
-      <div className="flex items-center justify-center p-6 bg-background py-20">
+      <div className="flex items-center justify-center p-6 bg-white py-20">
         <Card className="p-10 text-center max-w-sm shadow-xl">
           <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckIcon className="w-12 h-12 text-primary" />
@@ -253,7 +253,7 @@ const Check = () => {
 
               {/* Size Selection Drawer */}
               <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DrawerContent className="max-h-[55vh]">
+                <DrawerContent className="max-h-[50vh]">
                   <DrawerHeader>
                     <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
                   </DrawerHeader>
