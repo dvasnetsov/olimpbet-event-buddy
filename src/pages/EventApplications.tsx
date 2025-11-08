@@ -22,6 +22,10 @@ interface Application {
 const EventApplications = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate('/menu');
+  };
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -121,10 +125,10 @@ const EventApplications = () => {
   return (
     <div className="bg-background min-h-screen pb-4">
       {/* Header */}
-      <div className="sticky top-0 bg-background z-20 shadow-sm border-b border-border">
+      <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
         <div className="px-4 py-4 flex items-center gap-3">
           <button
-            onClick={() => navigate("/")}
+            onClick={handleBack}
             className="text-primary hover:text-primary/80 transition-colors"
           >
             <ArrowLeft className="w-6 h-6" />
@@ -140,7 +144,7 @@ const EventApplications = () => {
       </div>
 
       {/* Applications List */}
-      <div className="px-4 pt-4 space-y-3 pb-20" onScroll={handleScroll}>
+      <div className="px-4 pt-6 space-y-3 pb-20" onScroll={handleScroll}>
         {applications.map((app) => (
           <Card key={app.id} className="p-4 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-3">

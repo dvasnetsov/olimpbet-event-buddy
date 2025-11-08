@@ -1,7 +1,7 @@
-import { Calendar, QrCode, Menu } from "lucide-react";
+import { Calendar, QrCode, Menu, Users, User } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import LoadingScreen from "@/components/LoadingScreen"; // 👈 добавь импорт
+import LoadingScreen from "@/components/LoadingScreen";
 
 import React from "react";
 
@@ -21,6 +21,31 @@ const Layout = () => {
         <div className="absolute -left-40 top-20 w-96 h-96 bg-red-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
         <div className="absolute -right-40 bottom-20 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
+      </div>
+
+      {/* 🎮 Кнопки доступа */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-6 z-10">
+        {/* Промоутер */}
+        <button className="group relative w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 shadow-[0_8px_32px_rgba(59,130,246,0.4),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] hover:shadow-[0_12px_48px_rgba(59,130,246,0.6),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-110 active:scale-95">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/40 to-transparent opacity-60" />
+          <div className="relative flex items-center justify-center h-full">
+            <Users className="w-9 h-9 text-white drop-shadow-lg" />
+          </div>
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
+            Промоутер
+          </div>
+        </button>
+
+        {/* Супервайзер */}
+        <button className="group relative w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 shadow-[0_8px_32px_rgba(168,85,247,0.4),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] hover:shadow-[0_12px_48px_rgba(168,85,247,0.6),inset_0_-2px_8px_rgba(0,0,0,0.2),inset_0_2px_8px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-110 active:scale-95">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/40 to-transparent opacity-60" />
+          <div className="relative flex items-center justify-center h-full">
+            <User className="w-9 h-9 text-white drop-shadow-lg" />
+          </div>
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
+            Супервайзер
+          </div>
+        </button>
       </div>
 
       {/* 📱 Корпус телефона */}
