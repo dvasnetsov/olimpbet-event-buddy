@@ -23,40 +23,16 @@ const Layout = () => {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
       </div>
 
-      {/* 🎮 Кнопки доступа */}
-      <div className="absolute right-12 top-1/2 -translate-y-1/2 flex flex-col gap-8 z-10">
-        {/* Промоутер */}
-        <button className="group relative w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 shadow-[0_10px_40px_rgba(59,130,246,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(59,130,246,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse" style={{ animationDuration: '3s' }}>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/50 to-transparent opacity-70" />
-          <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-blue-400/50 to-transparent" />
-          <div className="relative flex items-center justify-center h-full">
-            <Users className="w-11 h-11 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" />
-          </div>
-          <div className="absolute left-28 top-1/2 -translate-y-1/2 whitespace-nowrap text-sm font-bold text-white/90 bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg border border-white/20">
-            Промоутер
-          </div>
-        </button>
+      {/* Wrapper для телефона и кнопок */}
+      <div className="relative flex items-center gap-6">
+        {/* 📱 Корпус телефона */}
+        <div
+          className="relative w-[390px] h-[720px] rounded-[48px] p-[4px]
+                     bg-gradient-to-b from-zinc-100/20 via-zinc-400/25 to-zinc-900/60
+                     shadow-[0_0_70px_rgba(0,0,0,0.9),inset_0_0_12px_rgba(255,255,255,0.05)]
+                     backdrop-blur-md"
+        >
 
-        {/* Супервайзер */}
-        <button className="group relative w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 shadow-[0_10px_40px_rgba(168,85,247,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(168,85,247,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/50 to-transparent opacity-70" />
-          <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-purple-400/50 to-transparent" />
-          <div className="relative flex items-center justify-center h-full">
-            <User className="w-11 h-11 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" />
-          </div>
-          <div className="absolute left-28 top-1/2 -translate-y-1/2 whitespace-nowrap text-sm font-bold text-white/90 bg-purple-500/20 backdrop-blur-sm px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg border border-white/20">
-            Супервайзер
-          </div>
-        </button>
-      </div>
-
-      {/* 📱 Корпус телефона */}
-      <div
-        className="relative w-[390px] h-[720px] rounded-[48px] p-[4px]
-                   bg-gradient-to-b from-zinc-100/20 via-zinc-400/25 to-zinc-900/60
-                   shadow-[0_0_70px_rgba(0,0,0,0.9),inset_0_0_12px_rgba(255,255,255,0.05)]
-                   backdrop-blur-md"
-      >
         {/* 💎 Внутренний корпус */}
         <div
           className="relative w-full h-full bg-zinc-950 rounded-[44px]
@@ -148,6 +124,34 @@ const Layout = () => {
         {/* 💫 Эффект корпуса */}
         <div className="absolute inset-0 rounded-[48px] pointer-events-none shadow-[0_0_40px_rgba(59,130,246,0.08),inset_0_0_20px_rgba(255,255,255,0.05)]" />
       </div>
+
+      {/* 🎮 Кнопки доступа - справа от телефона */}
+      <div className="flex flex-col gap-6">
+        {/* Промоутер */}
+        <button className="group relative w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 shadow-[0_10px_40px_rgba(59,130,246,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(59,130,246,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse" style={{ animationDuration: '3s' }}>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/50 to-transparent opacity-70" />
+          <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-blue-400/50 to-transparent" />
+          <div className="relative flex items-center justify-center h-full">
+            <Users className="w-10 h-10 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" />
+          </div>
+          <div className="absolute left-24 top-1/2 -translate-y-1/2 whitespace-nowrap text-sm font-bold text-white/90 bg-blue-500/20 backdrop-blur-sm px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg border border-white/20">
+            Промоутер
+          </div>
+        </button>
+
+        {/* Супервайзер */}
+        <button className="group relative w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 shadow-[0_10px_40px_rgba(168,85,247,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(168,85,247,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95 animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/50 to-transparent opacity-70" />
+          <div className="absolute inset-[2px] rounded-full bg-gradient-to-br from-purple-400/50 to-transparent" />
+          <div className="relative flex items-center justify-center h-full">
+            <User className="w-10 h-10 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" />
+          </div>
+          <div className="absolute left-24 top-1/2 -translate-y-1/2 whitespace-nowrap text-sm font-bold text-white/90 bg-purple-500/20 backdrop-blur-sm px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-lg border border-white/20">
+            Супервайзер
+          </div>
+        </button>
+      </div>
+    </div>
     </div>
   );
 };

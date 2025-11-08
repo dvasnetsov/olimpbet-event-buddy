@@ -176,7 +176,7 @@ const Events = () => {
     if (!category) return null;
 
     return (
-      <div className="px-4 pt-4 bg-background pb-4">
+      <div className="px-4 pt-4 bg-white pb-4">
         <button
           onClick={() => setSelectedCategory(null)}
           className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
@@ -266,7 +266,7 @@ const Events = () => {
   }
 
   return (
-    <div className="bg-background pb-4">
+    <div className="bg-white pb-4">
       <Tabs defaultValue="current" className="w-full">
         <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
           <div className="px-4 pt-4 pb-3">

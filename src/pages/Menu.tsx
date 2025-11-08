@@ -109,7 +109,7 @@ const Menu = () => {
   };
 
   return (
-    <div className="bg-background pb-4">
+    <div className="bg-white pb-4">
       <Tabs defaultValue="activity" className="w-full">
         <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
           <div className="px-4 pt-4 pb-3">

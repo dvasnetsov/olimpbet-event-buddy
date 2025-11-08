@@ -120,7 +120,7 @@ const Check = () => {
   }
 
   return (
-    <div className="bg-background pb-4">
+    <div className="bg-white pb-4">
       <Tabs defaultValue="check" className="w-full">
         {/* верхняя залипающая плашка */}
         <div className="sticky top-0 z-20 bg-white shadow-sm border-b border-border">
@@ -253,7 +253,7 @@ const Check = () => {
 
               {/* Size Selection Drawer */}
               <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DrawerContent className="max-h-[calc(100vh-64px)]">
+                <DrawerContent className="max-h-[calc(100vh-80px)]">
                   <DrawerHeader>
                     <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
                   </DrawerHeader>

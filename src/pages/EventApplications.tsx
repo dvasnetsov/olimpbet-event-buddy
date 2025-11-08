@@ -130,7 +130,7 @@ const EventApplications = () => {
   };
 
   return (
-    <div className="bg-background min-h-screen pb-4">
+    <div className="bg-white min-h-screen pb-4">
       {/* Header */}
       <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
         <div className="px-4 py-4 flex items-center gap-3">
