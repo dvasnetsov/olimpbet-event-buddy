@@ -143,9 +143,9 @@ const Check = () => {
         </div>
 
         {/* --- Проверка ставки --- */}
-        <TabsContent value="check" className="mt-0 px-4 pt-4">
+        <TabsContent value="check" className="mt-0 px-4 pt-4 bg-white">
           {!betResult ? (
-            <div className="max-w-sm mx-auto w-full">
+            <div className="max-w-sm mx-auto w-full bg-white">
               <h1 className="text-2xl font-bold mb-3">Проверка ставки</h1>
               <p className="text-muted-foreground mb-6 text-sm">
                 Введите ID игрока или отсканируйте QR-код
@@ -180,7 +180,7 @@ const Check = () => {
               </Card>
             </div>
           ) : (
-            <div className="pb-4">
+            <div className="pb-4 bg-white">
               <button
                 onClick={() => setBetResult(null)}
                 className="mb-6 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
@@ -253,7 +253,7 @@ const Check = () => {
 
               {/* Size Selection Drawer */}
               <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DrawerContent className="max-h-[calc(100vh-80px)]">
+                <DrawerContent className="max-h-[55vh]">
                   <DrawerHeader>
                     <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
                   </DrawerHeader>
@@ -288,7 +288,7 @@ const Check = () => {
         </TabsContent>
 
         {/* --- QR-код для скачивания --- */}
-        <TabsContent value="join" className="mt-0 px-4 pt-8">
+        <TabsContent value="join" className="mt-0 px-4 pt-8 bg-white">
           <div className="flex flex-col items-center justify-center text-center py-8">
             <h2 className="text-2xl font-bold mb-4">Скачай приложение</h2>
             <p className="text-muted-foreground max-w-xs mb-10 text-sm leading-relaxed">
