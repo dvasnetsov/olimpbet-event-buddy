@@ -3,8 +3,10 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Package, MapPin, Award, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Menu = () => {
+  const navigate = useNavigate();
   const [expandedActivity, setExpandedActivity] = useState<number | null>(null);
 
   const activities = [
@@ -162,27 +164,16 @@ const Menu = () => {
 
                 {expandedActivity === activity.id && (
                   <div className="border-t border-border p-4 space-y-3 bg-muted/30">
-                    <h4 className="font-semibold text-sm">Заявки на мероприятии:</h4>
-                    {activity.requestsList.map((request) => (
-                      <Card key={request.id} className="p-3 bg-background">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <p className="text-xs text-muted-foreground mb-1">{request.date}</p>
-                            <p className="font-semibold text-sm">ID {request.playerId}</p>
-                          </div>
-                          {getStatusBadge(request.status)}
-                        </div>
-                        
-                        <div className="space-y-1 text-xs">
-                          <p className="text-muted-foreground">
-                            Мерч: <span className="text-foreground font-medium">{request.merch}</span>
-                          </p>
-                          <p className="text-muted-foreground">
-                            Ставка: <span className="text-foreground font-medium">{request.amount.toLocaleString()} ₽</span>
-                          </p>
-                        </div>
-                      </Card>
-                    ))}
+                    <h4 className="font-semibold text-sm mb-3">Заявки на мероприятии:</h4>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/event/${activity.id}`);
+                      }}
+                      className="w-full py-3 px-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
+                    >
+                      Открыть все заявки ({activity.requests})
+                    </button>
                   </div>
                 )}
               </Card>
