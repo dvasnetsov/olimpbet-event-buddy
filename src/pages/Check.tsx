@@ -234,7 +234,7 @@ const Check = () => {
 
               {/* Fullscreen Image Modal */}
               <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
-                <DialogContent className="max-w-full max-h-full w-full h-full p-0 bg-black border-0 rounded-none">
+                <DialogContent className="max-w-full w-full p-0 bg-black border-0 rounded-none max-h-[calc(100vh-80px)] h-[calc(100vh-80px)] top-0">
                   <button
                     onClick={() => setFullscreenImage(null)}
                     className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
@@ -253,7 +253,7 @@ const Check = () => {
 
               {/* Size Selection Drawer */}
               <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DrawerContent className="max-h-[50vh]">
+                <DrawerContent className="max-h-[calc(100vh-80px)]">
                   <DrawerHeader>
                     <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
                   </DrawerHeader>
