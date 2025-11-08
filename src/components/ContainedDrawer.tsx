@@ -49,17 +49,29 @@ const ContainedDrawerContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <ContainedDrawerPortal>
     <ContainedDrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        "absolute inset-x-0 bottom-10 z-50 mt-24 flex h-auto flex-col rounded-t-[20px] border bg-background pb-8",
-        className,
-      )}
-      {...props}
-    >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-      {children}
-    </DrawerPrimitive.Content>
+   <DrawerPrimitive.Content
+  ref={ref}
+  className={cn(
+    "absolute inset-x-0 z-50 mt-24 flex h-auto flex-col rounded-t-[20px] border bg-background shadow-lg transition-transform",
+    // если есть нижняя навигация — поднимаем Drawer, если нет — тянем до самого низа
+    typeof document !== "undefined" && document.querySelector(".phone-screen-container nav")
+      ? "bottom-16 pb-8"
+      : "bottom-0 pb-6",
+    className
+  )}
+  style={{
+    marginBottom:
+      typeof document !== "undefined" && document.querySelector(".phone-screen-container nav")
+        ? "4rem"
+        : "0",
+  }}
+  {...props}
+>
+  {/* Серый индикатор сверху */}
+  <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+  {children}
+</DrawerPrimitive.Content>
+
   </ContainedDrawerPortal>
 ));
 ContainedDrawerContent.displayName = "ContainedDrawerContent";
