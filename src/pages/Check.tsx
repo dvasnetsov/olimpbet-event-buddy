@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { QrCode, User, DollarSign, Tag, Check as CheckIcon, X } from "lucide-react";
+import { QrCode, User, DollarSign, Tag, Check as CheckIcon, X, Package } from "lucide-react";
 import {
   ContainedDialog as Dialog,
   ContainedDialogContent as DialogContent,
@@ -19,6 +19,7 @@ type BetResult = {
   playerId: string;
   amount: number;
   category: string;
+  merchReceived: number;
 };
 
 const Check = () => {
@@ -66,6 +67,7 @@ const Check = () => {
         playerId: playerId,
         amount: 3500,
         category: "Silver",
+        merchReceived: 2,
       });
     }
   };
@@ -186,6 +188,7 @@ const Check = () => {
                   <InfoRow icon={User} label="ID игрока" value={betResult.playerId} />
                   <InfoRow icon={DollarSign} label="Сумма ставки" value={`${betResult.amount.toLocaleString()} ₽`} />
                   <InfoRow icon={Tag} label="Категория" value={betResult.category} />
+                  <InfoRow icon={Package} label="Получено мерча" value={`${betResult.merchReceived} шт`} />
                 </div>
               </Card>
 
@@ -195,13 +198,17 @@ const Check = () => {
                   <Card
                     key={merch.id}
                     className="p-4 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.01] shadow-sm"
-                    onClick={() => setFullscreenImage(merch.image)}
+                    onClick={() => setSelectedMerch(merch)}
                   >
                     <div className="flex gap-4">
                       <img
                         src={merch.image}
                         alt={merch.name}
                         className="w-20 h-20 object-cover rounded-xl cursor-pointer hover:scale-105 transition-transform"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFullscreenImage(merch.image);
+                        }}
                       />
                       <div className="flex-1">
                         <h4 className="font-semibold mb-2 text-base">{merch.name}</h4>
@@ -219,24 +226,12 @@ const Check = () => {
               <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
                 <DialogContent className="max-w-full max-h-full w-full h-full p-0 bg-black border-0 rounded-none">
                   <button
-                    onClick={() => {
-                      const merch = availableMerch.find(m => m.image === fullscreenImage);
-                      setFullscreenImage(null);
-                      if (merch) {
-                        setSelectedMerch(merch);
-                      }
-                    }}
+                    onClick={() => setFullscreenImage(null)}
                     className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
                   >
                     <X className="w-7 h-7 text-white" />
                   </button>
-                  <div className="w-full h-full flex items-center justify-center p-4" onClick={() => {
-                    const merch = availableMerch.find(m => m.image === fullscreenImage);
-                    setFullscreenImage(null);
-                    if (merch) {
-                      setSelectedMerch(merch);
-                    }
-                  }}>
+                  <div className="w-full h-full flex items-center justify-center p-4">
                     <img
                       src={fullscreenImage || ""}
                       alt="Fullscreen view"

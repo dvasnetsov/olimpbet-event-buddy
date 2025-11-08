@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
-import { MapPin, Clock, X } from "lucide-react";
+import { MapPin, Clock, X, Trophy, Package } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +32,8 @@ const Events = () => {
     endTime: "22:00",
     progress: 65,
     banner: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80",
+    betType: "Любой матч" as const,
+    maxMerchPerPerson: 3,
     categories: [
       {
         id: "silver",
@@ -311,6 +313,31 @@ const Events = () => {
               <span>
                 {currentEvent.endDate}, {currentEvent.endTime}
               </span>
+            </div>
+          </Card>
+
+          {/* Event Rules */}
+          <Card className="p-5 mb-6 shadow-sm">
+            <h3 className="font-semibold mb-3">Правила мероприятия</h3>
+            <div className="space-y-3">
+              <div className="flex items-center gap-4">
+                <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Trophy className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-0.5">На что ставить</p>
+                  <p className="font-semibold text-base">{currentEvent.betType}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Package className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-0.5">Максимум в одни руки</p>
+                  <p className="font-semibold text-base">{currentEvent.maxMerchPerPerson} шт</p>
+                </div>
+              </div>
             </div>
           </Card>
 
