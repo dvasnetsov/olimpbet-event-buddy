@@ -49,41 +49,17 @@ const ContainedDrawerContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <ContainedDrawerPortal>
     <ContainedDrawerOverlay />
-  <DrawerPrimitive.Content
-  ref={ref}
-  className={cn(
-    "absolute inset-x-0 z-50 mt-24 flex h-auto flex-col rounded-t-[20px] border bg-background shadow-lg transition-transform",
-    // если нижняя навигация существует и видима — поднимаем Drawer
-    typeof document !== "undefined" &&
-    (() => {
-      const nav = document.querySelector(".phone-screen-container nav");
-      if (!nav) return false;
-      const style = window.getComputedStyle(nav);
-      return style.display !== "none" && style.visibility !== "hidden";
-    })()
-      ? "bottom-16 pb-8"
-      : "bottom-0 pb-6",
-    className
-  )}
-  style={{
-    marginBottom:
-      typeof document !== "undefined" &&
-      (() => {
-        const nav = document.querySelector(".phone-screen-container nav");
-        if (!nav) return false;
-        const style = window.getComputedStyle(nav);
-        return style.display !== "none" && style.visibility !== "hidden";
-      })()
-        ? "4rem"
-        : "0",
-  }}
-  {...props}
->
-  <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-  {children}
-</DrawerPrimitive.Content>
-
-
+    <DrawerPrimitive.Content
+      ref={ref}
+      className={cn(
+        "absolute inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[20px] border bg-background pb-20",
+        className,
+      )}
+      {...props}
+    >
+      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+      {children}
+    </DrawerPrimitive.Content>
   </ContainedDrawerPortal>
 ));
 ContainedDrawerContent.displayName = "ContainedDrawerContent";
