@@ -4,9 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Package, MapPin, Award, ChevronDown, ChevronUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserMode } from "@/contexts/UserModeContext";
+import SupervisorPanel from "@/components/SupervisorPanel";
+import { cn } from "@/lib/utils";
 
 const Menu = () => {
   const navigate = useNavigate();
+  const { isSupervisor } = useUserMode();
   const [expandedActivity, setExpandedActivity] = useState<number | null>(null);
 
   useEffect(() => {
@@ -113,13 +117,21 @@ const Menu = () => {
       <Tabs defaultValue="activity" className="w-full">
         <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
           <div className="px-4 pt-4 pb-3">
-            <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
+            <TabsList className={cn(
+              "w-full h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm",
+              isSupervisor ? "grid grid-cols-3" : "grid grid-cols-2"
+            )}>
               <TabsTrigger value="activity" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
                 Активность
               </TabsTrigger>
               <TabsTrigger value="profile" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
                 Профиль
               </TabsTrigger>
+              {isSupervisor && (
+                <TabsTrigger value="supervisor" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
+                  Супервайзер
+                </TabsTrigger>
+              )}
             </TabsList>
           </div>
         </div>
@@ -241,6 +253,12 @@ const Menu = () => {
             </Card>
           </div>
         </TabsContent>
+
+        {isSupervisor && (
+          <TabsContent value="supervisor" className="mt-0">
+            <SupervisorPanel />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   );

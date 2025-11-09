@@ -3,12 +3,12 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { UserModeProvider } from "./contexts/UserModeContext";
 import Layout from "./components/Layout";
 import Events from "./pages/Events";
 import EventApplications from "./pages/EventApplications";
 import Check from "./pages/Check";
 import Menu from "./pages/Menu";
-import Supervisor from "./pages/Supervisor";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -17,21 +17,22 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        {/* basename совпадает с именем репозитория */}
-        <BrowserRouter basename="/olimpbet-event-buddy">
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Events />} />
-              <Route path="/event/:eventId" element={<EventApplications />} />
-              <Route path="/check" element={<Check />} />
-              <Route path="/menu" element={<Menu />} />
-              <Route path="/supervisor" element={<Supervisor />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <UserModeProvider>
+          <Toaster />
+          <Sonner />
+          {/* basename совпадает с именем репозитория */}
+          <BrowserRouter basename="/olimpbet-event-buddy">
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Events />} />
+                <Route path="/event/:eventId" element={<EventApplications />} />
+                <Route path="/check" element={<Check />} />
+                <Route path="/menu" element={<Menu />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </UserModeProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

@@ -1,15 +1,14 @@
 import { Calendar, QrCode, Menu, Users, User } from "lucide-react";
-import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import LoadingScreen from "@/components/LoadingScreen";
+import { useUserMode } from "@/contexts/UserModeContext";
 
 import React from "react";
 
 const Layout = () => {
   const [loading, setLoading] = React.useState(true);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const isSupervisorMode = location.pathname.startsWith('/supervisor');
+  const { mode, setMode, isSupervisor } = useUserMode();
 
   React.useEffect(() => {
     // имитация загрузки
@@ -132,10 +131,10 @@ const Layout = () => {
       <div className="flex flex-col gap-6">
         {/* Промоутер */}
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => setMode('promoter')}
           className={cn(
             "group relative w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 shadow-[0_10px_40px_rgba(59,130,246,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(59,130,246,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95",
-            !isSupervisorMode && "animate-pulse ring-4 ring-blue-400/50"
+            mode === "promoter" && "animate-pulse ring-4 ring-blue-400/50"
           )}
           style={{ animationDuration: '3s' }}
         >
@@ -151,10 +150,10 @@ const Layout = () => {
 
         {/* Супервайзер */}
         <button 
-          onClick={() => navigate('/supervisor')}
+          onClick={() => setMode('supervisor')}
           className={cn(
             "group relative w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 shadow-[0_10px_40px_rgba(168,85,247,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(168,85,247,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95",
-            isSupervisorMode && "animate-pulse ring-4 ring-purple-400/50"
+            mode === "supervisor" && "animate-pulse ring-4 ring-purple-400/50"
           )}
           style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}
         >
