@@ -29,7 +29,7 @@ const Contact = () => {
   return (
     <div className="bg-white pb-8 px-4 pt-4 min-h-screen">
       <button
-        onClick={() => navigate("/menu")}
+        onClick={() => navigate("/")}
         className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
       >
         <ArrowLeft className="w-5 h-5" />

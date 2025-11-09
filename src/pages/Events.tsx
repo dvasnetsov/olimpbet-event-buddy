@@ -237,7 +237,7 @@ const Events = () => {
             <DrawerHeader>
               <DrawerTitle className="text-xl font-bold">{selectedPrize?.name}</DrawerTitle>
             </DrawerHeader>
-            <div className="px-4 pb-8">
+            <div className="px-4 pb-6">
               <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
               <div className="grid grid-cols-2 gap-3">
                 {selectedPrize?.sizes.map((sizeData: any) => (
