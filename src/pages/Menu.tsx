@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
-import { Calendar, HelpCircle, Phone, User, ChevronRight, Home, ArrowLeft } from "lucide-react";
+import { Calendar, HelpCircle, Phone, User, ChevronRight, Home, ArrowLeft, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -38,11 +39,24 @@ const Menu = () => {
     {
       id: "contact",
       title: "Связаться с супервайзером",
-      description: "Телефон, чат, email",
+      description: "Телефон, чат",
       icon: Phone,
       path: "/contact",
     },
+    {
+      id: "support",
+      title: "Написать в саппорт",
+      description: "Техническая поддержка",
+      icon: MessageSquare,
+      action: "support",
+    },
   ];
+
+  const handleSupportChat = () => {
+    toast.success("Открываю чат поддержки...");
+    // В реальном приложении здесь будет переход в Telegram саппорта
+    window.open('https://t.me/olimpbet_support', '_blank');
+  };
 
   return (
     <div className="bg-white pb-8 min-h-screen">
@@ -85,7 +99,13 @@ const Menu = () => {
             <Card
               key={item.id}
               className="p-4 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
-              onClick={() => navigate(item.path)}
+              onClick={() => {
+                if (item.action === "support") {
+                  handleSupportChat();
+                } else if (item.path) {
+                  navigate(item.path);
+                }
+              }}
             >
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">

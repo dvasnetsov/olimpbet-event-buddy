@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { MapPin, Clock, X, Trophy, Package, Calendar, ClipboardList } from "lucide-react";
+import { MapPin, Clock, X, Trophy, Package, Calendar, ClipboardList, MessageCircle } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
@@ -309,6 +309,13 @@ const Events = () => {
           backgroundPosition: "center",
         }}
       >
+        <button
+          onClick={() => navigate("/contact")}
+          className="absolute top-4 right-4 w-12 h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all shadow-lg"
+          aria-label="Связаться с супервайзером"
+        >
+          <MessageCircle className="w-6 h-6 text-white" />
+        </button>
         <div className="absolute bottom-5 left-5 right-5 text-white">
           <h1 className="text-2xl font-bold mb-2 leading-tight">{currentEvent.name}</h1>
           <div className="flex items-center gap-2 text-sm opacity-95">

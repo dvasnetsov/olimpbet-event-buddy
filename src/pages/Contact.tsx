@@ -1,31 +1,41 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Phone, MessageCircle, Mail, User } from "lucide-react";
+import { Phone, ArrowLeft, Send } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Contact = () => {
+  const navigate = useNavigate();
+  
   const supervisor = {
     name: "Анна Смирнова",
     role: "Главный супервайзер",
     phone: "+7 (999) 888-77-66",
-    email: "anna.smirnova@olimpbet.com",
+    telegram: "@supervisor_anna",
     avatar: "АС",
   };
 
   const handleCall = () => {
-    window.location.href = `tel:${supervisor.phone}`;
+    toast.success("Совершаю звонок...");
+    window.location.href = `tel:${supervisor.phone.replace(/[^0-9+]/g, '')}`;
   };
 
-  const handleEmail = () => {
-    window.location.href = `mailto:${supervisor.email}`;
-  };
-
-  const handleChat = () => {
-    // В реальном приложении здесь будет открытие чата
-    alert("Функция чата будет доступна в следующей версии");
+  const handleTelegramChat = () => {
+    toast.success("Открываю Telegram...");
+    // В реальном приложении здесь будет переход в Telegram супервайзера
+    window.open(`https://t.me/${supervisor.telegram.replace('@', '')}`, '_blank');
   };
 
   return (
-    <div className="bg-white pb-8 px-4 pt-4">
+    <div className="bg-white pb-8 px-4 pt-4 min-h-screen">
+      <button
+        onClick={() => navigate("/menu")}
+        className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        Назад
+      </button>
+      
       <h1 className="text-2xl font-bold mb-6">Связаться с супервайзером</h1>
 
       <Card className="p-6 mb-6 shadow-md">
@@ -55,32 +65,17 @@ const Contact = () => {
           </Button>
 
           <Button
-            onClick={handleChat}
+            onClick={handleTelegramChat}
             variant="outline"
-            className="w-full h-14 flex items-center justify-start gap-4 text-left"
+            className="w-full h-14 flex items-center justify-start gap-4 text-left border-[#0088cc]/30 hover:bg-[#0088cc]/5"
             size="lg"
           >
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-              <MessageCircle className="w-5 h-5 text-primary" />
+            <div className="w-10 h-10 bg-[#0088cc]/10 rounded-full flex items-center justify-center">
+              <Send className="w-5 h-5 text-[#0088cc]" />
             </div>
             <div>
               <p className="font-semibold">Написать в чат</p>
               <p className="text-xs text-muted-foreground">Быстрый ответ</p>
-            </div>
-          </Button>
-
-          <Button
-            onClick={handleEmail}
-            variant="outline"
-            className="w-full h-14 flex items-center justify-start gap-4 text-left"
-            size="lg"
-          >
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-              <Mail className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p className="font-semibold">Отправить email</p>
-              <p className="text-xs text-muted-foreground">{supervisor.email}</p>
             </div>
           </Button>
         </div>
