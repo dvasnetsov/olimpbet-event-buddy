@@ -31,7 +31,7 @@ const ContainedDialogOverlay = React.forwardRef<
     ref={ref}
     className={cn(
       // важное: оставляем снизу "окно" под нав-бар
-      "absolute inset-x-0 top-0 bottom-14 z-[60] " +
+      "absolute inset-x-0 top-0 bottom-0 z-[60] " +
         "bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out " +
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
@@ -52,7 +52,7 @@ const ContainedDialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         // ключевое: растягиваем по экрану телефона и оставляем снизу место под нав-бар
-        "absolute inset-x-0 top-0 bottom-14 z-[60] " +
+        "absolute inset-x-0 top-0 bottom-0 z-[60] " +
           "grid w-full h-auto translate-x-0 translate-y-0 gap-0 " +
           "bg-background p-0 border-0 shadow-lg sm:rounded-none",
         className
