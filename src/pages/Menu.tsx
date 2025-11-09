@@ -1,276 +1,92 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Package, MapPin, Award, ChevronDown, ChevronUp } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Calendar, HelpCircle, Phone, User, ChevronRight, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import SupervisorPanel from "@/components/SupervisorPanel";
-import { cn } from "@/lib/utils";
 
 const Menu = () => {
   const navigate = useNavigate();
-  const [isSupervisor, setIsSupervisor] = useState(false);
-  const [expandedActivity, setExpandedActivity] = useState<number | null>(null);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    
-    // Проверяем режим из localStorage
-    const checkMode = () => {
-      const mode = localStorage.getItem("userMode") || "promoter";
-      setIsSupervisor(mode === "supervisor");
-    };
-    
-    checkMode();
-    
-    // Слушаем изменения режима
-    window.addEventListener("userModeChanged", checkMode);
-    return () => window.removeEventListener("userModeChanged", checkMode);
-  }, []);
-
-  const activities = [
-    {
-      id: 1,
-      name: "Чемпионат России по футболу",
-      dates: "01 ноября 10:00 - 10 ноября 22:00, 2025",
-      city: "Москва",
-      requests: 45,
-      active: true,
-      requestsList: [
-        {
-          id: 1,
-          date: "10 ноября, 14:30",
-          playerId: "123456",
-          merch: "Футболка M",
-          amount: 3500,
-          status: "received",
-        },
-        {
-          id: 2,
-          date: "10 ноября, 12:15",
-          playerId: "789012",
-          merch: "Кепка One Size",
-          amount: 2500,
-          status: "reserved",
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Хоккейный турнир",
-      dates: "15 октября 12:00 - 20 октября 20:00, 2025",
-      city: "Санкт-Петербург",
-      requests: 32,
-      active: false,
-      requestsList: [
-        {
-          id: 3,
-          date: "20 октября, 18:45",
-          playerId: "345678",
-          merch: "Толстовка L",
-          amount: 8500,
-          status: "received",
-        },
-        {
-          id: 4,
-          date: "19 октября, 16:20",
-          playerId: "901234",
-          merch: "Рюкзак",
-          amount: 12000,
-          status: "cancelled",
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: "Баскетбольная лига",
-      dates: "5 сентября 14:00 - 12 сентября 21:00, 2025",
-      city: "Казань",
-      requests: 28,
-      active: false,
-      requestsList: [
-        {
-          id: 5,
-          date: "12 сентября, 15:00",
-          playerId: "567890",
-          merch: "Футболка L",
-          amount: 4500,
-          status: "received",
-        },
-      ],
-    },
-  ];
 
   const profile = {
     name: "Иван Петров",
     city: "Москва",
-    role: "Промоутер",
+    balance: "₽12,500",
     avatar: "ИП",
-    stats: {
-      events: 12,
-      requests: 156,
-      totalBets: "₽2,450,000",
-    },
   };
 
-  const getStatusBadge = (status: string) => {
-    const variants: Record<string, { label: string; variant: "default" | "secondary" | "destructive" }> = {
-      reserved: { label: "Зарезервирован", variant: "default" },
-      received: { label: "Получен", variant: "secondary" },
-      cancelled: { label: "Отменён", variant: "destructive" },
-    };
-    const config = variants[status] || variants.reserved;
-    return <Badge variant={config.variant}>{config.label}</Badge>;
-  };
+  const menuItems = [
+    {
+      id: "home",
+      title: "Текущее мероприятие",
+      description: "Вернуться на главную",
+      icon: Home,
+      path: "/",
+    },
+    {
+      id: "events",
+      title: "Мои мероприятия",
+      description: "Будущие и прошедшие",
+      icon: Calendar,
+      path: "/my-events",
+    },
+    {
+      id: "faq",
+      title: "FAQ",
+      description: "Правила и инструкции",
+      icon: HelpCircle,
+      path: "/faq",
+    },
+    {
+      id: "contact",
+      title: "Связаться с супервайзером",
+      description: "Телефон, чат, email",
+      icon: Phone,
+      path: "/contact",
+    },
+  ];
 
   return (
-    <div className="bg-white pb-4">
-      <Tabs defaultValue="activity" className="w-full">
-        <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
-          <div className="px-4 pt-4 pb-3">
-            <TabsList className={cn(
-              "w-full h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm",
-              isSupervisor ? "grid grid-cols-3" : "grid grid-cols-2"
-            )}>
-              <TabsTrigger value="activity" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
-                Активность
-              </TabsTrigger>
-              <TabsTrigger value="profile" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
-                Профиль
-              </TabsTrigger>
-              {isSupervisor && (
-                <TabsTrigger value="supervisor" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold rounded-lg transition-all">
-                  Супервайзер
-                </TabsTrigger>
-              )}
-            </TabsList>
+    <div className="bg-white pb-8">
+      {/* Profile Header */}
+      <div 
+        className="px-4 pt-4 pb-4 bg-gradient-to-br from-primary/10 to-primary/5 cursor-pointer hover:from-primary/15 hover:to-primary/10 transition-colors"
+        onClick={() => navigate("/profile")}
+      >
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
+            <span className="text-2xl font-bold text-primary">{profile.avatar}</span>
           </div>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold">{profile.name}</h2>
+            <p className="text-sm text-muted-foreground">{profile.city}</p>
+            <p className="text-lg font-bold text-primary mt-1">{profile.balance}</p>
+          </div>
+          <ChevronRight className="w-6 h-6 text-muted-foreground" />
         </div>
+      </div>
 
-        <TabsContent value="activity" className="mt-0 px-4 pt-4">
-          <h2 className="text-xl font-bold mb-4">История мероприятий</h2>
-          <div className="space-y-3">
-            {activities.map((activity) => (
-              <Card
-                key={activity.id}
-                className={`shadow-sm ${activity.active ? "border-2 border-primary" : ""}`}
-              >
-                <div 
-                  className="p-4 cursor-pointer"
-                  onClick={() => setExpandedActivity(expandedActivity === activity.id ? null : activity.id)}
-                >
-                  <div className="flex justify-between items-start mb-3">
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1">{activity.name}</h3>
-                      {activity.active && (
-                        <Badge className="mb-2">Активное</Badge>
-                      )}
-                    </div>
-                    {expandedActivity === activity.id ? (
-                      <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                    )}
-                  </div>
-                  
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Calendar className="w-4 h-4" />
-                      <span>{activity.dates}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="w-4 h-4" />
-                      <span>{activity.city}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Package className="w-4 h-4" />
-                      <span>{activity.requests} заявок</span>
-                    </div>
-                  </div>
+      {/* Menu Items */}
+      <div className="px-4 pt-4 space-y-3">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Card
+              key={item.id}
+              className="p-4 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
+              onClick={() => navigate(item.path)}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-6 h-6 text-primary" />
                 </div>
-
-                {expandedActivity === activity.id && (
-                  <div className="border-t border-border p-4 space-y-3 bg-muted/30">
-                    <h4 className="font-semibold text-sm mb-3">Заявки на мероприятии:</h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/event/${activity.id}`);
-                      }}
-                      className="w-full py-3 px-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-                    >
-                      Открыть все заявки ({activity.requests})
-                    </button>
-                  </div>
-                )}
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="profile" className="mt-0 px-4 pt-4">
-          <Card className="p-6 mb-6 shadow-md">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-primary">{profile.avatar}</span>
-              </div>
-              <div>
-                <h2 className="text-xl font-bold">{profile.name}</h2>
-                <p className="text-muted-foreground flex items-center gap-1">
-                  <MapPin className="w-4 h-4" />
-                  {profile.city}
-                </p>
-                <Badge variant="secondary" className="mt-1">{profile.role}</Badge>
-              </div>
-            </div>
-          </Card>
-
-          <h3 className="text-lg font-bold mb-4">Статистика</h3>
-          <div className="grid grid-cols-1 gap-3">
-            <Card className="p-4 shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Calendar className="w-6 h-6 text-primary" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-base">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground">{item.description}</p>
                 </div>
-                <div>
-                  <p className="text-2xl font-bold">{profile.stats.events}</p>
-                  <p className="text-sm text-muted-foreground">Мероприятий</p>
-                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
               </div>
             </Card>
-
-            <Card className="p-4 shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Package className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{profile.stats.requests}</p>
-                  <p className="text-sm text-muted-foreground">Выдано мерча</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-4 shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Award className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{profile.stats.totalBets}</p>
-                  <p className="text-sm text-muted-foreground">Общая сумма ставок</p>
-                </div>
-              </div>
-            </Card>
-          </div>
-        </TabsContent>
-
-        {isSupervisor && (
-          <TabsContent value="supervisor" className="mt-0">
-            <SupervisorPanel />
-          </TabsContent>
-        )}
-      </Tabs>
+          );
+        })}
+      </div>
     </div>
   );
 };

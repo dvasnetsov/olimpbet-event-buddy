@@ -8,6 +8,10 @@ import Events from "./pages/Events";
 import EventApplications from "./pages/EventApplications";
 import Check from "./pages/Check";
 import Menu from "./pages/Menu";
+import Profile from "./pages/Profile";
+import MyEvents from "./pages/MyEvents";
+import FAQ from "./pages/FAQ";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +30,10 @@ const App = () => {
               <Route path="/event/:eventId" element={<EventApplications />} />
               <Route path="/check" element={<Check />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/my-events" element={<MyEvents />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/contact" element={<Contact />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

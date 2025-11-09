@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
-import { MapPin, Clock, X, Trophy, Package } from "lucide-react";
+import { MapPin, Clock, X, Trophy, Package, Calendar, ClipboardList } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import {
@@ -279,160 +278,139 @@ const Events = () => {
     );
   }
 
+  // Если текущего мероприятия нет
+  const hasCurrentEvent = currentEvent !== null;
+
+  if (!hasCurrentEvent) {
+    return (
+      <div className="bg-white pb-8 px-4 pt-8 flex flex-col items-center justify-center min-h-[500px]">
+        <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+          <Calendar className="w-10 h-10 text-primary" />
+        </div>
+        <h2 className="text-xl font-bold mb-2 text-center">Нет текущего мероприятия</h2>
+        <p className="text-muted-foreground text-center mb-6">
+          На данный момент активных мероприятий нет
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white pb-4">
-      <Tabs defaultValue="current" className="w-full">
-        <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
-          <div className="px-4 pt-4 pb-3">
-            <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
-              <TabsTrigger value="current" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold text-sm rounded-lg transition-all">
-                Текущее
-              </TabsTrigger>
-              <TabsTrigger value="future" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-semibold text-sm rounded-lg transition-all">
-                Будущие
-              </TabsTrigger>
-            </TabsList>
+    <div className="bg-white pb-4 px-4 pt-4">
+      {/* Event Banner */}
+      <div
+        className="relative h-52 rounded-2xl overflow-hidden mb-6 shadow-lg"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url(${currentEvent.banner})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute bottom-5 left-5 right-5 text-white">
+          <h1 className="text-2xl font-bold mb-2 leading-tight">{currentEvent.name}</h1>
+          <div className="flex items-center gap-2 text-sm opacity-95">
+            <MapPin className="w-4 h-4" />
+            <span>{currentEvent.city}, {currentEvent.venue}</span>
           </div>
         </div>
+      </div>
 
-        <TabsContent value="current" className="mt-0 px-4 pt-4">
-          {/* Event Banner */}
-          <div
-            className="relative h-52 rounded-2xl overflow-hidden mb-6 shadow-lg"
-            style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.7)), url(${currentEvent.banner})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+      {/* Progress */}
+      <Card className="p-5 mb-6 shadow-sm">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-sm font-semibold flex items-center gap-2">
+            <Clock className="w-4 h-4 text-primary" />
+            Прогресс мероприятия
+          </span>
+          <span className="text-sm font-bold text-primary">{currentEvent.progress}%</span>
+        </div>
+        <Progress value={currentEvent.progress} className="h-2.5 mb-4" />
+        <div className="flex justify-between text-xs text-muted-foreground">
+          <span>
+            {currentEvent.startDate}, {currentEvent.startTime}
+          </span>
+          <span>
+            {currentEvent.endDate}, {currentEvent.endTime}
+          </span>
+        </div>
+      </Card>
+
+      {/* Кнопка заявок для промоутера / команды для супервайзера */}
+      {!isSupervisor ? (
+        <Button
+          onClick={() => navigate(`/event/${currentEvent.id}`)}
+          className="w-full mb-6 h-14"
+          size="lg"
+        >
+          <ClipboardList className="w-5 h-5 mr-2" />
+          Заявки на мерч
+        </Button>
+      ) : (
+        <Button
+          onClick={() => navigate(`/event/${currentEvent.id}`)}
+          className="w-full mb-6 h-14"
+          size="lg"
+        >
+          Открыть команду промоутеров
+        </Button>
+      )}
+
+      {/* Event Rules */}
+      <Card className="p-5 mb-6 shadow-sm">
+        <h3 className="font-semibold mb-3">Правила мероприятия</h3>
+        <div className="space-y-3">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Trophy className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-0.5">На что ставить</p>
+              <p className="font-semibold text-base">{currentEvent.betType}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Package className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-0.5">Максимум в одни руки</p>
+              <p className="font-semibold text-base">{currentEvent.maxMerchPerPerson} шт</p>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Categories */}
+      <h2 className="text-xl font-bold mb-4">Категории призов</h2>
+      <div className="space-y-3 pb-4">
+        {currentEvent.categories.map((category) => (
+          <Card
+            key={category.id}
+            className="p-5 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
+            onClick={() => setSelectedCategory(category.id)}
           >
-            <div className="absolute bottom-5 left-5 right-5 text-white">
-              <h1 className="text-2xl font-bold mb-2 leading-tight">{currentEvent.name}</h1>
-              <div className="flex items-center gap-2 text-sm opacity-95">
-                <MapPin className="w-4 h-4" />
-                <span>{currentEvent.city}, {currentEvent.venue}</span>
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-bold mb-1">{category.name}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
+                </p>
               </div>
+              <span className="text-primary font-medium text-xl">→</span>
             </div>
-          </div>
-
-          {/* Progress */}
-          <Card className="p-5 mb-6 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-semibold flex items-center gap-2">
-                <Clock className="w-4 h-4 text-primary" />
-                Прогресс мероприятия
-              </span>
-              <span className="text-sm font-bold text-primary">{currentEvent.progress}%</span>
-            </div>
-            <Progress value={currentEvent.progress} className="h-2.5 mb-4" />
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>
-                {currentEvent.startDate}, {currentEvent.startTime}
-              </span>
-              <span>
-                {currentEvent.endDate}, {currentEvent.endTime}
-              </span>
+            <div className="flex gap-2.5 overflow-x-auto pb-1">
+              {category.prizes.map((prize) => (
+                <img
+                  key={prize.id}
+                  src={prize.image}
+                  alt={prize.name}
+                  className="w-16 h-16 object-cover rounded-xl flex-shrink-0 ring-1 ring-border"
+                />
+              ))}
             </div>
           </Card>
-
-          {/* Кнопка для супервайзера */}
-          {isSupervisor && (
-            <Button
-              onClick={() => navigate(`/event/${currentEvent.id}`)}
-              className="w-full mb-6"
-              size="lg"
-            >
-              Открыть команду промоутеров
-            </Button>
-          )}
-
-          {/* Event Rules */}
-          <Card className="p-5 mb-6 shadow-sm">
-            <h3 className="font-semibold mb-3">Правила мероприятия</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-4">
-                <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Trophy className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-0.5">На что ставить</p>
-                  <p className="font-semibold text-base">{currentEvent.betType}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Package className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-0.5">Максимум в одни руки</p>
-                  <p className="font-semibold text-base">{currentEvent.maxMerchPerPerson} шт</p>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          {/* Categories */}
-          <h2 className="text-xl font-bold mb-4">Категории призов</h2>
-          <div className="space-y-3 pb-4">
-            {currentEvent.categories.map((category) => (
-              <Card
-                key={category.id}
-                className="p-5 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
-                onClick={() => setSelectedCategory(category.id)}
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-lg font-bold mb-1">{category.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
-                    </p>
-                  </div>
-                  <span className="text-primary font-medium text-xl">→</span>
-                </div>
-                <div className="flex gap-2.5 overflow-x-auto pb-1">
-                  {category.prizes.map((prize) => (
-                    <img
-                      key={prize.id}
-                      src={prize.image}
-                      alt={prize.name}
-                      className="w-16 h-16 object-cover rounded-xl flex-shrink-0 ring-1 ring-border"
-                    />
-                  ))}
-                </div>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="future" className="mt-0 px-4 pt-4">
-          <h2 className="text-xl font-bold mb-5">Предстоящие мероприятия</h2>
-          <div className="space-y-4 pb-4">
-            {futureEvents.map((event) => (
-              <Card key={event.id} className="overflow-hidden shadow-sm hover:shadow-lg transition-all hover:scale-[1.01] cursor-pointer">
-                <div
-                  className="h-36 bg-cover bg-center relative"
-                  style={{
-                    backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url(${event.banner})`,
-                  }}
-                >
-                  <div className="absolute bottom-3 left-4 text-white">
-                    <h3 className="font-bold text-lg leading-tight">{event.name}</h3>
-                  </div>
-                </div>
-                <div className="p-4 space-y-2.5">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MapPin className="w-4 h-4" />
-                    <span>{event.city}, {event.venue}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Clock className="w-4 h-4" />
-                    <span>{event.startDate} {event.startTime} - {event.endDate} {event.endTime}</span>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+        ))}
+      </div>
     </div>
   );
 };
