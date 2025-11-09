@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { MapPin, Clock, X, Trophy, Package } from "lucide-react";
@@ -16,13 +17,26 @@ import {
 } from "@/components/ContainedDrawer";
 
 const Events = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedPrize, setSelectedPrize] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const [isSupervisor, setIsSupervisor] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    const checkMode = () => {
+      const mode = localStorage.getItem("userMode") || "promoter";
+      setIsSupervisor(mode === "supervisor");
+    };
+    
+    checkMode();
+    window.addEventListener("userModeChanged", checkMode);
+    return () => window.removeEventListener("userModeChanged", checkMode);
   }, []);
 
   const currentEvent = {
@@ -319,6 +333,17 @@ const Events = () => {
               </span>
             </div>
           </Card>
+
+          {/* Кнопка для супервайзера */}
+          {isSupervisor && (
+            <Button
+              onClick={() => navigate(`/event/${currentEvent.id}`)}
+              className="w-full mb-6"
+              size="lg"
+            >
+              Открыть команду промоутеров
+            </Button>
+          )}
 
           {/* Event Rules */}
           <Card className="p-5 mb-6 shadow-sm">
