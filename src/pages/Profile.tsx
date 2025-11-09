@@ -1,8 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Package, Award, Phone, Mail } from "lucide-react";
+import { MapPin, Calendar, Package, Award, Phone, Mail, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
+  
   const profile = {
     name: "Иван Петров",
     phone: "+7 (999) 123-45-67",
@@ -21,6 +24,14 @@ const Profile = () => {
 
   return (
     <div className="bg-white pb-8 px-4 pt-4">
+      <button
+        onClick={() => navigate("/menu")}
+        className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        Назад
+      </button>
+      
       <h1 className="text-2xl font-bold mb-6">Профиль</h1>
 
       <Card className="p-6 mb-6 shadow-md">

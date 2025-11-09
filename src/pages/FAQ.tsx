@@ -5,9 +5,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const FAQ = () => {
+  const navigate = useNavigate();
+  
   const faqs = [
     {
       question: "Как работает система выдачи мерча?",
@@ -44,6 +47,14 @@ const FAQ = () => {
 
   return (
     <div className="bg-white pb-8 px-4 pt-4">
+      <button
+        onClick={() => navigate("/menu")}
+        className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        Назад
+      </button>
+      
       <h1 className="text-2xl font-bold mb-6">FAQ</h1>
 
       <Card className="p-5 mb-6 shadow-sm">

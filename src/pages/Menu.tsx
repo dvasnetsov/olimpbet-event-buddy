@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
-import { Calendar, HelpCircle, Phone, User, ChevronRight, Home, ArrowLeft, MessageSquare } from "lucide-react";
+import { Calendar, HelpCircle, User, ChevronRight, Home, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 const Menu = () => {
@@ -9,8 +10,7 @@ const Menu = () => {
 
   const profile = {
     name: "Иван Петров",
-    city: "Москва",
-    balance: "₽12,500",
+    role: "Промоутер",
     avatar: "ИП",
   };
 
@@ -37,13 +37,6 @@ const Menu = () => {
       path: "/faq",
     },
     {
-      id: "contact",
-      title: "Связаться с супервайзером",
-      description: "Телефон, чат",
-      icon: Phone,
-      path: "/contact",
-    },
-    {
       id: "support",
       title: "Написать в саппорт",
       description: "Техническая поддержка",
@@ -60,20 +53,9 @@ const Menu = () => {
 
   return (
     <div className="bg-white pb-8 min-h-screen">
-      {/* Back Button */}
-      <div className="px-4 pt-4 pb-2">
-        <button
-          onClick={() => navigate("/")}
-          className="text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Назад
-        </button>
-      </div>
-
       {/* Profile Header */}
-      <div 
-        className="mx-4 mt-3 mb-6 p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl cursor-pointer hover:from-primary/15 hover:to-primary/10 transition-colors shadow-sm"
+      <Card 
+        className="mx-4 mt-4 mb-6 p-5 cursor-pointer hover:shadow-lg transition-all shadow-sm"
         onClick={() => navigate("/profile")}
       >
         <div className="flex items-center gap-4">
@@ -81,13 +63,12 @@ const Menu = () => {
             <span className="text-2xl font-bold text-primary">{profile.avatar}</span>
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-bold">{profile.name}</h2>
-            <p className="text-sm text-muted-foreground">{profile.city}</p>
-            <p className="text-lg font-bold text-primary mt-1">{profile.balance}</p>
+            <h2 className="text-xl font-bold mb-1.5">{profile.name}</h2>
+            <Badge variant="secondary">{profile.role}</Badge>
           </div>
           <ChevronRight className="w-6 h-6 text-muted-foreground" />
         </div>
-      </div>
+      </Card>
 
       <Separator className="mb-6" />
 

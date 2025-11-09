@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Package } from "lucide-react";
+import { MapPin, Clock, Package, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const MyEvents = () => {
+  const navigate = useNavigate();
+  
   const futureEvents = [
     {
       id: 2,
@@ -62,6 +65,13 @@ const MyEvents = () => {
       <Tabs defaultValue="future" className="w-full">
         <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
           <div className="px-4 pt-4 pb-3">
+            <button
+              onClick={() => navigate("/menu")}
+              className="mb-4 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Назад
+            </button>
             <h1 className="text-2xl font-bold mb-3">Мои мероприятия</h1>
             <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
               <TabsTrigger 
