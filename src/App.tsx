@@ -8,6 +8,7 @@ import Events from "./pages/Events";
 import EventApplications from "./pages/EventApplications";
 import Check from "./pages/Check";
 import Menu from "./pages/Menu";
+import Supervisor from "./pages/Supervisor";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="/event/:eventId" element={<EventApplications />} />
               <Route path="/check" element={<Check />} />
               <Route path="/menu" element={<Menu />} />
+              <Route path="/supervisor" element={<Supervisor />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
