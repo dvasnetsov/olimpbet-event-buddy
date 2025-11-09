@@ -48,20 +48,16 @@ const ContainedDrawerContent = React.forwardRef<
   <ContainedDrawerPortal>
     <ContainedDrawerOverlay />
     <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        "absolute inset-x-0 z-50 flex h-auto flex-col rounded-t-[20px] border bg-background",
-        // небольшой внутренний зазор от нижнего края + safe-area
-        "pb-[calc(env(safe-area-inset-bottom)+12px)]",
-        className
-      )}
-      // прижимаем строго над навбаром
-      style={{ bottom: "var(--nav-h, 64px)", ...style }}
-      {...props}
-    >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-      {children}
-    </DrawerPrimitive.Content>
+  ref={ref}
+  className={cn(
+    "absolute inset-x-0 bottom-[var(--nav-safe,64px)] z-[60] flex h-auto flex-col rounded-t-[20px] border bg-background shadow-lg",
+    className
+  )}
+  {...props}
+>
+  <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+  {children}
+</DrawerPrimitive.Content>
   </ContainedDrawerPortal>
 ));
 ContainedDrawerContent.displayName = "ContainedDrawerContent";
