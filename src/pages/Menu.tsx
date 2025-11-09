@@ -4,17 +4,28 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Package, MapPin, Award, ChevronDown, ChevronUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserMode } from "@/contexts/UserModeContext";
 import SupervisorPanel from "@/components/SupervisorPanel";
 import { cn } from "@/lib/utils";
 
 const Menu = () => {
   const navigate = useNavigate();
-  const { isSupervisor } = useUserMode();
+  const [isSupervisor, setIsSupervisor] = useState(false);
   const [expandedActivity, setExpandedActivity] = useState<number | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Проверяем режим из localStorage
+    const checkMode = () => {
+      const mode = localStorage.getItem("userMode") || "promoter";
+      setIsSupervisor(mode === "supervisor");
+    };
+    
+    checkMode();
+    
+    // Слушаем изменения режима
+    window.addEventListener("userModeChanged", checkMode);
+    return () => window.removeEventListener("userModeChanged", checkMode);
   }, []);
 
   const activities = [

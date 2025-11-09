@@ -2,19 +2,42 @@ import { Calendar, QrCode, Menu, Users, User } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import LoadingScreen from "@/components/LoadingScreen";
-import { useUserMode } from "@/contexts/UserModeContext";
 
 import React from "react";
 
+// Простое состояние режима в localStorage
+const getUserMode = (): "promoter" | "supervisor" => {
+  const saved = localStorage.getItem("userMode");
+  return (saved as "promoter" | "supervisor") || "promoter";
+};
+
+const setUserMode = (mode: "promoter" | "supervisor") => {
+  localStorage.setItem("userMode", mode);
+  window.dispatchEvent(new Event("userModeChanged"));
+};
+
 const Layout = () => {
   const [loading, setLoading] = React.useState(true);
-  const { mode, setMode, isSupervisor } = useUserMode();
+  const [mode, setMode] = React.useState<"promoter" | "supervisor">(getUserMode());
 
   React.useEffect(() => {
     // имитация загрузки
     const timer = setTimeout(() => setLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
+
+  React.useEffect(() => {
+    const handleModeChange = () => {
+      setMode(getUserMode());
+    };
+    window.addEventListener("userModeChanged", handleModeChange);
+    return () => window.removeEventListener("userModeChanged", handleModeChange);
+  }, []);
+
+  const handleModeClick = (newMode: "promoter" | "supervisor") => {
+    setUserMode(newMode);
+    setMode(newMode);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -55,7 +78,7 @@ const Layout = () => {
               </div>
             )}
 
-            <div className="max-w-md mx-auto pb-24 relative z-10">
+            <div className="max-w-md mx-auto pb-24 relative z-10" data-user-mode={mode}>
               <Outlet />
             </div>
           </div>
@@ -131,7 +154,7 @@ const Layout = () => {
       <div className="flex flex-col gap-6">
         {/* Промоутер */}
         <button 
-          onClick={() => setMode('promoter')}
+          onClick={() => handleModeClick('promoter')}
           className={cn(
             "group relative w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 shadow-[0_10px_40px_rgba(59,130,246,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(59,130,246,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95",
             mode === "promoter" && "animate-pulse ring-4 ring-blue-400/50"
@@ -150,7 +173,7 @@ const Layout = () => {
 
         {/* Супервайзер */}
         <button 
-          onClick={() => setMode('supervisor')}
+          onClick={() => handleModeClick('supervisor')}
           className={cn(
             "group relative w-20 h-20 rounded-full bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 shadow-[0_10px_40px_rgba(168,85,247,0.5),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] hover:shadow-[0_15px_60px_rgba(168,85,247,0.7),inset_0_-3px_10px_rgba(0,0,0,0.25),inset_0_3px_10px_rgba(255,255,255,0.5)] transition-all duration-300 hover:scale-110 active:scale-95",
             mode === "supervisor" && "animate-pulse ring-4 ring-purple-400/50"
