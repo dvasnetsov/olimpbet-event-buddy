@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
-import { Calendar, HelpCircle, Phone, User, ChevronRight, Home } from "lucide-react";
+import { Calendar, HelpCircle, Phone, User, ChevronRight, Home, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -44,10 +45,21 @@ const Menu = () => {
   ];
 
   return (
-    <div className="bg-white pb-8">
+    <div className="bg-white pb-8 min-h-screen">
+      {/* Back Button */}
+      <div className="px-4 pt-4 pb-2">
+        <button
+          onClick={() => navigate("/")}
+          className="text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          Назад
+        </button>
+      </div>
+
       {/* Profile Header */}
       <div 
-        className="px-4 pt-4 pb-4 bg-gradient-to-br from-primary/10 to-primary/5 cursor-pointer hover:from-primary/15 hover:to-primary/10 transition-colors"
+        className="mx-4 mt-3 mb-6 p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl cursor-pointer hover:from-primary/15 hover:to-primary/10 transition-colors shadow-sm"
         onClick={() => navigate("/profile")}
       >
         <div className="flex items-center gap-4">
@@ -63,8 +75,10 @@ const Menu = () => {
         </div>
       </div>
 
+      <Separator className="mb-6" />
+
       {/* Menu Items */}
-      <div className="px-4 pt-4 space-y-3">
+      <div className="px-4 space-y-3">
         {menuItems.map((item) => {
           const Icon = item.icon;
           return (

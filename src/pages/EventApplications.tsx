@@ -41,7 +41,7 @@ const EventApplications = () => {
   const [isSupervisor, setIsSupervisor] = useState(false);
 
   const handleBack = () => {
-    navigate('/menu');
+    navigate('/');
   };
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(false);
