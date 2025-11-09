@@ -46,23 +46,40 @@ ContainedDrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 const ContainedDrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <ContainedDrawerPortal>
-    <ContainedDrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        "absolute inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[20px] border bg-background pb-20",
-        className,
-      )}
-      {...props}
-    >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-      {children}
-    </DrawerPrimitive.Content>
-  </ContainedDrawerPortal>
-));
-ContainedDrawerContent.displayName = "ContainedDrawerContent";
+>(({ className, children, ...props }, ref) => {
+  // измеряем высоту нижней нав-панели внутри телефона
+  const [bottomOffset, setBottomOffset] = React.useState<number>(64);
+
+  React.useEffect(() => {
+    const nav = document.querySelector(".bottom-nav") as HTMLElement | null;
+    if (nav) {
+      const h = nav.getBoundingClientRect().height;
+      setBottomOffset(h || 64);
+    }
+  }, []);
+
+  return (
+    <ContainedDrawerPortal>
+      <ContainedDrawerOverlay />
+      <DrawerPrimitive.Content
+        ref={ref}
+        // прижимаем к верху нав-панели: left/right = 0, bottom = измеренная высота
+        style={{ left: 0, right: 0, bottom: bottomOffset }}
+        className={cn(
+          "absolute z-50 mt-24 flex h-auto flex-col rounded-t-[20px] border bg-background",
+          // небольшой внутренний отступ снизу под кнопку
+          "pb-6",
+          className
+        )}
+        {...props}
+      >
+        <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
+        {children}
+      </DrawerPrimitive.Content>
+    </ContainedDrawerPortal>
+  );
+});
+
 
 const ContainedDrawerHeader = ({
   className,
