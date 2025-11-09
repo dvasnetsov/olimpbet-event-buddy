@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { QrCode, User, DollarSign, Tag, Check as CheckIcon, X, Package } from "lucide-react";
+import { QrCode, User, DollarSign, Check as CheckIcon, X, Package } from "lucide-react";
 import {
   ContainedDialog as Dialog,
   ContainedDialogContent as DialogContent,
@@ -30,6 +30,13 @@ const Check = () => {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+
+  // ВНУТРЕННИЙ КОНТЕЙНЕР ЭКРАНА ТЕЛЕФОНА
+  const [containerEl, setContainerEl] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    const el = document.querySelector(".phone-screen-container") as HTMLElement | null;
+    setContainerEl(el);
+  }, []);
 
   const availableMerch = [
     {
@@ -80,13 +87,12 @@ const Check = () => {
 
   const handleReserve = () => {
     if (!selectedMerch || !selectedSize) return;
-    
-    // Уменьшаем остаток выбранного размера
+
     const sizeIndex = selectedMerch.sizes.findIndex((s: any) => s.size === selectedSize);
     if (sizeIndex !== -1 && selectedMerch.sizes[sizeIndex].stock > 0) {
       selectedMerch.sizes[sizeIndex].stock -= 1;
     }
-    
+
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);
@@ -193,10 +199,10 @@ const Check = () => {
                 <div className="space-y-4">
                   <InfoRow icon={User} label="ID игрока" value={betResult.playerId} />
                   <InfoRow icon={DollarSign} label="Сумма ставки" value={`${betResult.amount.toLocaleString()} ₽`} />
-                  <InfoRow 
-                    icon={User} 
-                    label="Статус" 
-                    value={betResult.isNewbie ? "Новичок" : "Постоянный игрок"} 
+                  <InfoRow
+                    icon={User}
+                    label="Статус"
+                    value={betResult.isNewbie ? "Новичок" : "Постоянный игрок"}
                   />
                   <InfoRow icon={Package} label="Получено мерча" value={`${betResult.merchReceived} шт`} />
                 </div>
@@ -232,8 +238,12 @@ const Check = () => {
                 ))}
               </div>
 
-              {/* Fullscreen Image Modal */}
-              <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
+              {/* Fullscreen Image Modal — рендер внутри экрана телефона */}
+              <Dialog
+                open={!!fullscreenImage}
+                onOpenChange={() => setFullscreenImage(null)}
+                container={containerEl}
+              >
                 <DialogContent className="max-w-full max-h-full w-full h-full p-0 bg-black border-0 rounded-none">
                   <button
                     onClick={() => setFullscreenImage(null)}
@@ -251,13 +261,17 @@ const Check = () => {
                 </DialogContent>
               </Dialog>
 
-              {/* Size Selection Drawer */}
-              <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DrawerContent>
+              {/* Size Selection Drawer — прижат к верхней кромке навбара (64px) */}
+              <Drawer
+                open={!!selectedMerch}
+                onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}
+                container={containerEl}
+              >
+                <DrawerContent className="bottom-[64px] pb-6">
                   <DrawerHeader>
                     <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
                   </DrawerHeader>
-                  <div className="px-4 pb-8">
+                  <div className="px-4 pb-2">
                     <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
                     <div className="grid grid-cols-2 gap-3 mb-6">
                       {selectedMerch?.sizes.map((sizeData: any) => (
