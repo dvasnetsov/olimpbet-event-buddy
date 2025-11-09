@@ -34,12 +34,10 @@ const ContainedDrawerOverlay = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, style, ...props }, ref) => (
   <DrawerPrimitive.Overlay
-    ref={ref}
-    className={cn("absolute inset-x-0 top-0 z-50 bg-black/80", className)}
-    // не перекрываем нижнюю навигацию
-    style={{ bottom: "var(--nav-h, 64px)", ...style }}
-    {...props}
-  />
+  ref={ref}
+  className={cn("absolute inset-x-0 top-0 bottom-[var(--nav-safe,64px)] z-[60] bg-black/80", className)}
+  {...props}
+/>
 ));
 ContainedDrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
