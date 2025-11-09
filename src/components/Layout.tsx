@@ -74,11 +74,11 @@ const Layout = () => {
           </div>
 
           {/* 📄 Экран */}
-          <div
+           <div
   className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative"
-  // высота нижнего меню: h-16 = 64px. Если поменяешь высоту меню — скорректируй значение.
-  style={{ ["--nav-h" as any]: "64px" }}
->
+  style={{ ['--nav-safe' as any]: '64px' }}   // ← ДОБАВЬ ЭТО (64px = h-16 нижнего меню)
+/>
+
 
           {/* 🔹 Добавили лоадер внутрь экрана */}
             {loading && (
