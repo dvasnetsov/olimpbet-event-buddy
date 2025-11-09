@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Package } from "lucide-react";
 import { toast } from "sonner";
 
-type ApplicationStatus = "reserved" | "issued";
+type ApplicationStatus = "reserved" | "issued" | "cancelled";
 
 interface Application {
   id: string;
@@ -109,15 +109,16 @@ const EventApplications = () => {
     }, 800);
   };
 
-  const handleStatusChange = (appId: string) => {
+  const handleStatusChange = (appId: string, newStatus: ApplicationStatus) => {
     setApplications(prev =>
       prev.map(app =>
         app.id === appId
-          ? { ...app, status: "issued" as ApplicationStatus }
+          ? { ...app, status: newStatus }
           : app
       )
     );
-    toast.success("Статус изменен на 'Получен'");
+    const statusText = newStatus === "issued" ? "Получен" : "Отменена";
+    toast.success(`Статус изменен на '${statusText}'`);
   };
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -164,10 +165,16 @@ const EventApplications = () => {
                 <p className="text-sm font-medium text-muted-foreground">{app.betId}</p>
               </div>
               <Badge
-                variant={app.status === "issued" ? "default" : "secondary"}
+                variant={
+                  app.status === "issued" 
+                    ? "default" 
+                    : app.status === "cancelled" 
+                    ? "destructive" 
+                    : "secondary"
+                }
                 className="shrink-0"
               >
-                {app.status === "issued" ? "Получен" : "Зарезервирован"}
+                {app.status === "issued" ? "Получен" : app.status === "cancelled" ? "Отменена" : "Зарезервирован"}
               </Badge>
             </div>
 
@@ -189,13 +196,23 @@ const EventApplications = () => {
             </div>
 
             {app.status === "reserved" && (
-              <Button
-                onClick={() => handleStatusChange(app.id)}
-                className="w-full"
-                size="sm"
-              >
-                Выдать
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => handleStatusChange(app.id, "issued")}
+                  className="flex-1"
+                  size="sm"
+                >
+                  Выдать
+                </Button>
+                <Button
+                  onClick={() => handleStatusChange(app.id, "cancelled")}
+                  variant="outline"
+                  className="flex-1"
+                  size="sm"
+                >
+                  Отменить
+                </Button>
+              </div>
             )}
           </Card>
         ))}
