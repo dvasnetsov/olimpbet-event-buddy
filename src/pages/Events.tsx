@@ -274,11 +274,11 @@ const Events = () => {
 
         {/* Size Selection Drawer */}
         <Drawer open={!!selectedPrize} onOpenChange={() => { setSelectedPrize(null); setSelectedSize(""); }}>
-          <DrawerContent>
-            <DrawerHeader>
+          <DrawerContent className="max-h-[60vh]">
+            <DrawerHeader className="pb-2">
               <DrawerTitle className="text-xl font-bold">{selectedPrize?.name}</DrawerTitle>
             </DrawerHeader>
-            <div className="px-4 pb-6">
+            <div className="px-4 pb-6 pt-2">
               <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
               <div className="grid grid-cols-2 gap-3">
                 {selectedPrize?.sizes.map((sizeData: any) => (
@@ -299,18 +299,18 @@ const Events = () => {
 
         {/* Fullscreen Image Modal */}
         <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
-          <DialogContent className="max-w-full max-h-full w-full h-full p-0 bg-black border-0 rounded-none">
+          <DialogContent className="p-0 bg-black border-0">
             <button
               onClick={() => setFullscreenImage(null)}
-              className="absolute top-6 right-6 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
+              className="absolute top-4 right-4 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
             >
               <X className="w-7 h-7 text-white" />
             </button>
-            <div className="w-full h-full flex items-center justify-center p-4">
+            <div className="w-full h-full flex items-center justify-center">
               <img
                 src={fullscreenImage || ""}
                 alt="Fullscreen view"
-                className="max-w-full max-h-full object-contain"
+                className="w-full h-full object-contain"
               />
             </div>
           </DialogContent>

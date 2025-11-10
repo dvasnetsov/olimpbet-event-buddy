@@ -73,23 +73,23 @@ const Menu = () => {
   };
 
   return (
-    <div className="bg-white pb-8 min-h-screen pt-6">
-      {/* Profile Header */}
-      <Card 
-        className="mx-4 mt-4 mb-6 p-5 cursor-pointer hover:shadow-lg transition-all shadow-sm"
+    <div className="bg-white pb-8 min-h-screen">
+      {/* Profile Header - Dark themed at top */}
+      <div 
+        className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-6 cursor-pointer hover:opacity-95 transition-opacity shadow-lg"
         onClick={() => navigate("/profile")}
       >
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
-            <span className="text-2xl font-bold text-primary">{profile.avatar}</span>
+          <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center ring-2 ring-white/20">
+            <span className="text-2xl font-bold text-white">{profile.avatar}</span>
           </div>
           <div className="flex-1">
             <h2 className="text-xl font-bold mb-1.5">{profile.name}</h2>
-            <Badge variant="secondary">{profile.role}</Badge>
+            <Badge variant="secondary" className="bg-white/20 text-white border-0 hover:bg-white/30">{profile.role}</Badge>
           </div>
-          <ChevronRight className="w-6 h-6 text-muted-foreground" />
+          <ChevronRight className="w-6 h-6 text-white/80" />
         </div>
-      </Card>
+      </div>
 
       <Separator className="mb-6" />
 
