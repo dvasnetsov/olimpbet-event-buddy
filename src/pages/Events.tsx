@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { MapPin, Clock, X, Trophy, Package, Calendar, ClipboardList, MessageCircle } from "lucide-react";
+import { MapPin, Clock, X, Trophy, Package, Calendar, ClipboardList, MessageCircle, Users, TrendingUp, Award } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   ContainedDialog as Dialog,
   ContainedDialogContent as DialogContent,
@@ -184,6 +185,46 @@ const Events = () => {
     return sizeData ? sizeData.stock : 0;
   };
 
+  // Промоутеры для супервайзера
+  const promoters = [
+    {
+      id: "1",
+      name: "Иван Петров",
+      avatar: "ИП",
+      status: "active" as const,
+      totalMerch: 24,
+      todayMerch: 8,
+      totalBets: 156000,
+    },
+    {
+      id: "2",
+      name: "Анна Смирнова",
+      avatar: "АС",
+      status: "active" as const,
+      totalMerch: 18,
+      todayMerch: 5,
+      totalBets: 98000,
+    },
+    {
+      id: "3",
+      name: "Дмитрий Козлов",
+      avatar: "ДК",
+      status: "inactive" as const,
+      totalMerch: 15,
+      todayMerch: 0,
+      totalBets: 75000,
+    },
+    {
+      id: "4",
+      name: "Елена Новикова",
+      avatar: "ЕН",
+      status: "active" as const,
+      totalMerch: 21,
+      todayMerch: 6,
+      totalBets: 132000,
+    },
+  ];
+
   if (selectedCategory) {
     const category = currentEvent.categories.find((c) => c.id === selectedCategory);
     if (!category) return null;
@@ -345,8 +386,8 @@ const Events = () => {
         </div>
       </Card>
 
-      {/* Кнопка заявок для промоутера / команды для супервайзера */}
-      {!isSupervisor ? (
+      {/* Кнопка заявок для промоутера */}
+      {!isSupervisor && (
         <Button
           onClick={() => navigate(`/event/${currentEvent.id}`)}
           className="w-full mb-6 h-14"
@@ -355,14 +396,64 @@ const Events = () => {
           <ClipboardList className="w-5 h-5 mr-2" />
           Заявки на мерч
         </Button>
-      ) : (
-        <Button
-          onClick={() => navigate(`/event/${currentEvent.id}`)}
-          className="w-full mb-6 h-14"
-          size="lg"
-        >
-          Открыть команду промоутеров
-        </Button>
+      )}
+
+      {/* Список промоутеров для супервайзера */}
+      {isSupervisor && (
+        <>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold">Команда промоутеров</h2>
+            <Button
+              onClick={() => navigate(`/event/${currentEvent.id}`)}
+              variant="outline"
+              size="sm"
+            >
+              <ClipboardList className="w-4 h-4 mr-2" />
+              Все заявки
+            </Button>
+          </div>
+
+          <div className="space-y-3 mb-6">
+            {promoters.map((promoter) => (
+              <Card
+                key={promoter.id}
+                className="p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => navigate("/contact")}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-lg font-bold text-primary">{promoter.avatar}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold text-base">{promoter.name}</h3>
+                      <Badge
+                        variant={promoter.status === "active" ? "default" : "secondary"}
+                        className="text-xs"
+                      >
+                        {promoter.status === "active" ? "Активен" : "Неактивен"}
+                      </Badge>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 mt-2">
+                      <div className="text-center">
+                        <p className="text-xs text-muted-foreground">Мерч</p>
+                        <p className="font-bold text-sm">{promoter.totalMerch}</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-xs text-muted-foreground">Сегодня</p>
+                        <p className="font-bold text-sm text-primary">{promoter.todayMerch}</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-xs text-muted-foreground">Ставок</p>
+                        <p className="font-bold text-sm">{(promoter.totalBets / 1000).toFixed(0)}K ₽</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
       )}
 
       {/* Event Rules */}

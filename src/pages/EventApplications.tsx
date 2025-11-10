@@ -124,15 +124,6 @@ const EventApplications = () => {
     return () => window.removeEventListener("userModeChanged", checkMode);
   }, []);
 
-  // Загрузка начальных заявок для промоутера
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    const mode = localStorage.getItem("userMode") || "promoter";
-    if (mode === "promoter") {
-      loadApplications();
-    }
-  }, []);
-
   const loadApplications = () => {
     setLoading(true);
     
@@ -236,126 +227,13 @@ const EventApplications = () => {
     }
   };
 
-  // Режим супервайзера
-  if (isSupervisor) {
-    const totalMerch = promoters.reduce((sum, p) => sum + p.totalMerch, 0);
-    const activePromoters = promoters.filter(p => p.status === "active").length;
-    const todayMerch = promoters.reduce((sum, p) => sum + p.todayMerch, 0);
+  // Загрузка начальных заявок
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    loadApplications();
+  }, []);
 
-    return (
-      <div className="bg-white min-h-screen pb-4">
-        {/* Header */}
-        <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
-          <div className="px-4 py-4 flex items-center gap-3">
-            <button
-              onClick={handleBack}
-              className="text-primary hover:text-primary/80 transition-colors"
-            >
-              <ArrowLeft className="w-6 h-6" />
-            </button>
-            <div className="flex-1">
-              <h1 className="text-lg font-bold leading-tight">{eventName}</h1>
-              <p className="text-xs text-muted-foreground">Промоутеры на мероприятии</p>
-            </div>
-            <Badge variant="secondary" className="text-xs">
-              {promoters.length} чел
-            </Badge>
-          </div>
-        </div>
-
-        {/* Статистика */}
-        <div className="px-4 pt-6 pb-4">
-          <h2 className="text-lg font-bold mb-4">Общая статистика</h2>
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            <Card className="p-3 shadow-sm">
-              <div className="text-center">
-                <Users className="w-5 h-5 text-primary mx-auto mb-1" />
-                <p className="text-2xl font-bold">{activePromoters}</p>
-                <p className="text-xs text-muted-foreground">Активны</p>
-              </div>
-            </Card>
-            <Card className="p-3 shadow-sm">
-              <div className="text-center">
-                <Package className="w-5 h-5 text-primary mx-auto mb-1" />
-                <p className="text-2xl font-bold">{totalMerch}</p>
-                <p className="text-xs text-muted-foreground">Всего мерча</p>
-              </div>
-            </Card>
-            <Card className="p-3 shadow-sm">
-              <div className="text-center">
-                <TrendingUp className="w-5 h-5 text-primary mx-auto mb-1" />
-                <p className="text-2xl font-bold">{todayMerch}</p>
-                <p className="text-xs text-muted-foreground">Сегодня</p>
-              </div>
-            </Card>
-          </div>
-
-          {/* Список промоутеров */}
-          <h2 className="text-lg font-bold mb-4">Команда промоутеров</h2>
-          <div className="space-y-3 pb-20">
-            {promoters.map((promoter) => (
-              <Card key={promoter.id} className="p-4 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg font-bold text-primary">{promoter.avatar}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-base">{promoter.name}</h3>
-                      <Badge
-                        variant={promoter.status === "active" ? "default" : "secondary"}
-                        className="text-xs"
-                      >
-                        {promoter.status === "active" ? "Активен" : "Неактивен"}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Ставок на {promoter.totalBets.toLocaleString()} ₽
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  {/* Прогресс мерча */}
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">Выдано мерча</span>
-                      <span className="font-semibold">{promoter.totalMerch} шт</span>
-                    </div>
-                    <Progress value={(promoter.totalMerch / 30) * 100} className="h-2" />
-                  </div>
-
-                  {/* Детализация по категориям */}
-                  <div className="grid grid-cols-3 gap-2">
-                    {promoter.merchDetails.map((detail) => (
-                      <div
-                        key={detail.category}
-                        className="bg-muted/50 rounded-lg p-2 text-center"
-                      >
-                        <p className="text-xs text-muted-foreground mb-1">{detail.category}</p>
-                        <p className="font-bold text-sm">{detail.count}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Сегодня */}
-                  <div className="flex items-center justify-between text-sm bg-primary/5 rounded-lg p-2">
-                    <span className="text-muted-foreground flex items-center gap-1">
-                      <Award className="w-4 h-4" />
-                      Сегодня
-                    </span>
-                    <span className="font-semibold text-primary">{promoter.todayMerch} шт</span>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Режим промоутера
+  // Общий рендер для обоих режимов
   return (
     <div className="bg-white min-h-screen pb-4">
       {/* Header */}
@@ -369,7 +247,9 @@ const EventApplications = () => {
           </button>
           <div className="flex-1">
             <h1 className="text-lg font-bold leading-tight">{eventName}</h1>
-            <p className="text-xs text-muted-foreground">Заявки на мероприятии</p>
+            <p className="text-xs text-muted-foreground">
+              {isSupervisor ? "Все заявки от промоутеров" : "Мои заявки на мероприятии"}
+            </p>
           </div>
           <Badge variant="secondary" className="text-xs">
             {applications.length} заявок
@@ -418,8 +298,8 @@ const EventApplications = () => {
                     <Badge variant="outline" className="text-xs">Новичок</Badge>
                   )}
                 </div>
-                {/* Информация о промоутере - только для промоутера */}
-                {!isSupervisor && app.promoterName && (
+                {/* Информация о промоутере - только для супервайзера */}
+                {isSupervisor && app.promoterName && (
                   <div className="flex items-center gap-2 mt-2 pt-2 border-t">
                     <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
                       <span className="text-xs font-bold text-primary">{app.promoterAvatar}</span>
@@ -432,7 +312,7 @@ const EventApplications = () => {
               </div>
             </div>
 
-            {app.status === "reserved" && (
+            {app.status === "reserved" && !isSupervisor && (
               <div className="flex gap-2">
                 <Button
                   onClick={() => handleStatusChange(app.id, "issued")}
