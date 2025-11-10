@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { QrCode, User, DollarSign, Package, Check as CheckIcon, X } from "lucide-react";
-import LoadingScreen from "@/components/LoadingScreen";
 import {
   ContainedDialog as Dialog,
   ContainedDialogContent as DialogContent,
@@ -31,7 +30,6 @@ const Check = () => {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const availableMerch = [
     {
@@ -64,17 +62,6 @@ const Check = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Слушаем событие смены режима
-    const handleModeChange = () => {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1500);
-    };
-    
-    window.addEventListener("userModeChanged", handleModeChange);
-    return () => window.removeEventListener("userModeChanged", handleModeChange);
   }, []);
 
   const getTotalStock = (merch: any) => merch.sizes.reduce((sum: number, s: any) => sum + s.stock, 0);
@@ -110,10 +97,6 @@ const Check = () => {
       setFullscreenImage(null);
     }, 2500);
   };
-
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
 
   if (showSuccess) {
     return (

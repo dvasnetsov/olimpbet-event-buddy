@@ -422,18 +422,6 @@ const Events = () => {
         </div>
       </Card>
 
-      {/* Кнопка заявок для промоутера */}
-      {!isSupervisor && (
-        <Button
-          onClick={() => navigate(`/event/${currentEvent.id}`)}
-          className="w-full mb-6 h-14"
-          size="lg"
-        >
-          <ClipboardList className="w-5 h-5 mr-2" />
-          Заявки на мерч
-        </Button>
-      )}
-
       {/* Кнопка заявок */}
       <Button
         onClick={() => navigate(`/event/${currentEvent.id}`)}

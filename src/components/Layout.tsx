@@ -18,6 +18,7 @@ const setUserMode = (mode: "promoter" | "supervisor") => {
 const Layout = () => {
   const location = useLocation();
   const [loading, setLoading] = React.useState(true);
+  const [switchLoading, setSwitchLoading] = React.useState(false);
   const [mode, setMode] = React.useState<"promoter" | "supervisor">(getUserMode());
 
   // активен ли экран заявок (подсветка иконки меню)
@@ -36,8 +37,16 @@ const Layout = () => {
   }, []);
 
   const handleModeClick = (newMode: "promoter" | "supervisor") => {
-    setUserMode(newMode);
-    setMode(newMode);
+    if (newMode === mode) return;
+    
+    setSwitchLoading(true);
+    setTimeout(() => {
+      setUserMode(newMode);
+      setMode(newMode);
+      setTimeout(() => {
+        setSwitchLoading(false);
+      }, 1500);
+    }, 100);
   };
 
   return (
@@ -84,7 +93,7 @@ const Layout = () => {
               style={{ ["--nav-safe" as any]: "64px" }} // 64px = h-16 у нижнего меню
             >
               {/* Лоадер строго внутри экрана */}
-              {loading && (
+              {(loading || switchLoading) && (
                 <div className="absolute inset-0 z-[60]">
                   <LoadingScreen />
                 </div>
