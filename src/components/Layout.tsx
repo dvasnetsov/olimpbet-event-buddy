@@ -89,7 +89,7 @@ const Layout = () => {
 
             {/* 📄 Экран (внутри него всё содержимое приложения) */}
             <div
-              className="flex-1 overflow-y-auto bg-white rounded-[44px] pt-10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative"
+              className="flex-1 overflow-y-auto bg-white rounded-[44px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden phone-screen-container relative"
               style={{ ["--nav-safe" as any]: "64px" }} // 64px = h-16 у нижнего меню
             >
               {/* Лоадер строго внутри экрана */}

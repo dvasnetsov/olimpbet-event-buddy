@@ -54,7 +54,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
-      <div className="bg-primary text-primary-foreground px-4 py-4 shadow-md">
+      <div className="bg-primary text-primary-foreground px-4 py-6 shadow-md">
         <button
           onClick={() => navigate("/menu")}
           className="mb-3 text-primary-foreground/90 hover:text-primary-foreground font-semibold flex items-center gap-2 transition-all"

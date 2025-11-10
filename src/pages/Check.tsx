@@ -120,11 +120,11 @@ const Check = () => {
   }
 
   return (
-    <div className="bg-white pb-4">
+    <div className="bg-white pb-4 pt-6">
       <Tabs defaultValue="check" className="w-full">
         {/* верхняя залипающая плашка */}
         <div className="sticky top-0 z-20 bg-white shadow-sm border-b border-border">
-          <div className="px-4 pt-4 pb-3">
+          <div className="px-4 pt-6 pb-3">
             <TabsList className="w-full grid grid-cols-2 h-11 rounded-xl bg-gradient-to-r from-muted to-muted/80 shadow-sm">
               <TabsTrigger
                 value="check"

@@ -61,9 +61,9 @@ const MyEvents = () => {
   ];
 
   return (
-    <div className="bg-white pb-4">
+    <div className="bg-white pb-4 pt-6">
       <Tabs defaultValue="future" className="w-full">
-        <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border">
+        <div className="sticky top-0 bg-white z-20 shadow-sm border-b border-border pt-6">
           <div className="px-4 pt-4 pb-3">
             <button
               onClick={() => navigate("/menu")}

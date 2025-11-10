@@ -229,8 +229,8 @@ const Events = () => {
     const category = currentEvent.categories.find((c) => c.id === selectedCategory);
     if (!category) return null;
 
-    return (
-      <div className="px-4 pt-4 bg-white pb-4">
+  return (
+    <div className="px-4 pt-6 bg-white pb-4">
         <button
           onClick={() => setSelectedCategory(null)}
           className="mb-5 text-primary font-semibold flex items-center gap-2 hover:gap-3 transition-all"
@@ -337,7 +337,7 @@ const Events = () => {
   }
 
   return (
-    <div className="bg-white pb-4 px-4 pt-4">
+    <div className="bg-white pb-4 px-4 pt-6">
       {/* Page Title */}
       <h1 className="text-2xl font-bold mb-5">Текущее мероприятие</h1>
       

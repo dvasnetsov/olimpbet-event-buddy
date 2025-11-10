@@ -73,7 +73,7 @@ const Menu = () => {
   };
 
   return (
-    <div className="bg-white pb-8 min-h-screen">
+    <div className="bg-white pb-8 min-h-screen pt-6">
       {/* Profile Header */}
       <Card 
         className="mx-4 mt-4 mb-6 p-5 cursor-pointer hover:shadow-lg transition-all shadow-sm"
