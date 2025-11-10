@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Events from "./pages/Events";
 import EventApplications from "./pages/EventApplications";
+import Promoters from "./pages/Promoters";
+import PromoterDetail from "./pages/PromoterDetail";
 import Check from "./pages/Check";
 import Menu from "./pages/Menu";
 import Profile from "./pages/Profile";
@@ -28,6 +30,8 @@ const App = () => {
             <Route element={<Layout />}>
               <Route path="/" element={<Events />} />
               <Route path="/event/:eventId" element={<EventApplications />} />
+              <Route path="/promoters" element={<Promoters />} />
+              <Route path="/promoters/:promoterId" element={<PromoterDetail />} />
               <Route path="/check" element={<Check />} />
               <Route path="/menu" element={<Menu />} />
               <Route path="/profile" element={<Profile />} />

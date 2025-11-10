@@ -434,100 +434,60 @@ const Events = () => {
         </Button>
       )}
 
-      {/* Кнопка заявок для супервайзера */}
+      {/* Кнопка заявок */}
+      <Button
+        onClick={() => navigate(`/event/${currentEvent.id}`)}
+        className="w-full mb-6 h-14"
+        size="lg"
+      >
+        <ClipboardList className="w-5 h-5 mr-2" />
+        {isSupervisor ? "Все заявки" : "Заявки на мерч"}
+      </Button>
+
+      {/* Кнопка списка промоутеров для супервайзера */}
       {isSupervisor && (
         <Button
-          onClick={() => navigate(`/event/${currentEvent.id}`)}
+          onClick={() => navigate("/promoters")}
+          variant="outline"
           className="w-full mb-6 h-14"
           size="lg"
         >
-          <ClipboardList className="w-5 h-5 mr-2" />
-          Все заявки
+          <Users className="w-5 h-5 mr-2" />
+          Команда промоутеров
         </Button>
       )}
 
-      {/* Список промоутеров для супервайзера */}
-      {isSupervisor && (
-        <>
-          <h2 className="text-xl font-bold mb-4">Команда промоутеров</h2>
-          <div className="space-y-3 mb-6">
-            {promoters.map((promoter) => (
-              <Card
-                key={promoter.id}
-                className="p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => navigate("/contact")}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg font-bold text-primary">{promoter.avatar}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-base">{promoter.name}</h3>
-                      <Badge
-                        variant={promoter.status === "active" ? "default" : "secondary"}
-                        className="text-xs"
-                      >
-                        {promoter.status === "active" ? "Активен" : "Неактивен"}
-                      </Badge>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 mt-2">
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground">Мерч</p>
-                        <p className="font-bold text-sm">{promoter.totalMerch}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground">Сегодня</p>
-                        <p className="font-bold text-sm text-primary">{promoter.todayMerch}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-muted-foreground">Ставок</p>
-                        <p className="font-bold text-sm">{(promoter.totalBets / 1000).toFixed(0)}K ₽</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* Categories - только для промоутера */}
-      {!isSupervisor && (
-        <>
-          <h2 className="text-xl font-bold mb-4">Категории призов</h2>
-          <div className="space-y-3 pb-4">
-            {currentEvent.categories.map((category) => (
-              <Card
-                key={category.id}
-                className="p-5 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
-                onClick={() => setSelectedCategory(category.id)}
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-lg font-bold mb-1">{category.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
-                    </p>
-                  </div>
-                  <span className="text-primary font-medium text-xl">→</span>
-                </div>
-                <div className="flex gap-2.5 overflow-x-auto pb-1">
-                  {category.prizes.map((prize) => (
-                    <img
-                      key={prize.id}
-                      src={prize.image}
-                      alt={prize.name}
-                      className="w-16 h-16 object-cover rounded-xl flex-shrink-0 ring-1 ring-border"
-                    />
-                  ))}
-                </div>
-              </Card>
-            ))}
-          </div>
-        </>
-      )}
+      {/* Категории призов */}
+      <h2 className="text-xl font-bold mb-4">Категории призов</h2>
+      <div className="space-y-3 pb-4">
+        {currentEvent.categories.map((category) => (
+          <Card
+            key={category.id}
+            className="p-5 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
+            onClick={() => setSelectedCategory(category.id)}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-bold mb-1">{category.name}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
+                </p>
+              </div>
+              <span className="text-primary font-medium text-xl">→</span>
+            </div>
+            <div className="flex gap-2.5 overflow-x-auto pb-1">
+              {category.prizes.map((prize) => (
+                <img
+                  key={prize.id}
+                  src={prize.image}
+                  alt={prize.name}
+                  className="w-16 h-16 object-cover rounded-xl flex-shrink-0 ring-1 ring-border"
+                />
+              ))}
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
