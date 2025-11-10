@@ -4,15 +4,36 @@ import { useNavigate } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useState, useEffect } from "react";
 
 const Menu = () => {
   const navigate = useNavigate();
+  const [isSupervisor, setIsSupervisor] = useState(false);
 
-  const profile = {
+  useEffect(() => {
+    const checkMode = () => {
+      const mode = localStorage.getItem("userMode") || "promoter";
+      setIsSupervisor(mode === "supervisor");
+    };
+    
+    checkMode();
+    window.addEventListener("userModeChanged", checkMode);
+    return () => window.removeEventListener("userModeChanged", checkMode);
+  }, []);
+
+  const promoterProfile = {
     name: "Иван Петров",
     role: "Промоутер",
     avatar: "ИП",
   };
+
+  const supervisorProfile = {
+    name: "Александр Смирнов",
+    role: "Супервайзер",
+    avatar: "АС",
+  };
+
+  const profile = isSupervisor ? supervisorProfile : promoterProfile;
 
   const menuItems = [
     {

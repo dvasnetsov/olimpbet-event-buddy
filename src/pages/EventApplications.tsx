@@ -19,6 +19,8 @@ interface Application {
   betAmount: number;
   status: ApplicationStatus;
   isNewbie: boolean;
+  promoterName?: string;
+  promoterAvatar?: string;
 }
 
 interface Promoter {
@@ -136,6 +138,9 @@ const EventApplications = () => {
     
     // Симуляция загрузки данных
     setTimeout(() => {
+      const promotersList = ["Иван Петров", "Анна Смирнова", "Дмитрий Козлов", "Елена Новикова"];
+      const avatarsList = ["ИП", "АС", "ДК", "ЕН"];
+      
       const newApplications: Application[] = [
         {
           id: "123456",
@@ -147,6 +152,8 @@ const EventApplications = () => {
           betAmount: 3500,
           status: "issued",
           isNewbie: true,
+          promoterName: promotersList[0],
+          promoterAvatar: avatarsList[0],
         },
         {
           id: "789012",
@@ -158,6 +165,8 @@ const EventApplications = () => {
           betAmount: 2500,
           status: "reserved",
           isNewbie: false,
+          promoterName: promotersList[1],
+          promoterAvatar: avatarsList[1],
         },
         {
           id: "345678",
@@ -169,6 +178,8 @@ const EventApplications = () => {
           betAmount: 4200,
           status: "reserved",
           isNewbie: true,
+          promoterName: promotersList[0],
+          promoterAvatar: avatarsList[0],
         },
         {
           id: "901234",
@@ -180,6 +191,8 @@ const EventApplications = () => {
           betAmount: 3800,
           status: "issued",
           isNewbie: false,
+          promoterName: promotersList[2],
+          promoterAvatar: avatarsList[2],
         },
         {
           id: "567890",
@@ -191,6 +204,8 @@ const EventApplications = () => {
           betAmount: 8500,
           status: "reserved",
           isNewbie: false,
+          promoterName: promotersList[3],
+          promoterAvatar: avatarsList[3],
         },
       ];
 
@@ -403,6 +418,17 @@ const EventApplications = () => {
                     <Badge variant="outline" className="text-xs">Новичок</Badge>
                   )}
                 </div>
+                {/* Информация о промоутере - только для промоутера */}
+                {!isSupervisor && app.promoterName && (
+                  <div className="flex items-center gap-2 mt-2 pt-2 border-t">
+                    <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+                      <span className="text-xs font-bold text-primary">{app.promoterAvatar}</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      Промоутер: <span className="font-semibold text-foreground">{app.promoterName}</span>
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 

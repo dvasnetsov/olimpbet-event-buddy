@@ -1,50 +1,104 @@
 const LoadingScreen = () => {
   return (
     <div
-      className="h-full w-full flex items-center justify-center overflow-hidden"
-      style={{
-        background: "linear-gradient(135deg, hsl(0, 72%, 51%) 0%, hsl(0, 5%, 10%) 50%, hsl(0, 0%, 5%) 100%)"
-      }}
+      className="h-full w-full flex items-center justify-center overflow-hidden bg-black"
     >
-      <div className="flex flex-col items-center gap-8">
-        {/* Animated logo with glow */}
-        <div className="relative w-28 h-28">
-          {/* Outer glowing ring */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[hsl(0,72%,51%)] via-[hsl(0,85%,65%)] to-[hsl(0,72%,51%)] opacity-30 blur-2xl animate-pulse" />
+      <div className="flex flex-col items-center gap-6">
+        {/* Minimalist laurel wreath icon with shimmer animation */}
+        <div className="relative">
+          {/* Subtle glow effect */}
+          <div className="absolute inset-0 blur-3xl bg-white/5 rounded-full scale-150" />
           
-          {/* Spinning gradient ring */}
-          <div className="absolute inset-0 rounded-full border-[6px] border-transparent bg-gradient-to-r from-white/80 via-[hsl(0,85%,70%)] to-[hsl(0,72%,51%)] animate-spin [border-image:linear-gradient(90deg,rgba(255,255,255,0.8),hsl(0,85%,70%),hsl(0,72%,51%))_1] opacity-90"
-               style={{ animationDuration: '3s' }} />
-          
-          {/* Inner shadow circle with gradient */}
-          <div className="absolute inset-4 rounded-full bg-gradient-to-br from-white/20 to-[hsl(0,72%,51%)]/30 animate-pulse" />
-          
-          {/* Center icon with gradient background */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-16 h-16 bg-gradient-to-br from-white to-white/90 rounded-full flex items-center justify-center shadow-2xl shadow-[hsl(0,72%,51%)]/60">
-              <span className="text-3xl font-black bg-gradient-to-br from-[hsl(0,72%,51%)] to-[hsl(0,85%,65%)] bg-clip-text text-transparent drop-shadow-lg">O</span>
-            </div>
-          </div>
+          {/* Laurel wreath SVG with shimmer */}
+          <svg 
+            width="120" 
+            height="120" 
+            viewBox="0 0 120 120" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            className="relative z-10"
+          >
+            {/* Left branch */}
+            <path
+              d="M35 60 Q30 50, 28 40 Q26 30, 30 22 Q34 14, 40 18 Q36 26, 38 34 Q40 42, 42 50 Q44 58, 42 64"
+              stroke="url(#shimmer-gradient)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              fill="none"
+              className="animate-[shimmer_3s_ease-in-out_infinite]"
+            />
+            <path
+              d="M38 50 Q35 42, 33 34 Q31 26, 35 20 Q39 14, 43 18 Q40 24, 42 32 Q44 40, 46 48"
+              stroke="url(#shimmer-gradient)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              fill="none"
+              className="animate-[shimmer_3s_ease-in-out_infinite_0.3s]"
+            />
+            
+            {/* Right branch */}
+            <path
+              d="M85 60 Q90 50, 92 40 Q94 30, 90 22 Q86 14, 80 18 Q84 26, 82 34 Q80 42, 78 50 Q76 58, 78 64"
+              stroke="url(#shimmer-gradient)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              fill="none"
+              className="animate-[shimmer_3s_ease-in-out_infinite_0.5s]"
+            />
+            <path
+              d="M82 50 Q85 42, 87 34 Q89 26, 85 20 Q81 14, 77 18 Q80 24, 78 32 Q76 40, 74 48"
+              stroke="url(#shimmer-gradient)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              fill="none"
+              className="animate-[shimmer_3s_ease-in-out_infinite_0.8s]"
+            />
+            
+            {/* Bottom curves connecting branches */}
+            <path
+              d="M42 64 Q50 70, 60 72 Q70 70, 78 64"
+              stroke="url(#shimmer-gradient)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              fill="none"
+              className="animate-[shimmer_3s_ease-in-out_infinite_1s]"
+            />
+
+            {/* Gradient definition for shimmer effect */}
+            <defs>
+              <linearGradient id="shimmer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#666666" stopOpacity="0.6">
+                  <animate 
+                    attributeName="stopColor" 
+                    values="#666666; #E5E5E5; #FFFFFF; #E5E5E5; #666666" 
+                    dur="3s" 
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="50%" stopColor="#999999" stopOpacity="0.8">
+                  <animate 
+                    attributeName="stopColor" 
+                    values="#999999; #F5F5F5; #FFFFFF; #F5F5F5; #999999" 
+                    dur="3s" 
+                    repeatCount="indefinite"
+                  />
+                </stop>
+                <stop offset="100%" stopColor="#666666" stopOpacity="0.6">
+                  <animate 
+                    attributeName="stopColor" 
+                    values="#666666; #E5E5E5; #FFFFFF; #E5E5E5; #666666" 
+                    dur="3s" 
+                    repeatCount="indefinite"
+                  />
+                </stop>
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
 
-        {/* Loading text with gradient */}
-        <div className="text-center space-y-4">
-          <h2 className="text-3xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-            OlimpBet
-          </h2>
-          <p className="text-sm text-white/70 tracking-wide">Загрузка приложения...</p>
-          
-          {/* Animated dots */}
-          <div className="flex gap-2 justify-center">
-            <div className="w-3 h-3 bg-gradient-to-br from-white to-[hsl(0,85%,70%)] rounded-full animate-bounce shadow-lg shadow-white/50" style={{ animationDelay: '-0.3s' }} />
-            <div className="w-3 h-3 bg-gradient-to-br from-white to-[hsl(0,85%,70%)] rounded-full animate-bounce shadow-lg shadow-white/50" style={{ animationDelay: '-0.15s' }} />
-            <div className="w-3 h-3 bg-gradient-to-br from-white to-[hsl(0,85%,70%)] rounded-full animate-bounce shadow-lg shadow-white/50" />
-          </div>
-        </div>
-
-        {/* Progress bar with gradient */}
-        <div className="w-3/4 max-w-[260px] h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm border border-white/20 shadow-inner">
-          <div className="h-full bg-gradient-to-r from-white via-[hsl(0,85%,70%)] to-white shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-[loading_1.5s_ease-in-out_infinite]" />
+        {/* Simple loading text */}
+        <div className="text-center space-y-2">
+          <p className="text-sm text-white/40 tracking-widest uppercase">Загрузка</p>
         </div>
       </div>
     </div>

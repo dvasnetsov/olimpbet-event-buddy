@@ -1,12 +1,25 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Package, Award, Phone, Mail, ArrowLeft } from "lucide-react";
+import { MapPin, Calendar, Package, Award, Phone, Mail, ArrowLeft, Users, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [isSupervisor, setIsSupervisor] = useState(false);
+
+  useEffect(() => {
+    const checkMode = () => {
+      const mode = localStorage.getItem("userMode") || "promoter";
+      setIsSupervisor(mode === "supervisor");
+    };
+    
+    checkMode();
+    window.addEventListener("userModeChanged", checkMode);
+    return () => window.removeEventListener("userModeChanged", checkMode);
+  }, []);
   
-  const profile = {
+  const promoterProfile = {
     name: "Иван Петров",
     phone: "+7 (999) 123-45-67",
     email: "ivan.petrov@olimpbet.com",
@@ -21,6 +34,24 @@ const Profile = () => {
       rating: 4.8,
     },
   };
+
+  const supervisorProfile = {
+    name: "Александр Смирнов",
+    phone: "+7 (999) 987-65-43",
+    email: "aleksandr.smirnov@olimpbet.com",
+    city: "Москва",
+    role: "Супервайзер",
+    avatar: "АС",
+    joinDate: "10 июля 2023",
+    stats: {
+      events: 28,
+      activePromoters: 15,
+      totalMerch: 1240,
+      totalBets: "₽15,680,000",
+    },
+  };
+
+  const profile = isSupervisor ? supervisorProfile : promoterProfile;
 
   return (
     <div className="bg-white pb-8 px-4 pt-4">
@@ -76,35 +107,71 @@ const Profile = () => {
           </div>
         </Card>
 
-        <Card className="p-4 shadow-sm">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-              <Package className="w-6 h-6 text-primary" />
-            </div>
-            <p className="text-2xl font-bold">{profile.stats.requests}</p>
-            <p className="text-xs text-muted-foreground">Выдано мерча</p>
-          </div>
-        </Card>
+        {isSupervisor ? (
+          <>
+            <Card className="p-4 shadow-sm">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                  <Users className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-2xl font-bold">{supervisorProfile.stats.activePromoters}</p>
+                <p className="text-xs text-muted-foreground">Промоутеров</p>
+              </div>
+            </Card>
 
-        <Card className="p-4 shadow-sm">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-              <Award className="w-6 h-6 text-primary" />
-            </div>
-            <p className="text-2xl font-bold">{profile.stats.totalBets}</p>
-            <p className="text-xs text-muted-foreground">Сумма ставок</p>
-          </div>
-        </Card>
+            <Card className="p-4 shadow-sm">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                  <Package className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-2xl font-bold">{supervisorProfile.stats.totalMerch}</p>
+                <p className="text-xs text-muted-foreground">Выдано мерча</p>
+              </div>
+            </Card>
 
-        <Card className="p-4 shadow-sm">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
-              <Award className="w-6 h-6 text-primary" />
-            </div>
-            <p className="text-2xl font-bold">{profile.stats.rating}</p>
-            <p className="text-xs text-muted-foreground">Рейтинг</p>
-          </div>
-        </Card>
+            <Card className="p-4 shadow-sm">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                  <TrendingUp className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-2xl font-bold">{supervisorProfile.stats.totalBets}</p>
+                <p className="text-xs text-muted-foreground">Сумма ставок</p>
+              </div>
+            </Card>
+          </>
+        ) : (
+          <>
+            <Card className="p-4 shadow-sm">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                  <Package className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-2xl font-bold">{promoterProfile.stats.requests}</p>
+                <p className="text-xs text-muted-foreground">Выдано мерча</p>
+              </div>
+            </Card>
+
+            <Card className="p-4 shadow-sm">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                  <Award className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-2xl font-bold">{promoterProfile.stats.totalBets}</p>
+                <p className="text-xs text-muted-foreground">Сумма ставок</p>
+              </div>
+            </Card>
+
+            <Card className="p-4 shadow-sm">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                  <Award className="w-6 h-6 text-primary" />
+                </div>
+                <p className="text-2xl font-bold">{promoterProfile.stats.rating}</p>
+                <p className="text-xs text-muted-foreground">Рейтинг</p>
+              </div>
+            </Card>
+          </>
+        )}
       </div>
     </div>
   );
