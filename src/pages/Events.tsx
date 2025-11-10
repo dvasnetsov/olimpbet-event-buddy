@@ -350,13 +350,15 @@ const Events = () => {
           backgroundPosition: "center",
         }}
       >
-        <button
-          onClick={() => navigate("/contact")}
-          className="absolute top-4 right-4 w-12 h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all shadow-lg"
-          aria-label="Связаться с супервайзером"
-        >
-          <MessageCircle className="w-6 h-6 text-white" />
-        </button>
+        {!isSupervisor && (
+          <button
+            onClick={() => navigate("/contact")}
+            className="absolute top-4 right-4 w-12 h-12 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center transition-all shadow-lg"
+            aria-label="Связаться с супервайзером"
+          >
+            <MessageCircle className="w-6 h-6 text-white" />
+          </button>
+        )}
         <div className="absolute bottom-5 left-5 right-5 text-white">
           <h1 className="text-2xl font-bold mb-2 leading-tight">{currentEvent.name}</h1>
           <div className="flex items-center gap-2 text-sm opacity-95">
@@ -386,6 +388,40 @@ const Events = () => {
         </div>
       </Card>
 
+      {/* Event Rules */}
+      <Card className="p-5 mb-6 shadow-sm">
+        <h3 className="font-semibold mb-3">Правила мероприятия</h3>
+        <div className="space-y-3">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Trophy className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-0.5">На что ставить</p>
+              <p className="font-semibold text-base">{currentEvent.betType}</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <Package className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-0.5">Максимум в одни руки</p>
+              <p className="font-semibold text-base">{currentEvent.maxMerchPerPerson} шт</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+              <ClipboardList className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-0.5">Выдача мерча</p>
+              <p className="font-semibold text-base">Сразу при формировании ставки</p>
+            </div>
+          </div>
+        </div>
+      </Card>
+
       {/* Кнопка заявок для промоутера */}
       {!isSupervisor && (
         <Button
@@ -398,21 +434,22 @@ const Events = () => {
         </Button>
       )}
 
+      {/* Кнопка заявок для супервайзера */}
+      {isSupervisor && (
+        <Button
+          onClick={() => navigate(`/event/${currentEvent.id}`)}
+          className="w-full mb-6 h-14"
+          size="lg"
+        >
+          <ClipboardList className="w-5 h-5 mr-2" />
+          Все заявки
+        </Button>
+      )}
+
       {/* Список промоутеров для супервайзера */}
       {isSupervisor && (
         <>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold">Команда промоутеров</h2>
-            <Button
-              onClick={() => navigate(`/event/${currentEvent.id}`)}
-              variant="outline"
-              size="sm"
-            >
-              <ClipboardList className="w-4 h-4 mr-2" />
-              Все заявки
-            </Button>
-          </div>
-
+          <h2 className="text-xl font-bold mb-4">Команда промоутеров</h2>
           <div className="space-y-3 mb-6">
             {promoters.map((promoter) => (
               <Card
@@ -456,71 +493,41 @@ const Events = () => {
         </>
       )}
 
-      {/* Event Rules */}
-      <Card className="p-5 mb-6 shadow-sm">
-        <h3 className="font-semibold mb-3">Правила мероприятия</h3>
-        <div className="space-y-3">
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <Trophy className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">На что ставить</p>
-              <p className="font-semibold text-base">{currentEvent.betType}</p>
-            </div>
+      {/* Categories - только для промоутера */}
+      {!isSupervisor && (
+        <>
+          <h2 className="text-xl font-bold mb-4">Категории призов</h2>
+          <div className="space-y-3 pb-4">
+            {currentEvent.categories.map((category) => (
+              <Card
+                key={category.id}
+                className="p-5 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
+                onClick={() => setSelectedCategory(category.id)}
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold mb-1">{category.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
+                    </p>
+                  </div>
+                  <span className="text-primary font-medium text-xl">→</span>
+                </div>
+                <div className="flex gap-2.5 overflow-x-auto pb-1">
+                  {category.prizes.map((prize) => (
+                    <img
+                      key={prize.id}
+                      src={prize.image}
+                      alt={prize.name}
+                      className="w-16 h-16 object-cover rounded-xl flex-shrink-0 ring-1 ring-border"
+                    />
+                  ))}
+                </div>
+              </Card>
+            ))}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <Package className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">Максимум в одни руки</p>
-              <p className="font-semibold text-base">{currentEvent.maxMerchPerPerson} шт</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <ClipboardList className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground mb-0.5">Выдача мерча</p>
-              <p className="font-semibold text-base">Сразу при формировании ставки</p>
-            </div>
-          </div>
-        </div>
-      </Card>
-
-      {/* Categories */}
-      <h2 className="text-xl font-bold mb-4">Категории призов</h2>
-      <div className="space-y-3 pb-4">
-        {currentEvent.categories.map((category) => (
-          <Card
-            key={category.id}
-            className="p-5 cursor-pointer hover:shadow-lg transition-all hover:scale-[1.02] shadow-sm"
-            onClick={() => setSelectedCategory(category.id)}
-          >
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <h3 className="text-lg font-bold mb-1">{category.name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {category.minBet.toLocaleString()} – {category.maxBet.toLocaleString()} ₽
-                </p>
-              </div>
-              <span className="text-primary font-medium text-xl">→</span>
-            </div>
-            <div className="flex gap-2.5 overflow-x-auto pb-1">
-              {category.prizes.map((prize) => (
-                <img
-                  key={prize.id}
-                  src={prize.image}
-                  alt={prize.name}
-                  className="w-16 h-16 object-cover rounded-xl flex-shrink-0 ring-1 ring-border"
-                />
-              ))}
-            </div>
-          </Card>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 };
