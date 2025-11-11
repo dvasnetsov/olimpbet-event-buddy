@@ -234,30 +234,28 @@ const Check = () => {
 
               {/* Fullscreen Image Modal */}
               <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
-                <DialogContent className="p-0 bg-black border-0">
+                <DialogContent className="p-0 bg-black border-0 items-center justify-center">
                   <button
                     onClick={() => setFullscreenImage(null)}
                     className="absolute top-4 right-4 z-50 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors backdrop-blur-sm"
                   >
                     <X className="w-7 h-7 text-white" />
                   </button>
-                  <div className="w-full h-full flex items-center justify-center">
-                    <img
-                      src={fullscreenImage || ""}
-                      alt="Fullscreen view"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                  <img
+                    src={fullscreenImage || ""}
+                    alt="Fullscreen view"
+                    className="max-w-full max-h-full object-contain"
+                  />
                 </DialogContent>
               </Dialog>
 
               {/* Size Selection Drawer */}
               <Drawer open={!!selectedMerch} onOpenChange={() => { setSelectedMerch(null); setSelectedSize(""); }}>
-                <DrawerContent className="max-h-[60vh]">
-                  <DrawerHeader className="pb-2">
+                <DrawerContent>
+                  <DrawerHeader className="pb-2 pt-2">
                     <DrawerTitle className="text-xl font-bold">{selectedMerch?.name}</DrawerTitle>
                   </DrawerHeader>
-                  <div className="px-4 pb-6 pt-2">
+                  <div className="px-4 pb-6 pt-2 overflow-y-auto" style={{ maxHeight: 'calc(60vh - 80px)' }}>
                     <p className="text-sm text-muted-foreground mb-4">Выберите размер</p>
                     <div className="grid grid-cols-2 gap-3 mb-6">
                       {selectedMerch?.sizes.map((sizeData: any) => (

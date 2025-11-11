@@ -52,9 +52,10 @@ const ContainedDialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         // Fullscreen до nav bar
-        "absolute inset-x-0 top-0 bottom-16 z-[60] " +
-          "grid w-full h-auto translate-x-0 translate-y-0 gap-0 " +
-          "bg-background p-0 border-0 shadow-lg sm:rounded-none",
+        "absolute left-0 right-0 top-0 z-[60] " +
+          "flex flex-col w-full translate-x-0 translate-y-0 " +
+          "bg-background border-0 shadow-lg sm:rounded-none",
+        "bottom-16",
         className
       )}
       {...props}
